@@ -1,0 +1,302 @@
+body {
+	padding-top: 35px;
+	padding-bottom: 20px;
+	font-family: 'Righteous', sans-serif;
+	background: #fff;
+	color: #000;
+	font-size: 25px;
+}
+.mrgn-50 {
+	margin: 50px 0 20px
+}
+span.icon {
+	margin: 0 5px;
+	color: #D64541;
+}
+h2 {
+	color: #BDC3C7;
+	font-size:5em;
+}
+
+ul {
+  padding: 0;
+}
+
+.matchingID {
+
+  font-size: 20px;
+
+}
+
+a {
+	cursor: pointer;
+}
+
+/*Example styling to make the slides visible,
+ but this IS NOT PART OF THE GridColumnCarousel styling*/
+.grid-column-carousel__list li {
+}
+.grid-column-carousel__list li h3 {
+	color:#09acff}
+
+
+.grid-column-carousel__page-indicators {
+  list-style: none;
+}
+
+.grid-column-carousel__page-indicators li {
+  background: #f9f9f9;
+  padding: 5px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.grid-column-carousel__page-indicators li.active {
+  background: #bbb;
+}
+
+.button-panel {
+  margin-top: 30px;
+}
+
+.navbar-inverse {
+    background-color: beige;
+    border-color: black;
+}
+.navbar-inverse .navbar-brand,.navbar-inverse .navbar-nav>li>a {
+    color: black;
+
+}
+.navbar .container {
+	width: 90%;
+
+}
+.panel-thumbnail {
+    width: 358px;
+    height: 240px;
+    text-align: center;
+    background-color: #ccc;
+}
+.panel-thumbnail h1 {
+	margin: 0 auto;
+}
+.progress {
+    position: relative;
+	height: 25px;
+	background-color: #e7e7e7;
+}
+.progress > .progress-type {
+	position: absolute;
+	left: 0px;
+	font-weight: 800;
+	padding: 3px 30px 2px 10px;
+	color: rgb(255, 255, 255);
+	background-color: rgba(25, 25, 25, 0.2);
+}
+.progress > .progress-completed {
+	position: absolute;
+	right: 0px;
+	font-weight: 800;
+	padding: 3px 10px 2px;
+	color: #000;
+}
+.first {
+	margin-left: 90px;
+}
+.modal-dialog {
+    width: 70%;
+    height: 650px;
+}
+.modal-content {
+	height: 100%;
+}
+.records {
+
+	margin: 20px;
+	left: 3%;
+
+}
+#loader {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	z-index: 1;
+	width: 60px;
+	height: 60px;
+	margin: -75px 0 0 -75px;
+	border: 8px solid #e3e5e5;
+	border-radius: 50%;
+	border-top: 7px solid #3498db;
+	width: 60px;
+	height: 60px;
+	-webkit-animation: spin 0.6s linear infinite;
+	animation: spin 0.6s linear infinite;
+  }
+
+  .loader {
+	position: absolute;
+	border: 5px solid rgb(211, 210, 210);
+	border-radius: 50%;
+	border-top: 5px solid #3498db;
+	width: 40px;
+	height: 40px;
+	z-index: 1;
+	-webkit-animation: spin 1s linear infinite; /* Safari */
+	animation: spin 1s linear infinite;
+  }
+
+
+  @-webkit-keyframes spin {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
+  }
+
+  @keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+  }
+
+  /* Add animation to "page content" */
+  .animate-bottom {
+	position: relative;
+	-webkit-animation-name: animatebottom;
+	-webkit-animation-duration: 5s;
+	animation-name: animatebottom;
+	animation-duration: 1s
+  }
+
+  @-webkit-keyframes animatebottom {
+	from { bottom:-100px; opacity:0 }
+	to { bottom:0px; opacity:1 }
+  }
+
+  @keyframes animatebottom {
+	from{ bottom:-100px; opacity:0 }
+	to{ bottom:0; opacity:1 }
+  }
+
+	#form_id {
+		font-size: 22px;
+		margin-left: 30px;
+		color: #727272;
+		text-align: left;
+	}
+	.input-group-addon.danger {
+    color: rgb(255, 255, 255);
+    background-color: rgb(217, 83, 79);
+		border-color: rgb(212, 63, 58);
+		cursor: pointer;
+}
+.navbar-brand {
+  padding: 0px;
+}
+
+.navbar-header {
+
+	height: 120px;
+}
+
+.header-title {
+
+	padding-left: 33%;
+
+
+
+}
+#headerLogo {
+
+	width: 300px;
+	height: 200px;
+	position: fixed;
+	top: -40px;
+	left: -20px;
+
+
+
+
+
+
+
+}
+
+
+#appTitle {
+
+
+	padding-left: 300px;
+	font-size: 150%;
+
+}
+
+.row1 {
+	padding-top: 100px;
+}
+
+.navbar-brand>img {
+  height: 100%;
+  padding: 15px;
+  width: auto;
+}
+
+.navbar-brand>img {
+  padding: 7px 15px;
+}
+
+.containerForm {
+
+	padding-right: 20px;
+	padding-left: 20px;
+	margin-left: 300px;
+	margin-right: auto;
+
+}
+
+.createForm {
+
+	padding-top: 20px;
+	padding-right: 20px;
+	margin-left: 220px;
+	margin-right: auto;
+	width: 900px;
+
+}
+
+.total {
+
+	font-size: 100px;
+
+}
+
+.average {
+
+	font-size: 100px;
+
+}
+
+.testForm {
+
+	width: 1200px;
+
+
+}
+
+.dashWidth {
+
+	padding-top: 20px;
+	margin-left: 210px;
+
+	width: 970px;
+
+}
+
+.statCard {
+
+	width: 90%;
+}
+
+.dash {
+
+	font-size: 40px;
+
+}

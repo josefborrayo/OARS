@@ -1,0 +1,35 @@
+{
+  "name": "oars",
+  "version": "1.0.0",
+  "description": "Outcome Assessment Reporting System",
+  "private": true,
+  "author": "Sammy Souaiaia, Naveed Safavi, William Aguilar, Josef Borrayo",
+  "engines": {
+    "node": "6.10.0",
+    "npm": "5.3.0"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.4",
+    "firebase": "^3.5.3",
+    "html2canvas": "^1.0.0-alpha.7",
+    "i": "^0.3.6",
+    "jspdf": "^1.3.5",
+    "moment": "^2.20.1",
+    "rand-token": "^0.4.0",
+    "react": "^15.3.2",
+    "react-bootstrap-sweetalert": "^4.1.0",
+    "react-dom": "^15.3.2",
+    "react-rangeslider": "^2.2.0",
+    "react-redux": "^4.4.5",
+    "react-router": "^3.0.0",
+    "react-router-redux": "^4.0.7",
+    "react-scripts": "0.7.0",
+    "redux": "^3.6.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

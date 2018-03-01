@@ -1,0 +1,117 @@
+.profile {
+  margin: 20px 0;
+}
+
+.fixFont {
+
+  width: 130%;
+
+}
+
+/* Profile sidebar */
+.profile-sidebar {
+
+
+  background: #fff;
+
+
+}
+
+.fixFont {
+
+  height: 20px;
+  bottom: 20px;
+
+
+}
+
+#sidebarLogo {
+
+
+  width: 120%;
+  height: 120%;
+
+
+}
+.profile-usertitle {
+  text-align: center;
+  margin-top: 22px;
+}
+
+.profile-usertitle-name {
+  color: #5a7391;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+.profile-userbuttons {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.profile-userbuttons .btn {
+  text-transform: uppercase;
+  font-size: 22px;
+  font-weight: 600;
+  padding: 6px 15px;
+  margin-right: 5px;
+}
+
+.profile-userbuttons .btn:last-child {
+  margin-right: 0px;
+}
+
+.profile-usermenu {
+  margin-top: 30px;
+}
+
+.profile-usermenu ul li {
+  border-bottom: 1px solid #f0f4f7;
+}
+
+.profile-usermenu ul li:last-child {
+  border-bottom: none;
+}
+
+.profile-usermenu ul li a {
+  color: #93a3b5;
+  font-size: 22px;
+  font-weight: 400;
+}
+.profile-usermenu ul li span {
+  color: #6f7276;
+  font-size: 22px;
+  font-weight: 400;
+  position: relative;
+  display: block;
+  padding: 10px 35px;
+}
+
+.profile-usermenu ul li a i {
+  margin-right: 8px;
+  font-size: 22px;
+}
+
+.profile-usermenu ul li a:hover {
+  background-color: #fafcfd;
+  color: #5b9bd1;
+}
+
+.profile-sidebar .active {
+  border-bottom: none;
+}
+
+.profile-sidebar .active {
+  color: #5b9bd1 !important;
+  background-color: #f6f9fb !important;
+  border-left: 2px solid #5b9bd1 !important;
+  margin-left: -2px !important;
+}
+
+/* Profile Content */
+.profile-content {
+  padding: 20px;
+  background: #fff;
+  min-height: 460px;
+}
