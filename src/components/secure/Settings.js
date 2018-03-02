@@ -227,8 +227,6 @@ class Settings extends React.Component {
                         </td>
                     </tr>
                       {/*The button to update the settings*/}
-
-
                     </tbody>
                 </table>
                 <button disabled = {!isEnabled} onClick={this.updateProfile.bind(this)} onEnter={this.updateProfile.bind(this)} className="btn icon-btn btn-info pull-right">
@@ -245,6 +243,7 @@ class Settings extends React.Component {
 		)
 	}
 }
+
 
 export default connect(state=>({
 	user: state.auth.user,

@@ -116,6 +116,4 @@ class Dashboard extends React.Component {
 	}
 }
 
-export default connect(null, dispatch => ({
-
-}))(Dashboard);
+export default Dashboard;

@@ -41,9 +41,9 @@ class CreateForm extends React.Component {
     inch: '',
     centimeter: '',
     amputationLevel: 'Select',
-    kLev: 'Select',
-    ampSide: 'Select',
-    limbLost: 'Select',
+    kLevel: 'Select',
+    amputationSide: 'Select',
+    limbLossCause: 'Select',
     loading: false,
     identifier: '',
     measurementUnit: ''
@@ -83,9 +83,9 @@ class CreateForm extends React.Component {
       age: '',
       race: '',
       amputationLevel: '',
-      limbLost: '',
-      kLev: '',
-      ampSide: '',
+      limbLossCause: '',
+      kLevel: '',
+      amputationSide: '',
       weight: '',
       feet: '',
       inch: '',
@@ -126,6 +126,7 @@ class CreateForm extends React.Component {
           snapshot.forEach(function(childSnapshot) {
             var key = childSnapshot.key;
             var childData = childSnapshot.child("id").val();
+
             if (currentId === childData) {
 
               swal({
@@ -146,7 +147,7 @@ class CreateForm extends React.Component {
     locally*/
   storeValues(postData, userId) {
 
-    if (this.state.feet && this.state.inch) {
+    if (this.props.profile.measurementUnit === "Imperial") {
 
       this.setCookie(this.state.id.toString(), JSON.stringify({
 
@@ -156,9 +157,9 @@ class CreateForm extends React.Component {
         field4: this.state.age,
         field5: this.state.race,
         field6: this.state.amputationLevel,
-        field7: this.state.limbLost,
-        field8: this.state.kLev,
-        field9: this.state.ampSide,
+        field7: this.state.limbLossCause,
+        field8: this.state.kLevel,
+        field9: this.state.amputationSide,
         field10: this.state.weight,
         field11: this.state.feet,
         field12: this.state.inch,
@@ -167,7 +168,7 @@ class CreateForm extends React.Component {
 
       }));
 
-    } else if (this.state.centimeter) {
+    } else if (this.props.profile.measurementUnit === "Metric") {
 
       this.setCookie(this.state.id.toString(), JSON.stringify({
 
@@ -177,9 +178,9 @@ class CreateForm extends React.Component {
         field4: this.state.age,
         field5: this.state.race,
         field6: this.state.amputationLevel,
-        field7: this.state.limbLost,
-        field8: this.state.kLev,
-        field9: this.state.ampSide,
+        field7: this.state.limbLossCause,
+        field8: this.state.kLevel,
+        field9: this.state.amputationSide,
         field10: this.state.weight,
         field11: this.state.centimeter,
         field12: userId
@@ -229,20 +230,12 @@ class CreateForm extends React.Component {
 		change[name] = event.target.value;
 		this.setState(change);
 
-    if (name == 'kLev') {
+    if (name == 'kLevel') {
 
       this.handleCollapse()
 
     }
-
-    if (name == 'id') {
-      this.autoCompleteForm()
-    }
-
-
-
 	}
-
 
   /*This is the function that handles completing the form based on a matching patient ID
   from a preexisting cookie. The state variables get set to the cookie values and the input
@@ -252,12 +245,11 @@ class CreateForm extends React.Component {
     const userId = firebase.auth().currentUser.uid;
     var cookie = this.getCookie(this.state.id.toString());
 
-
     if (cookie) {
 
       var cookieParse = JSON.parse(cookie);
 
-      if (this.state.feet && this.state.inch) {
+      if (this.props.profile.measurementUnit === "Imperial") {
 
         this.setState({
           id: cookieParse.field1,
@@ -266,14 +258,17 @@ class CreateForm extends React.Component {
           age: cookieParse.field4,
           race: cookieParse.field5,
           amputationLevel: cookieParse.field6,
-          limbLost: cookieParse.field7,
-          kLev: cookieParse.field8,
-          ampSide: cookieParse.field9,
+          limbLossCause: cookieParse.field7,
+          kLevel: cookieParse.field8,
+          amputationSide: cookieParse.field9,
           weight: cookieParse.field10,
           feet: cookieParse.field11,
           inch: cookieParse.field12
         })
-      } else if (this.state.centimeter) {
+        document.getElementById("patientFeet").value = this.state.feet;
+        document.getElementById("patientInch").value = this.state.inch;
+
+      } else if (this.props.profile.measurementUnit === "Metric") {
 
         this.setState({
           id: cookieParse.field1,
@@ -282,13 +277,14 @@ class CreateForm extends React.Component {
           age: cookieParse.field4,
           race: cookieParse.field5,
           amputationLevel: cookieParse.field6,
-          limbLost: cookieParse.field7,
-          kLev: cookieParse.field8,
-          ampSide: cookieParse.field9,
+          limbLossCause: cookieParse.field7,
+          kLevel: cookieParse.field8,
+          amputationSide: cookieParse.field9,
           weight: cookieParse.field10,
           centimeter: cookieParse.field11,
 
         })
+        document.getElementById("patientCentimeter").value = this.state.centimeter;
 
 
       }
@@ -299,13 +295,12 @@ class CreateForm extends React.Component {
         document.getElementById("patientAge").value = this.state.age;
         document.getElementById("patientRace").value = this.state.race;
         document.getElementById("patientLevel").value = this.state.amputationLevel;
-        document.getElementById("patientCause").value = this.state.limbLost;
-        document.getElementById("patientKLevel").value = this.state.kLev;
-        document.getElementById("patientSide").value = this.state.ampSide;
+        document.getElementById("patientCause").value = this.state.limbLossCause;
+        document.getElementById("patientKLevel").value = this.state.kLevel;
+        document.getElementById("patientSide").value = this.state.amputationSide;
         document.getElementById("patientWeight").value = this.state.weight;
-        document.getElementById("patientFeet").value = this.state.feet;
-        document.getElementById("patientInch").value = this.state.inch;
-        document.getElementById("patientInch").value = this.state.centimeter;
+
+
 
 
 
@@ -324,39 +319,39 @@ class CreateForm extends React.Component {
 
       document.getElementById("general").innerHTML = "Level 0: Does not have the ability or potential to ambulate or transfer safely with or without assistance and a prosthesis does not enhance their quality of life or mobility."
       document.getElementById("collapsibleExplanation").innerHTML = "More Information - Level 0"
-      this.setState({kLev: levelValue})
+      this.setState({kLevel: levelValue})
 
     } else if (levelValue == "K-1") {
 
       document.getElementById("general").innerHTML = "Level 1: Has the ability or potential to use a prosthesis for transfers or ambulation on level surfaces at fixed cadence. Typical of the limited and unlimited household ambulator."
       document.getElementById("collapsibleExplanation").textContent = "More Information - Level 1"
-      this.setState({kLev: levelValue})
+      this.setState({kLevel: levelValue})
 
 
     } else if (levelValue == "K-2") {
 
       document.getElementById("general").innerHTML = "Level 2: Has the ability or potential for ambulation with the ability to traverse low level environmental barriers such as curbs, stairs, or uneven surfaces. Typical of the limited community ambulator."
       document.getElementById("collapsibleExplanation").textContent = "More Information - Level 2"
-      this.setState({kLev: levelValue})
+      this.setState({kLevel: levelValue})
 
 
     } else if (levelValue == "K-3") {
 
       document.getElementById("general").innerHTML = "Level 3: Has the ability or potential for ambulation with variable cadence. Typical of the community ambulator who has the ability to traverse most environmental barriers and may have vocational, therapeutic, or exercise activity that demands prosthetic utilization beyond simple locomotion."
       document.getElementById("collapsibleExplanation").textContent = "More Information - Level 3"
-      this.setState({kLev: levelValue})
+      this.setState({kLevel: levelValue})
 
     } else if (levelValue == "K-4") {
 
       document.getElementById("general").innerHTML = "Level 4: Has the ability or potential for prosthetic ambulation that exceeds basic ambulation skills, exhibiting high impact, stress, or energy levels. Typical of the prosthetic demands of the child, active adult, or athlete."
       document.getElementById("collapsibleExplanation").textContent = "More Information - Level 4"
-      this.setState({kLev: levelValue})
+      this.setState({kLevel: levelValue})
 
     } else if (levelValue == "Select") {
 
       document.getElementById("general").innerHTML = "The classification level assigned is used to determine the medical necessity of certain componentry, and thus to match the ultimate LLP to the beneficiary’s clinical needs."
       document.getElementById("collapsibleExplanation").textContent = "More Information - K Levels"
-      this.setState({kLev: levelValue})
+      this.setState({kLevel: levelValue})
 
 
     }
@@ -377,11 +372,11 @@ class CreateForm extends React.Component {
       patient information form. The button is disabled until all input fields are filled out
       and in the case of the drop down selections, once any option other than the default "Select"
       option is selected.*/}
-    const { id, sex, age, race, amputationLevel, limbLost, kLev, ampSide,
+    const { id, sex, age, race, amputationLevel, limbLossCause, kLevel, amputationSide,
       weight, feet, inch, centimeter, fullname, measurementUnit} = this.state;
     const isEnabled = fullname.length > 0 && id.length > 0 && (sex !== "Select") && age.length > 0 &&
     (race !== "Select") && weight.length > 0 && ((feet.length > 0 && inch.length > 0) || centimeter.length > 0) &&
-    (amputationLevel !== "Select") && (limbLost !== "Select") && (kLev !== "Select") && (ampSide !== "Select");
+    (amputationLevel !== "Select") && (limbLossCause !== "Select") && (kLevel !== "Select") && (amputationSide !== "Select");
 
 		return (
       <div id="wrapper" className="container">
@@ -571,7 +566,7 @@ class CreateForm extends React.Component {
 
                       <div class="form-group">
                         <label for="patientSide">Amputation Side:</label><br />
-                        <select class="selectpicker" id="patientSide" autoComplete="off" value={this.state.ampSide} onChange={this.onInputChange.bind(this, 'ampSide')}>
+                        <select class="selectpicker" id="patientSide" autoComplete="off" value={this.state.amputationSide} onChange={this.onInputChange.bind(this, 'amputationSide')}>
                           <option>Select</option>
                           <option>Right Side</option>
                           <option>Left Side</option>
@@ -610,7 +605,7 @@ class CreateForm extends React.Component {
 
                       <div class="form-group">
                         <label for="patientLoss">Amputation Cause:</label><br />
-                        <select class="selectpicker" id="patientCause" autoComplete="off" value={this.state.limbLost} onChange={this.onInputChange.bind(this, 'limbLost')}>
+                        <select class="selectpicker" id="patientCause" autoComplete="off" value={this.state.limbLossCause} onChange={this.onInputChange.bind(this, 'limbLossCause')}>
                           <option>Select</option>
                           <option>Cancer</option>
                           <option>Congenital Condition</option>
@@ -634,7 +629,7 @@ class CreateForm extends React.Component {
                         <div className="panel-group">
                           <div class="panel panel-default">
 
-                            <select id="patientKLevel" autoComplete="off" class="selectpicker" value={this.state.kLev}  onChange={this.onInputChange.bind(this, 'kLev')}>
+                            <select id="patientKLevel" autoComplete="off" class="selectpicker" value={this.state.kLevel}  onChange={this.onInputChange.bind(this, 'kLevel')}>
                               <option>Select</option>
                               <option>K-0</option>
                               <option>K-1</option>
@@ -675,7 +670,9 @@ class CreateForm extends React.Component {
 	}
 }
 
-export default connect(null, dispatch => ({
+export default connect(state => ({
+  profile: state.auth.profile
+  }), dispatch => ({
 	onRedirect: (path) => {
 		dispatch(push(path));
 	},

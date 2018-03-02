@@ -5,11 +5,6 @@ import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux';
 
-//css
-import jquery from 'jquery'
-
-window.jQuery = jquery
-window.$ = jquery
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './assets/css/main.css'
 import './assets/css/sidebar.css'

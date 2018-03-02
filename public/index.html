@@ -10,66 +10,11 @@
 <link rel="icon" href="%PUBLIC_URL%/favicon.ico">
 <title>OARS</title>
 
-<!-- Bootstrap core CSS -->
-<!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
-<!-- jspdf direct to address critical dependencies -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
-<script src="jspdf.plugin.addimage.js"></script>
-<script type="text/javascript" src="libs/png_support/zlib.js"></script>
-<script type="text/javascript" src="libs/png_support/png.js"></script>
-
-<script type="text/javascript" src="jspdf.plugin.png_support.js"></script>
-<script type="text/javascript" src="jspdf.js"></script>
-
-<!-- Custom styles for this template -->
-    <!-- <link href="css/main.css" rel="stylesheet" type="text/css"> -->
-    <!-- <link href="./css/sidebar.css" rel="stylesheet" type="text/css"> -->
-    <!-- <link href="css/GridColumnCarousel.min.css" rel="stylesheet" type="text/css"> -->
 </head>
   <body>
     <div id="root"></div>
   </body>
-  <script src='build/pdfmake.min.js'></script>
-  <script src='build/vfs_fonts.js'></script> 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js"></script>
-  <script src="jspdf.plugin.addimage.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js"></script>
-  <script type="text/javascript" src="jspdf.js"></script>
-  <script src = "https://cdnjs.cloudflare.com/ajax/libs/rasterizehtml/1.2.4/rasterizeHTML.min.js"></script>
-  <script src="FileSaver.js"></script>
 
-  <script>
-      $(function() {
-      $("#wrapper").toggleClass("toggled");
-      $('#login-form-link').click(function(e) {
-      $("#login-form").delay(100).fadeIn(100);
-      $("#register-form").fadeOut(100);
-      $('#register-form-link').removeClass('active');
-      $(this).addClass('active');
-      e.preventDefault();
-    });
-    $('#register-form-link').click(function(e) {
-      $("#register-form").delay(100).fadeIn(100);
-      $("#login-form").fadeOut(100);
-      $('#login-form-link').removeClass('active');
-      $(this).addClass('active');
-      e.preventDefault();
-    });
-    $(".video").click(function () {
-      var theModal = $(this).data("target");
-      videoSRC = $(this).attr("data-video"),
-      videoSRCauto = videoSRC + "?modestbranding=1&rel=0&controls=0&showinfo=0&html5=1&autoplay=0";
-      $(theModal + ' iframe').attr('src', videoSRCauto);
-      $(theModal + ' button.close').click(function () {
-        $(theModal + ' iframe').attr('src', videoSRC);
-      });
-  });
-  </script>
 </html>
