@@ -31,6 +31,7 @@ import Settings from './components/secure/Settings'
 import CompletedSessions from './components/secure/CompletedSessions'
 import CreateForm from './components/secure/CreateForm'
 import Dashboard from './components/secure/Dashboard'
+import Help from './components/secure/Help'
 
 const reducer = combineReducers({
 	...reducers,
@@ -63,6 +64,7 @@ ReactDOM.render(
 				<Route path='completed_sessions' component={CompletedSessions}  onEnter={secure}/>
 				<Route path='createform' component={CreateForm} onEnter={secure}/>
 				<Route path='dashboard' component={Dashboard}/>
+				<Route path='help' component={Help} onEnter={secure}/>
 			</Route>
 		</Router>
 	</Provider>,
