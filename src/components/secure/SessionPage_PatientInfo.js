@@ -226,7 +226,8 @@ class SessionPage_PatientInfo extends React.Component {
 
       const {patientInformation} = this.state
       var cookie = this.getCookie(patientInformation.id);
-
+      /*If a cookie with the corresponding id exists,
+      then autocomplete the form */
       if (cookie && !patientInformation.fullname) {
 
 
@@ -501,7 +502,7 @@ class SessionPage_PatientInfo extends React.Component {
 Redux store stores the state of the application. By passing in the
 state parameter, this component subscribes to the redux store updates.
 Therefore, whenever the store (state of the application) is updated, the
-component will have access to the updated state. */
+component will have access to the updated state.*/
 export default connect(state=>({
     user: state.auth.user,
     settings: state.auth.settings,
