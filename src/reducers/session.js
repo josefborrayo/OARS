@@ -1,9 +1,9 @@
 /*Reducer for form actions*/
 
 import {
-    FETCH_FORM,
+    FETCH_SESSION,
     SAVE_QUESTIONS
-} from '../actions/form.js';
+} from '../actions/session.js';
 
 /*In react redux, a reducer is a function that takes two parameters. The current
 state and an action. Reducers are responsible for producing the state of the
@@ -13,7 +13,7 @@ the same output for the given input. Actions are responsible for updating the st
 
 /*These constants below are the states of the application.*/
 const initialState = {
-	forms: null,
+	sessions: null,
 	questions: null
 };
 
@@ -25,11 +25,11 @@ are avoided and a new object is returned with the properties of the previous
 state as it copies values from a source object to a target object.*/
 
 /*This function handles getting the sessions and questions for the PEQ.*/
-export function form (state = initialState, action) {
+export function session (state = initialState, action) {
     switch(action.type) {
-        case FETCH_FORM:
+        case FETCH_SESSION:
           return Object.assign({}, state, {
-            forms: {...action.forms}
+            sessions: {...action.sessions}
           });
         case SAVE_QUESTIONS:
           return Object.assign({}, state, {

@@ -2,12 +2,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as firebase from 'firebase';
-import { login, logout, resetNext, fetchUserProfile } from '../actions/auth';
+import { login, logout, resetNext, fetchUserSettings } from '../actions/auth';
 
 import {
-    fetchForm,
+    fetchSessions,
 		saveQuestions
-} from '../actions/form';
+} from '../actions/session';
 import { push } from 'react-router-redux';
 
 //component
@@ -20,7 +20,6 @@ class App extends React.Component {
   constructor(props) {
 
     super(props)
-
 
   }
 	state = {
@@ -59,14 +58,14 @@ class App extends React.Component {
 				})
 				firebase.database().ref().child(`users/${user.uid}`)
 					.on('value', (snapshot) => {
-						this.props.fetchUserProfile(snapshot.val());
+						this.props.fetchUserSettings(snapshot.val());
 					})
 				this.props.onLogin(user);
 				this.props.onRedirect(this.props.next || '/dashboard');
 				this.props.onResetNext();
-				firebase.database().ref('/forms').on('value', (snapshot) => {
-          const allForms = snapshot.val();
-					this.props.fetchUserForm(allForms[user.uid]);
+				firebase.database().ref('/sessions').on('value', (snapshot) => {
+          const allSessions = snapshot.val();
+					this.props.fetchUserSessions(allSessions[user.uid]);
 					this.props.saveQuestions(JSON.parse(localStorage.getItem('questions')));
 				})
 			} else {
@@ -122,8 +121,8 @@ export default connect(state => ({
 	onLogin: user => {
 		dispatch(login(user));
   },
-  fetchUserProfile: user => {
-		dispatch(fetchUserProfile(user));
+  fetchUserSettings: user => {
+		dispatch(fetchUserSettings(user));
 	},
 	onLogout: () => {
 		dispatch(logout());
@@ -134,8 +133,8 @@ export default connect(state => ({
 	onResetNext: () => {
 		dispatch(resetNext());
 	},
-	fetchUserForm: forms => {
-    dispatch(fetchForm(forms));
+	fetchUserSessions: sessions => {
+    dispatch(fetchSessions(sessions));
 	},
 	saveQuestions: questions => {
     dispatch(saveQuestions(questions));

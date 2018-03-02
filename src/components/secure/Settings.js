@@ -12,7 +12,7 @@ class Settings extends React.Component {
   pertaining to the clinician. This includes the address of the clinic
   as well clinician name and clinic ID.*/
   state = {
-    profile: {
+    settings: {
       clinicId: '',
       fullname: '',
       clinic: '',
@@ -34,7 +34,7 @@ class Settings extends React.Component {
     that were previously set by the user to save (remember) the state of the
     settings page.*/
     this.setState({
-      profile: {...this.state.profile, ...this.props.profile},
+      settings: {...this.state.settings, ...this.props.settings},
     })
 
 
@@ -45,12 +45,12 @@ class Settings extends React.Component {
   This method is invoked before the component mounts. Therefore it is called
   before render().*/
   componentWillReceiveProps(nextProps) {
-    if(nextProps.profile) {
+    if(nextProps.settings) {
       /*Using the setState method, we can set the values for the state variables
       that were previously set by the user to update the state of the settings page.*/
       this.setState({
-        profile: {
-          ...this.state.profile, ...nextProps.profile}
+        settings: {
+          ...this.state.settings, ...nextProps.settings}
       })
     }
 
@@ -59,10 +59,10 @@ class Settings extends React.Component {
 
   /*This function handles changes to any of the state variables.*/
   onInputChange(name, event) {
-    const { profile } = this.state;
-		profile[name] = event.target.value;
+    const { settings } = this.state;
+		settings[name] = event.target.value;
 		this.setState({
-      profile
+      settings
     });
   }
 
@@ -70,14 +70,14 @@ class Settings extends React.Component {
   updateProfile() {
 
     const {
-      profile
+      settings
     } = this.state;
 
     /*This snippet serves the purpose of updating the displayed name in
     the sidebar.*/
     var user = firebase.auth().currentUser;
     user.updateProfile({
-      displayName: profile.fullname
+      displayName: settings.fullname
     }).then(function() {
       // Update successful.
     }).catch(function(error) {
@@ -85,11 +85,11 @@ class Settings extends React.Component {
     });
 
       /*This snippet updates the settings variables in the firebase
-      database and informs the user that the settings have been successfully
+      database and insessions the user that the settings have been successfully
       updated.*/
       const userId = firebase.auth().currentUser.uid;
       firebase.database().ref().child(`/users/${userId}`)
-      .update(profile).then((user) => {
+      .update(settings).then((user) => {
           this.setState({
             successMessage: `Profile was updated successfully`
           })
@@ -103,23 +103,23 @@ class Settings extends React.Component {
   /*This is where the Settings component is rendered.*/
 	render() {
     const {
-      profile
+      settings
     } = this.state;
 
-    const isEnabled = profile.measurementUnit !== "Select"
+    const isEnabled = settings.measurementUnit !== "Select"
 
 
 		return (
 
 			<div>
         {/*If there exists settings for the user then it is rendered below.*/}
-				{profile && <div className="container">
+				{settings && <div className="container">
       <div className="row">
-        <div className="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 toppad profile-panel" >
+        <div className="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 toppad settings-panel" >
         <div className='panel panel-info'>
             <div className="panel-heading">
             {/*The clinicians name*/}
-            <h3>{profile.fullname}</h3>
+            <h3>{settings.fullname}</h3>
             </div>
             <div className="panel-body">
             {this.state.successMessage && <div className="alert alert-success">{this.state.successMessage}</div>}
@@ -133,7 +133,7 @@ class Settings extends React.Component {
                         <td>
                           <input
                             className="form-control"
-                            type="text" value={profile.clinicId}
+                            type="text" value={settings.clinicId}
                             placeholder="AOPA Member ID"
                             onChange={this.onInputChange.bind(this, 'clinicId')}
                           /></td>
@@ -144,7 +144,7 @@ class Settings extends React.Component {
                         <td>
                           <input
                             className="form-control"
-                            type="text" value={profile.clinic}
+                            type="text" value={settings.clinic}
                             placeholder="Clinic Name"
                             onChange={this.onInputChange.bind(this, 'clinic')}
                           /></td>
@@ -155,7 +155,7 @@ class Settings extends React.Component {
                         <td>
                           <input
                             className="form-control"
-                            type="text" value={profile.fullname}
+                            type="text" value={settings.fullname}
                             placeholder="Clinician Name"
                             onChange={this.onInputChange.bind(this, 'fullname')}
                           /></td>
@@ -166,7 +166,7 @@ class Settings extends React.Component {
                         <td>
                           <input
                             className="form-control"
-                            type="text" value={profile.email}
+                            type="text" value={settings.email}
                             placeholder="Email Address"
                             onChange={this.onInputChange.bind(this, 'email')}
                           /></td>
@@ -177,7 +177,7 @@ class Settings extends React.Component {
                         <td>
                           <input
                             className="form-control"
-                            type="text" value={profile.streetaddress}
+                            type="text" value={settings.streetaddress}
                             placeholder="Street Address"
                             onChange={this.onInputChange.bind(this, 'streetaddress')}
                           /></td>
@@ -188,7 +188,7 @@ class Settings extends React.Component {
                         <td>
                           <input
                             className="form-control"
-                            type="text" value={profile.city}
+                            type="text" value={settings.city}
                             placeholder="City"
                             onChange={this.onInputChange.bind(this, 'city')}
                           /></td>
@@ -199,7 +199,7 @@ class Settings extends React.Component {
                         <td>
                           <input
                             className="form-control"
-                            type="text" value={profile.state}
+                            type="text" value={settings.state}
                             placeholder="State"
                             onChange={this.onInputChange.bind(this, 'state')}
                           /></td>
@@ -210,7 +210,7 @@ class Settings extends React.Component {
                         <td>
                           <input
                             className="form-control"
-                            type="text" value={profile.zip}
+                            type="text" value={settings.zip}
                             placeholder="Zip Code"
                             onChange={this.onInputChange.bind(this, 'zip')}
                           /></td>
@@ -219,7 +219,7 @@ class Settings extends React.Component {
                         {/*The clinician zip code*/}
                         <td>Measurement Units</td>
                         <td>
-                          <select className="selectpicker pull-right" autoComplete="off" value={profile.measurementUnit} onChange={this.onInputChange.bind(this, 'measurementUnit')}>
+                          <select className="selectpicker pull-right" autoComplete="off" value={settings.measurementUnit} onChange={this.onInputChange.bind(this, 'measurementUnit')}>
                             <option>Select</option>
                             <option>Metric</option>
                             <option>Imperial</option>
@@ -247,5 +247,5 @@ class Settings extends React.Component {
 
 export default connect(state=>({
 	user: state.auth.user,
-	profile: state.auth.profile
+	settings: state.auth.settings
 }))(Settings);

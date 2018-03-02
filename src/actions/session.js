@@ -6,14 +6,14 @@
 	to determine how to calculate the next state and the corresponding
 	state is changed. Action types are declared as constants below.*/
 
-export const FETCH_FORM = 'FETCH_FORM';
+export const FETCH_SESSION = 'FETCH_SESSION';
 export const SAVE_QUESTIONS = 'SAVE_QUESTIONS';
 
 /*This is the action for getting sessions and updates sessions state.*/
-export function fetchForm (forms) {
+export function fetchSessions (sessions) {
     return {
-        type: FETCH_FORM,
-        forms
+        type: FETCH_SESSION,
+        sessions
     }
 }
 /*This is the action for saving questions and updates the questions state.*/

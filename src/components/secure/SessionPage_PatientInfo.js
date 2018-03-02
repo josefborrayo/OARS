@@ -52,10 +52,10 @@ class SessionPage_PatientInfo extends React.Component {
     componentWillMount() {
       /*If there exists a patient record with the id for this particular patient
       then store the information in the patientInformation state array.*/
-      if (this.props.forms && this.props.forms[this.props.routeParams.id]) {
+      if (this.props.sessions && this.props.sessions[this.props.routeParams.id]) {
         this.setState({
           isFound: 'yes',
-          patientInformation: this.props.forms[this.props.routeParams.id]
+          patientInformation: this.props.sessions[this.props.routeParams.id]
         })
 
 
@@ -69,11 +69,11 @@ class SessionPage_PatientInfo extends React.Component {
     for updating the patientInformation array in reponse to prop changes which happens if patient
     information is changed. This method follows the same procedure as the componentWillMount method for this component.*/
     componentWillReceiveProps(nextProps) {
-        if(nextProps.forms) {
-            if (nextProps.forms[this.props.routeParams.id]) {
+        if(nextProps.sessions) {
+            if (nextProps.sessions[this.props.routeParams.id]) {
                 this.setState({
                   isFound: 'yes',
-                  patientInformation: nextProps.forms[this.props.routeParams.id]
+                  patientInformation: nextProps.sessions[this.props.routeParams.id]
                 })
 
             } else {
@@ -133,7 +133,7 @@ class SessionPage_PatientInfo extends React.Component {
       patientInformation.amputationSide = document.getElementById("amp").value
       patientInformation.limbLossCause = document.getElementById("loss").value;
 
-      if (this.props.profile.measurementUnit === "Imperial") {
+      if (this.props.settings.measurementUnit === "Imperial") {
 
         patientInformation.feet = document.getElementById("feet").value;
         patientInformation.inch = document.getElementById("inches").value;
@@ -154,7 +154,7 @@ class SessionPage_PatientInfo extends React.Component {
 
         }));
 
-      } else if (this.props.profile.measurementUnit === "Metric") {
+      } else if (this.props.settings.measurementUnit === "Metric") {
 
         patientInformation.centimeter = document.getElementById("centimeter").value;
         this.setCookie(this.state.id.toString(), JSON.stringify({
@@ -243,7 +243,7 @@ class SessionPage_PatientInfo extends React.Component {
         patientInformation.amputationSide= cookieParse.field9
         patientInformation.weight= cookieParse.field10
 
-        if (this.props.profile.measurementUnit === "Imperial") {
+        if (this.props.settings.measurementUnit === "Imperial") {
 
           patientInformation.feet=cookieParse.field11
           patientInformation.inch= cookieParse.field12
@@ -263,7 +263,7 @@ class SessionPage_PatientInfo extends React.Component {
             enableButton: true
           });
 
-        } else if (this.props.profile.measurementUnit === "Metric") {
+        } else if (this.props.settings.measurementUnit === "Metric") {
 
           patientInformation.centimeter=cookieParse.field11
           this.setState({
@@ -346,7 +346,7 @@ class SessionPage_PatientInfo extends React.Component {
                             <tr>
                                 <td>Weight:</td>
                                 <td>{editPatient === true  ? <input id = "weight" defaultValue = {patientInformation.weight} type = "number"/> : patientInformation.weight}
-                                  {this.props.profile.measurementUnit === "Imperial" ? <span> lb(s)</span> : <span> kg(s)</span>}
+                                  {this.props.settings.measurementUnit === "Imperial" ? <span> lb(s)</span> : <span> kg(s)</span>}
                                 </td>
                             </tr>
                             <tr>
@@ -387,7 +387,7 @@ class SessionPage_PatientInfo extends React.Component {
                                     </div>
                                    : (editPatient === false && patientInformation.feet !== '' && patientInformation.inch !== '') ? (patientInformation.feet + " ft / " + patientInformation.inch + " inch") :
                                    (editPatient === true && patientInformation.centimeter !== '') ? <input id = "centimeter" defaultValue = {patientInformation.centimeter} type = "number"/> :
-                                   (patientInformation.centimeter)}{this.props.profile.measurementUnit === "Metric" ? <span> cm(s)</span> : <span></span>}</td>
+                                   (patientInformation.centimeter)}{this.props.settings.measurementUnit === "Metric" ? <span> cm(s)</span> : <span></span>}</td>
                             </tr>
                             <tr>
                                 <td>Sex:</td>
@@ -483,7 +483,7 @@ class SessionPage_PatientInfo extends React.Component {
                         {/*The panel that displays the outcome tests pending/completed
                           and allows for an outcome test to be selected are rendered
                           from the SessionPage_OutcomeTests component.*/}
-                        <SessionPage_OutcomeTests questions={this.props.questions} patientInformation={patientInformation} profile={this.props.profile} />
+                        <SessionPage_OutcomeTests questions={this.props.questions} patientInformation={patientInformation} settings={this.props.settings} />
                         </div>
                     </div>
                     </div>
@@ -504,7 +504,7 @@ Therefore, whenever the store (state of the application) is updated, the
 component will have access to the updated state. */
 export default connect(state=>({
     user: state.auth.user,
-    profile: state.auth.profile,
-    forms: state.form.forms,
-    questions: state.form.questions
+    settings: state.auth.settings,
+    sessions: state.session.sessions,
+    questions: state.session.questions
 }))(SessionPage_PatientInfo);

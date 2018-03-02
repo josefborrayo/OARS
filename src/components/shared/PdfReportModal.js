@@ -373,13 +373,13 @@ class PdfReportModal extends React.Component {
                   <img id="headerLogo" className = "modal-logo"  src="/images/aopaLOGO.png" alt="AOPA"/>
                     <div className="card border border-success informationCard top-buffer">
                       <p><strong id = "underline">Clinician Information</strong></p>
-                      <p><strong>Clinic: </strong> {this.props.profile.clinic}</p>
-                      <p><strong>Clinician: </strong> {this.props.profile.fullname} </p>
+                      <p><strong>Clinic: </strong> {this.props.settings.clinic}</p>
+                      <p><strong>Clinician: </strong> {this.props.settings.fullname} </p>
                       <p><strong>Tested on: </strong> {test.date}</p>
-                      <p><strong>Street Address: </strong> {this.props.profile.streetaddress} </p>
-                      <p><strong>City: </strong> {this.props.profile.city} </p>
-                      <p><strong>State: </strong> {this.props.profile.state} </p>
-                      <p><strong>Zip Code: </strong> {this.props.profile.zip} </p>
+                      <p><strong>Street Address: </strong> {this.props.settings.streetaddress} </p>
+                      <p><strong>City: </strong> {this.props.settings.city} </p>
+                      <p><strong>State: </strong> {this.props.settings.state} </p>
+                      <p><strong>Zip Code: </strong> {this.props.settings.zip} </p>
                     </div>
                   </div>
                   <div className="col-sm-6">
@@ -392,9 +392,9 @@ class PdfReportModal extends React.Component {
                       <p><strong>Age: </strong> {patientInformation.age} years</p>
                       <p><strong>Race: </strong> {patientInformation.race}</p>
                       <p><strong>Weight: </strong> {patientInformation.weight}
-                      {this.props.profile.measurementUnit === "Imperial" ? <span> lb(s)</span> : <span> kg(s)</span>}</p>
+                      {this.props.settings.measurementUnit === "Imperial" ? <span> lb(s)</span> : <span> kg(s)</span>}</p>
                       <p><strong>Height: </strong>
-                      {this.props.profile.measurementUnit === "Imperial" ? patientInformation.feet + " ft / " + patientInformation.inch + " inch(es)" :
+                      {this.props.settings.measurementUnit === "Imperial" ? patientInformation.feet + " ft / " + patientInformation.inch + " inch(es)" :
                        patientInformation.centimeter + " cm(s)"}</p>
                       <p><strong>Limb Level: </strong> {patientInformation.limbLevel}</p>
                       <p><strong>K Level: </strong> {patientInformation.kLevel}</p>
@@ -418,5 +418,5 @@ class PdfReportModal extends React.Component {
 }
 
 export default connect(state=>({
-    profile: state.auth.profile,
+    settings: state.auth.settings,
 }))(PdfReportModal);

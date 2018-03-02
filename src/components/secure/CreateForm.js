@@ -8,7 +8,7 @@ import SweetAlert from 'react-bootstrap-sweetalert';
 import swal from 'sweetalert';
 var randtoken = require('rand-token');
 
-/*This is the component that is utilized for entering a patient's information to create a patient profile.*/
+/*This is the component that is utilized for entering a patient's information to create a patient settings.*/
 
 class CreateForm extends React.Component {
 
@@ -28,7 +28,7 @@ class CreateForm extends React.Component {
   /*The state variables of this component. The majority of these state variables
     are those that belong to the patient information form. The loading variable is for the
     the loading indicator while the identifier variable is simply the 16 character token that
-    is the unique identifier of the current patient profile. */
+    is the unique identifier of the current patient settings. */
 
   state =  {
     id: '',
@@ -65,7 +65,7 @@ class CreateForm extends React.Component {
   }
 
 
-  /*This is the function that handles the submission of the patient profile patient information form
+  /*This is the function that handles the submission of the patient settings patient information form
   to firebase. To address security concerns, the only information being stored is the patient ID as well as
   the unique 16 character identifier of the form.*/
 
@@ -97,7 +97,7 @@ class CreateForm extends React.Component {
     this.storeValues(postData, userId);
 
     let updates = {};
-    updates[`/forms/${userId}/${postData['identifier']}`] = postData;
+    updates[`/sessions/${userId}/${postData['identifier']}`] = postData;
     /*The postData array gets stored in firebase and the app redirects the user to
     the test page.*/
     firebase.database().ref().update(updates)
@@ -114,13 +114,13 @@ class CreateForm extends React.Component {
 
   /*This function checks if there is a matching ID in firebase with what the users
   has input for the patient ID section to warn the user that they are creating a duplicate
-  profile if they continue.*/
+  settings if they continue.*/
   checkIfIdExists() {
 
       const currentId = this.state.id;
       const userId = firebase.auth().currentUser.uid;
 
-      var ref = firebase.database().ref("/forms/" + userId.toString());
+      var ref = firebase.database().ref("/sessions/" + userId.toString());
       ref.once("value")
         .then(function(snapshot) {
           snapshot.forEach(function(childSnapshot) {
@@ -147,7 +147,7 @@ class CreateForm extends React.Component {
     locally*/
   storeValues(postData, userId) {
 
-    if (this.props.profile.measurementUnit === "Imperial") {
+    if (this.props.settings.measurementUnit === "Imperial") {
 
       this.setCookie(this.state.id.toString(), JSON.stringify({
 
@@ -168,7 +168,7 @@ class CreateForm extends React.Component {
 
       }));
 
-    } else if (this.props.profile.measurementUnit === "Metric") {
+    } else if (this.props.settings.measurementUnit === "Metric") {
 
       this.setCookie(this.state.id.toString(), JSON.stringify({
 
@@ -249,7 +249,7 @@ class CreateForm extends React.Component {
 
       var cookieParse = JSON.parse(cookie);
 
-      if (this.props.profile.measurementUnit === "Imperial") {
+      if (this.props.settings.measurementUnit === "Imperial") {
 
         this.setState({
           id: cookieParse.field1,
@@ -268,7 +268,7 @@ class CreateForm extends React.Component {
         document.getElementById("patientFeet").value = this.state.feet;
         document.getElementById("patientInch").value = this.state.inch;
 
-      } else if (this.props.profile.measurementUnit === "Metric") {
+      } else if (this.props.settings.measurementUnit === "Metric") {
 
         this.setState({
           id: cookieParse.field1,
@@ -671,7 +671,7 @@ class CreateForm extends React.Component {
 }
 
 export default connect(state => ({
-  profile: state.auth.profile
+  settings: state.auth.settings
   }), dispatch => ({
 	onRedirect: (path) => {
 		dispatch(push(path));

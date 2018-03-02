@@ -138,7 +138,7 @@ class AddTestModal extends React.Component {
       const userId = firebase.auth().currentUser.uid;
       let updates = {};
       const testkey = selectedTest || firebase.database().ref()
-        .child(`forms/${userId}/${this.props.formId}/tests`).push().key
+        .child(`sessions/${userId}/${this.props.formId}/tests`).push().key
       const postData = selectedCategory !== 'PEQ TEST' ? {
         id: testkey,
         formId: this.props.formId,
@@ -158,7 +158,7 @@ class AddTestModal extends React.Component {
         date
       }
       const childNode = `${selectedCategory}/${testkey}`;
-      const node = `/forms/${userId}/${this.props.formId}/tests/${childNode}`;
+      const node = `/sessions/${userId}/${this.props.formId}/tests/${childNode}`;
       updates[node] = postData;
       firebase.database().ref().update(updates)
       .then(() => {

@@ -7,13 +7,13 @@ class Sidebar extends React.Component {
   render() {
     return (
       <div>
-      <div className="profile-sidebar">
-        <div className="profile-usertitle">
-          <div className="profile-usertitle-name" id = "displayName">
+      <div className="settings-sidebar">
+        <div className="settings-usertitle">
+          <div className="settings-usertitle-name" id = "displayName">
             Welcome {this.props.user && this.props.user.displayName}
           </div>
         </div>
-        <div className="profile-usermenu">
+        <div className="settings-usermenu">
           <ul className="nav">
             <li>
               <Link activeClassName="active" to="/dashboard">
@@ -60,5 +60,5 @@ class Sidebar extends React.Component {
 
 export default connect(state=>({
 	user: state.auth.user,
-	profile: state.auth.profile
+	settings: state.auth.settings
 }))(Sidebar);

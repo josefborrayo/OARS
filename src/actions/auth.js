@@ -11,7 +11,7 @@ export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const SET_NEXT = 'SET_NEXT';
 export const RESET_NEXT = 'RESET_NEXT';
-export const FETCH_USER_PROFILE = 'FETCH_USER_PROFILE';
+export const GET_USER_SETTINGS = 'GET_USER_SETTINGS';
 
 /*These are the actions assocaited with authorization. The corresponding
 	reducers are found in the in the reducers/auth.js file. Each action is
@@ -26,10 +26,10 @@ export function login(user) {
 }
 /*This is the action for getting a users settings and updates the state of the settings
 	for the user.*/
-export function fetchUserProfile(profile) {
+export function fetchUserSettings(settings) {
 	return {
-		type: FETCH_USER_PROFILE,
-		profile
+		type: GET_USER_SETTINGS,
+		settings
 	}
 }
 /*This is the action for logging out and simply logs the user out so there is no state that

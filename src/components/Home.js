@@ -51,20 +51,6 @@ class Home extends React.Component {
 			<div className="row">
 			<div className="col-md-6 col-md-offset-3">
 			  <div className="panel panel-login loginPanel">
-				{/*
-				<div className="panel-heading">
-				  <div className="row">
-					<div className="col-xs-6">
-					  <Link href="#" classname = "active" id="login-form-link">Login</Link>
-					</div>
-					<div className="col-xs-6">
-					  <Link href="#" id="register-form-link">Register</Link>
-					</div>
-				  </div>
-				  <hr />
-				</div>
-				*/}
-
 				<div className="panel-body">
 				  <div className="row">
 					<div className="col-lg-12">

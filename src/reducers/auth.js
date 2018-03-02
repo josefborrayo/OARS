@@ -1,6 +1,6 @@
 /*Reducer for auth actions.*/
 import * as AuthActions from '../actions/auth';
-import { FETCH_USER_PROFILE } from '../actions/auth';
+import { GET_USER_SETTINGS } from '../actions/auth';
 
 /*In react redux, a reducer is a function that takes two parameters. The current
 state and an action. Reducers are responsible for producing the state of the
@@ -11,7 +11,7 @@ the same output for the given input. Actions are responsible for updating the st
 /*These constants below are the states of the application.*/
 const initialState = {
 	user: null,
-	profile: null,
+	settings: null,
 	next: null
 };
 
@@ -31,9 +31,9 @@ export function auth(state = initialState, action) {
 			return Object.assign({}, state, {
 				user: action.user
 			});
-		case AuthActions.FETCH_USER_PROFILE:
+		case AuthActions.GET_USER_SETTINGS:
 			return Object.assign({}, state, {
-				profile: action.profile
+				settings: action.settings
 			});
 		case AuthActions.LOGOUT:
 			return Object.assign({}, state, {

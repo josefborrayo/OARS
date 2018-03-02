@@ -17,7 +17,7 @@ class Dashboard extends React.Component {
 	Statistics.*/
 	calculateTotalTests() {
 		const userId = firebase.auth().currentUser.uid;
-		var ref = firebase.database().ref("/forms/" + userId.toString());
+		var ref = firebase.database().ref("/sessions/" + userId.toString());
 		ref.once("value")
 			.then(function(snapshot) {
 				snapshot.forEach(function(childSnapshot) {
@@ -37,7 +37,7 @@ class Dashboard extends React.Component {
 	 of all users. This value is displayed in the Usage Statistics.*/
 	calculateAverageTests() {
 
-		var ref = firebase.database().ref("/forms/");
+		var ref = firebase.database().ref("/sessions/");
 		ref.once("value")
 			.then(function(snapshot) {
 				snapshot.forEach(function(childSnapshot) {

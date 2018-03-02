@@ -100,7 +100,7 @@ class SessionPage_OutcomeTests extends React.Component {
 
     deleteTest (test) {
       const userId = firebase.auth().currentUser.uid;
-      firebase.database().ref(`/forms/${userId}/${this.props.patientInformation.identifier}/tests/${test.category}/${test.id}`).remove();
+      firebase.database().ref(`/sessions/${userId}/${this.props.patientInformation.identifier}/tests/${test.category}/${test.id}`).remove();
        this.setState({
           alert: null
         });
@@ -115,7 +115,7 @@ class SessionPage_OutcomeTests extends React.Component {
     finishTest (test, event) {
       event.preventDefault();
       const userId = firebase.auth().currentUser.uid;
-      firebase.database().ref(`/forms/${userId}/${this.props.patientInformation.identifier}/tests/${test.category}/${test.identifier}`).update({
+      firebase.database().ref(`/sessions/${userId}/${this.props.patientInformation.identifier}/tests/${test.category}/${test.identifier}`).update({
         completed: 1
       }).then(() => {
         this.setState({
@@ -126,12 +126,12 @@ class SessionPage_OutcomeTests extends React.Component {
 
     completeForm () {
       const userId = firebase.auth().currentUser.uid;
-      firebase.database().ref(`/forms/${userId}/${this.props.patientInformation.identifier}`).update({
+      firebase.database().ref(`/sessions/${userId}/${this.props.patientInformation.identifier}`).update({
         completed: 1
       }).then(() => {
         this.setState({
           alert: null,
-          successMessage: `This profile has been marked as completed`
+          successMessage: `This settings has been marked as completed`
         })
       });
     }
@@ -249,7 +249,7 @@ class SessionPage_OutcomeTests extends React.Component {
                 formId={this.props.patientInformation.identifier}
                 resetValue={this.resetValue.bind(this)}
               />
-                <PdfReportModal profile={this.props.profile} test={this.state.downloadTest} patientInformation={this.props.patientInformation} />
+                <PdfReportModal settings={this.props.settings} test={this.state.downloadTest} patientInformation={this.props.patientInformation} />
             </div>
 		)
 	}
