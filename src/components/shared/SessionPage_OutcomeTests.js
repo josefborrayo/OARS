@@ -8,6 +8,13 @@ import { Link } from 'react-router';
 var scrollIntoView = require('scroll-into-view');
 
 class SessionPage_OutcomeTests extends React.Component {
+
+    constructor(props) {
+
+      super(props)
+      this.checkCat = this.checkCat.bind(this)
+
+    }
     state = {
         allTestCategory: [
             'TUG TEST',
@@ -45,9 +52,6 @@ class SessionPage_OutcomeTests extends React.Component {
       scrollIntoView(document.getElementById("outcomeTestPanel"))
 
     }
-
-
-
 
     onDelete (test) {
       const getAlert = (test) => (
@@ -100,7 +104,7 @@ class SessionPage_OutcomeTests extends React.Component {
 
     deleteTest (test) {
       const userId = firebase.auth().currentUser.uid;
-      firebase.database().ref(`/forms/${userId}/${this.props.patientInformation.identifier}/tests/${test.category}/${test.id}`).remove();
+      firebase.database().ref(`/sessions/${userId}/${this.props.patientInformation.identifier}/tests/${test.category}/${test.id}`).remove();
        this.setState({
           alert: null
         });
@@ -115,7 +119,7 @@ class SessionPage_OutcomeTests extends React.Component {
     finishTest (test, event) {
       event.preventDefault();
       const userId = firebase.auth().currentUser.uid;
-      firebase.database().ref(`/forms/${userId}/${this.props.patientInformation.identifier}/tests/${test.category}/${test.identifier}`).update({
+      firebase.database().ref(`/sessions/${userId}/${this.props.patientInformation.identifier}/tests/${test.category}/${test.identifier}`).update({
         completed: 1
       }).then(() => {
         this.setState({
@@ -126,12 +130,12 @@ class SessionPage_OutcomeTests extends React.Component {
 
     completeForm () {
       const userId = firebase.auth().currentUser.uid;
-      firebase.database().ref(`/forms/${userId}/${this.props.patientInformation.identifier}`).update({
+      firebase.database().ref(`/sessions/${userId}/${this.props.patientInformation.identifier}`).update({
         completed: 1
       }).then(() => {
         this.setState({
           alert: null,
-          successMessage: `This profile has been marked as completed`
+          successMessage: `This settings has been marked as completed`
         })
       });
     }
@@ -151,6 +155,13 @@ class SessionPage_OutcomeTests extends React.Component {
         });
       });
       return result;
+    }
+
+    checkCat() {
+
+      alert("Hello")
+      alert(JSON.stringify(this.state.allTestCategory))
+
     }
 
 	render() {
@@ -178,7 +189,16 @@ class SessionPage_OutcomeTests extends React.Component {
                                                     <ul className="dropdown-menu btn-lg" role="menu">
                                                         {this.state.allTestCategory.map((testCategory, i) => <li key={i}><a onClick={this.selectCategory.bind(this, testCategory)}> {testCategory} </a></li>)}
                                                     </ul>
-                                                    <button disabled={!this.state.selectedCategory} onClick={this.editTest.bind(this, '', this.state.selectedCategory)} data-toggle="modal" data-target="#videoModal" className="btn btn-lg btn-default" type="button"><span className="glyphicon glyphicon-plus"></span>Add Outcome Test</button>
+                                                    <button disabled={!this.state.selectedCategory}
+                                                      onClick={this.editTest.bind(this, '', this.state.selectedCategory)}
+                                                      data-toggle="modal"
+                                                      data-target="#videoModal"
+                                                      className="btn btn-lg btn-default"
+                                                      type="button"
+                                                    >
+                                                      <span className="glyphicon glyphicon-plus">
+                                                      </span>Add Outcome Test
+                                                    </button>
                                                 </div>
 
 
@@ -241,15 +261,15 @@ class SessionPage_OutcomeTests extends React.Component {
                     </div>
                     <span>Note: If patient information is not visible, please reload the page. If patient information is still not visible, then there is no data for this patient stored locally on this machine.</span>
                 </div>
-              <AddTestModal
-                tests={this.props.patientInformation.tests}
-                questions={this.props.questions}
-                selectedTest={this.state.selectedTest}
-                selectedCategory={this.state.selectedCategory}
-                formId={this.props.patientInformation.identifier}
-                resetValue={this.resetValue.bind(this)}
-              />
-                <PdfReportModal profile={this.props.profile} test={this.state.downloadTest} patientInformation={this.props.patientInformation} />
+                <AddTestModal
+                  tests={this.props.patientInformation.tests}
+                  questions={this.props.questions}
+                  selectedTest={this.state.selectedTest}
+                  selectedCategory={this.state.selectedCategory}
+                  formId={this.props.patientInformation.identifier}
+                  resetValue={this.resetValue.bind(this)}
+                />
+                <PdfReportModal settings={this.props.settings} test={this.state.downloadTest} patientInformation={this.props.patientInformation} />
             </div>
 		)
 	}

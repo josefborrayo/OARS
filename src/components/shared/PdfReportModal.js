@@ -1,6 +1,7 @@
 import React from 'react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { connect } from 'react-redux';
 
 /*This is the component that displays the modal of
 the final report (for a completed outcome test) to be generated.*/
@@ -18,8 +19,7 @@ class PdfReportModal extends React.Component {
   state={
     test: {},
     range: {
-      'L TEST': 12,
-      'TUG TEST': 15
+      'TUG TEST': 12
     },
 
     references: {
@@ -312,10 +312,14 @@ class PdfReportModal extends React.Component {
           return (
             <span className="text-center"> The patient is not at risk of falling. </span>
           )
+        } else if (time >= this.state.range[category]) {
+
+          return (
+            <span className="text-center"> The patient is at risk of falling. </span>
+          )
+
         }
-        return (
-          <span className="text-center"> The patient is at risk of falling. </span>
-        )
+
       }
       return (
         <span className="text-center"> L Test results interpretation in progress. Please check references.</span>
@@ -369,13 +373,13 @@ class PdfReportModal extends React.Component {
                   <img id="headerLogo" className = "modal-logo"  src="/images/aopaLOGO.png" alt="AOPA"/>
                     <div className="card border border-success informationCard top-buffer">
                       <p><strong id = "underline">Clinician Information</strong></p>
-                      <p><strong>Clinic: </strong> {this.props.profile.clinic}</p>
-                      <p><strong>Clinician: </strong> {this.props.profile.fullname} </p>
+                      <p><strong>Clinic: </strong> {this.props.settings.clinic}</p>
+                      <p><strong>Clinician: </strong> {this.props.settings.fullname} </p>
                       <p><strong>Tested on: </strong> {test.date}</p>
-                      <p><strong>Street Address: </strong> {this.props.profile.streetaddress} </p>
-                      <p><strong>City: </strong> {this.props.profile.city} </p>
-                      <p><strong>State: </strong> {this.props.profile.state} </p>
-                      <p><strong>Zip Code: </strong> {this.props.profile.zip} </p>
+                      <p><strong>Street Address: </strong> {this.props.settings.streetaddress} </p>
+                      <p><strong>City: </strong> {this.props.settings.city} </p>
+                      <p><strong>State: </strong> {this.props.settings.state} </p>
+                      <p><strong>Zip Code: </strong> {this.props.settings.zip} </p>
                     </div>
                   </div>
                   <div className="col-sm-6">
@@ -387,12 +391,15 @@ class PdfReportModal extends React.Component {
                       <p><strong>Sex: </strong> {patientInformation.sex}</p>
                       <p><strong>Age: </strong> {patientInformation.age} years</p>
                       <p><strong>Race: </strong> {patientInformation.race}</p>
-                      <p><strong>Weight: </strong> {patientInformation.weight} pounds</p>
-                      <p><strong>Height: </strong> {patientInformation.feet + " ft / " + patientInformation.inch + " inch"}</p>
-                      <p><strong>Limb Level: </strong> {patientInformation.limbLev}</p>
-                      <p><strong>K Level: </strong> {patientInformation.kLev}</p>
-                      <p><strong>Cause of Limb Loss: </strong> {patientInformation.limbLost}</p>
-                      <p><strong>Amputation Side: </strong> {patientInformation.ampSide}</p>
+                      <p><strong>Weight: </strong> {patientInformation.weight}
+                      {this.props.settings.measurementUnit === "Imperial" ? <span> lb(s)</span> : <span> kg(s)</span>}</p>
+                      <p><strong>Height: </strong>
+                      {this.props.settings.measurementUnit === "Imperial" ? patientInformation.feet + " ft / " + patientInformation.inch + " inch(es)" :
+                       patientInformation.centimeter + " cm(s)"}</p>
+                      <p><strong>Limb Level: </strong> {patientInformation.limbLevel}</p>
+                      <p><strong>K Level: </strong> {patientInformation.kLevel}</p>
+                      <p><strong>Cause of Limb Loss: </strong> {patientInformation.limbLossCause}</p>
+                      <p><strong>Amputation Side: </strong> {patientInformation.amputationSide}</p>
                     </div>
                   </div>
                 </div>
@@ -410,4 +417,6 @@ class PdfReportModal extends React.Component {
   }
 }
 
-export default PdfReportModal;
+export default connect(state=>({
+    settings: state.auth.settings,
+}))(PdfReportModal);

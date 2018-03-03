@@ -2,10 +2,13 @@ import React from 'react';
 import firebase from 'firebase';
 import moment from 'moment';
 import PeqQuestionnaire from './PeqQuestionnaire';
-// import { connect } from 'react-redux';
-// import { Link } from 'react-router';
+
+/*This is the component that is the modal for each individual
+test.*/
 
 class AddTestModal extends React.Component {
+
+  /*Constructor for binding methods.*/
   constructor(props) {
 
     super(props)
@@ -13,6 +16,15 @@ class AddTestModal extends React.Component {
     this.alertNull = this.alertNull.bind(this)
 
   }
+
+  /*The state variables for this component. The title for the test,
+  the time for the test, comment, and selectedTest and selectedCategory
+  are common across all tests. The aidUsed variable stores whether or
+  not the patient used a walking aid for the L test. The videos and text
+  variable are for the video and text instructions for each text. The error
+  variable stores the error message if for example a title has not been
+  entered for a test. The allQuestions array stores the questions from
+  PeqQuestionnaire javascript file.*/
   state = {
     title: '',
     time: '',
@@ -51,6 +63,7 @@ class AddTestModal extends React.Component {
       'PEQ TEST': 'This is an analog sliding scale.'
     }
   }
+  /*Styles for the modal.*/
   styles = {
 		row: {
 			'padding': 25
@@ -62,8 +75,13 @@ class AddTestModal extends React.Component {
     }
   };
 
+  /*React lifecycle method: componentWillReceiveProps
+
+  This method is invoked before a mounted component receives new props. This method
+  is necessary for updating the test modal content based on which test is selected.*/
   componentWillReceiveProps (nextProps) {
     let tests;
+    alert(JSON.stringify(tests))
     if (nextProps.selectedCategory && nextProps.tests) {
       if(nextProps.tests.hasOwnProperty(nextProps.selectedCategory)) {
         tests = nextProps.tests[nextProps.selectedCategory];
@@ -138,7 +156,7 @@ class AddTestModal extends React.Component {
       const userId = firebase.auth().currentUser.uid;
       let updates = {};
       const testkey = selectedTest || firebase.database().ref()
-        .child(`forms/${userId}/${this.props.formId}/tests`).push().key
+        .child(`sessions/${userId}/${this.props.formId}/tests`).push().key
       const postData = selectedCategory !== 'PEQ TEST' ? {
         id: testkey,
         formId: this.props.formId,
@@ -158,7 +176,7 @@ class AddTestModal extends React.Component {
         date
       }
       const childNode = `${selectedCategory}/${testkey}`;
-      const node = `/forms/${userId}/${this.props.formId}/tests/${childNode}`;
+      const node = `/sessions/${userId}/${this.props.formId}/tests/${childNode}`;
       updates[node] = postData;
       firebase.database().ref().update(updates)
       .then(() => {
@@ -346,7 +364,6 @@ class AddTestModal extends React.Component {
   alertNull() {
 
     this.setState({error: null})
-
 
   }
 

@@ -11,7 +11,7 @@ class CompletedSessions extends React.Component {
   /*The state variables for this component. The main state variable is the sessions
     array which stores all completed sessions in the array.*/
   state = {
-    forms: [],
+    sessions: [],
     isFound: 'loading',
     alert: null
   }
@@ -23,25 +23,25 @@ class CompletedSessions extends React.Component {
   componentWillMount() {
     /*This method checks before rendering the component if there are any
     completed sessions and if so uses the keys in firebase (the 16 character token associated
-    with each session) and stores each session in the allForms array.*/
-    if (this.props.forms) {
-      let allForms = [];
-      Object.keys(this.props.forms).forEach((identifier) => {
-        allForms.push(this.props.forms[identifier])
+    with each session) and stores each session in the allSessions array.*/
+    if (this.props.sessions) {
+      let allSessions = [];
+      Object.keys(this.props.sessions).forEach((identifier) => {
+        allSessions.push(this.props.sessions[identifier])
       })
-      /*Since there are sessions in the allForms array, this array gets stored
-      in the state array forms. Also, the isFound state variable is set to yes
+      /*Since there are sessions in the allSessions array, this array gets stored
+      in the state array sessions. Also, the isFound state variable is set to yes
       so the page is no longer loading and sessions will be displayed.
       Otherwise, isFound is set to no and no sessions will be displayed.*/
-      if (allForms.length > 0) {
+      if (allSessions.length > 0) {
         this.setState({
           isFound: 'yes',
-          forms: allForms
+          sessions: allSessions
         })
       } else {
         this.setState({
           isFound: 'no',
-          forms: allForms
+          sessions: allSessions
         })
       }
     }
@@ -55,20 +55,20 @@ class CompletedSessions extends React.Component {
   as the componentWillMount method for this component.*/
   componentWillReceiveProps(nextProps) {
 
-    if (nextProps.forms) {
-        let allForms = [];
-        Object.keys(nextProps.forms).forEach((identifier) => {
-          allForms.push(nextProps.forms[identifier])
+    if (nextProps.sessions) {
+        let allSessions = [];
+        Object.keys(nextProps.sessions).forEach((identifier) => {
+          allSessions.push(nextProps.sessions[identifier])
         })
-        if (allForms.length > 0) {
+        if (allSessions.length > 0) {
           this.setState({
             isFound: 'yes',
-            forms: allForms
+            sessions: allSessions
           })
         } else {
           this.setState({
             isFound: 'no',
-            forms: allForms
+            sessions: allSessions
           })
         }
     }
@@ -76,12 +76,12 @@ class CompletedSessions extends React.Component {
 
   /*This method throws an alert once the user has clicked the delete button.
   By using the SweetAlert dependency, the alert will be set to null if the
-  cancel button is clicked or the deleteForm function will be executed
+  cancel button is clicked or the deleteSession function will be executed
   if delete is selected.*/
-  onDelete (form, completedForm) {
+  onDelete (session, completedSession) {
 
     /*Storing the alert in a binded constant*/
-    const getAlert = (form) => (
+    const getAlert = (session) => (
       <SweetAlert
         warning
         showCancel
@@ -89,7 +89,7 @@ class CompletedSessions extends React.Component {
         confirmBtnBsStyle="danger"
         cancelBtnBsStyle="default"
         title="Are you sure?"
-        onConfirm={() => this.deleteForm(form, completedForm)}
+        onConfirm={() => this.deleteSession(session, completedSession)}
         onCancel={() => this.onCancelDelete()}
         >
         You will not be able to recover this report!
@@ -99,15 +99,15 @@ class CompletedSessions extends React.Component {
     /*Setting the alert state variable to the getAlert constant defined
     in this function.*/
     this.setState({
-      alert: getAlert(form)
+      alert: getAlert(session)
     });
   }
 
   /*This function deletes the session from firebase once the delete button has been selected
   in the SweetAlert from the onDelete function.*/
-  deleteForm (form, completedForm) {
+  deleteSession (session, completedSession) {
     const userId = firebase.auth().currentUser.uid;
-    firebase.database().ref(`/forms/${userId}/${form.identifier}`).remove();
+    firebase.database().ref(`/sessions/${userId}/${session.identifier}`).remove();
      this.setState({
         alert: null
       });
@@ -144,7 +144,7 @@ class CompletedSessions extends React.Component {
   getName(id) {
 
     const {
-      forms
+      sessions
     } = this.state;
 
     var cookie = this.getCookie(id.toString());
@@ -159,7 +159,7 @@ class CompletedSessions extends React.Component {
 
 	render() {
     const {
-      forms,
+      sessions,
       isFound
     } = this.state;
 
@@ -175,8 +175,8 @@ class CompletedSessions extends React.Component {
       return sum;
     }
     /*This constant stores all of the sessions with the completed variable
-    set to 1 using the filter function to filter the forms array.*/
-    const completedForm = forms.filter((form) => form.completed === 1);
+    set to 1 using the filter function to filter the sessions array.*/
+    const completedSession = sessions.filter((session) => session.completed === 1);
 		return (
 			<div id="wrapper">
       {this.state.alert}
@@ -196,7 +196,7 @@ class CompletedSessions extends React.Component {
                     {isFound === 'no' && <div className="well"><h3>{"No completed sessions."}</h3></div>}
 
                     {/*Completed sessions exist.*/}
-                    {forms && completedForm.length > 0 && <ul className="list-group list-group-body">
+                    {sessions && completedSession.length > 0 && <ul className="list-group list-group-body">
                     <div className="row">
                         <div className="col-xs-3 text-left" id="marginTop">
                             Patient
@@ -208,33 +208,33 @@ class CompletedSessions extends React.Component {
                           No. of tests
                         </div>
                       </div>
-                      {/*By using the map method and the completedForm constant defined at the beginning of the
+                      {/*By using the map method and the completedSession constant defined at the beginning of the
                         render(), a new array is created and each element of the array is listed which in this case is
                         each completed session.*/}
-                        {completedForm.map((form, i) => (
+                        {completedSession.map((session, i) => (
                           <li className="list-group-item" key={i}>
                             {/*The details of each session are rendered here.*/}
                             <div className="row" id="row">
                                 <div className="col-xs-3 text-left" id="marginTop">
                                   <strong>
                                     <span className="glyphicon glyphicon-file" aria-hidden="true"></span>
-                                    {this.getName(form.id)}
+                                    {this.getName(session.id)}
                                   </strong>
-                                  <p id="form_id">ID: {form.id}</p>
+                                  <p id="form_id">ID: {session.id}</p>
                                 </div>
                                 <div className="col-xs-3" id="marginTop">
-                                  {form.date}
+                                  {session.date}
                                 </div>
                                 <div className="col-xs-3" id="marginTop">
-                                  <span id="test-no">{noofTests(form.tests)}</span>
+                                  <span id="test-no">{noofTests(session.tests)}</span>
                                 </div>
                                 {/*Buttons that allow for completed sessions to be viewed or deleted by the user.*/}
                                 <div className="col-xs-3">
-                                  <Link to={'/test/' + form.identifier} className="btn icon-btn btn-primary video">
+                                  <Link to={'/test/' + session.identifier} className="btn icon-btn btn-primary video">
                                       <span className="glyphicon btn-glyphicon glyphicon-eye-open img-circle text-success"></span>
                                       View Profile
                                       </Link>
-                                  <a onClick={this.onDelete.bind(this, form, completedForm)} className="btn icon-btn btn-danger">
+                                  <a onClick={this.onDelete.bind(this, session, completedSession)} className="btn icon-btn btn-danger">
                                       <span className="glyphicon btn-glyphicon glyphicon-trash img-circle text-danger"></span>
                                       Delete
                                   </a>
@@ -250,7 +250,11 @@ class CompletedSessions extends React.Component {
 		)
 	}
 }
-
+/*The connect function connects the application to a redux store.
+Redux store stores the state of the application. By passing in the
+state parameter, this component subscribes to the redux store updates.
+Therefore, whenever the store (state of the application) is updated, the
+component will have access to the updated state. */
 export default connect(state  => ({
-    forms: state.form.forms
+    sessions: state.session.sessions
 }))(CompletedSessions);

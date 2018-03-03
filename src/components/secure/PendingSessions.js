@@ -11,7 +11,7 @@ class PendingSessions extends React.Component {
   /*The state variables for this component. The main state variable is the sessions
     array which stores all pending sessions in the array.*/
   state = {
-    forms: [],
+    sessions: [],
     isFound: 'loading',
     alert: null
   }
@@ -23,25 +23,25 @@ class PendingSessions extends React.Component {
   componentWillMount() {
     /*This method checks before rendering the component if there are any
     pending sessions and if so uses the keys in firebase (the 16 character token associated
-    with each session) and stores each session in the allForms array.*/
-    if (this.props.forms) {
-      let allForms = [];
-      Object.keys(this.props.forms).forEach((identifier) => {
-        allForms.push(this.props.forms[identifier])
+    with each session) and stores each session in the allSessions array.*/
+    if (this.props.sessions) {
+      let allSessions = [];
+      Object.keys(this.props.sessions).forEach((identifier) => {
+        allSessions.push(this.props.sessions[identifier])
       })
-      /*Since there are sessions in the allForms array, this array gets stored
-      in the state array forms. Also, the isFound state variable is set to yes
+      /*Since there are sessions in the allSessions array, this array gets stored
+      in the state array sessions. Also, the isFound state variable is set to yes
       so the page is no longer loading and sessions will be displayed.
       Otherwise, isFound is set to no and no sessions will be displayed.*/
-      if (allForms.length > 0) {
+      if (allSessions.length > 0) {
         this.setState({
           isFound: 'yes',
-          forms: allForms
+          sessions: allSessions
         })
       } else {
         this.setState({
           isFound: 'no',
-          forms: allForms
+          sessions: allSessions
         })
       }
     }
@@ -55,20 +55,20 @@ class PendingSessions extends React.Component {
   as the componentWillMount method for this component.*/
   componentWillReceiveProps(nextProps) {
 
-    if (nextProps.forms) {
-        let allForms = [];
-        Object.keys(nextProps.forms).forEach((identifier) => {
-          allForms.push(nextProps.forms[identifier])
+    if (nextProps.sessions) {
+        let allSessions = [];
+        Object.keys(nextProps.sessions).forEach((identifier) => {
+          allSessions.push(nextProps.sessions[identifier])
         })
-        if (allForms.length > 0) {
+        if (allSessions.length > 0) {
           this.setState({
             isFound: 'yes',
-            forms: allForms
+            sessions: allSessions
           })
         } else {
           this.setState({
             isFound: 'no',
-            forms: allForms
+            sessions: allSessions
           })
         }
     }
@@ -76,10 +76,10 @@ class PendingSessions extends React.Component {
 
   /*This method throws an alert once the user has clicked the delete button.
   By using the SweetAlert dependency, the alert will be set to null if the
-  cancel button is clicked or the deleteForm function will be executed
+  cancel button is clicked or the deleteSession function will be executed
   if delete is selected.*/
-  onDelete (form, pendingForm) {
-    const getAlert = (form) => (
+  onDelete (session, pendingSession) {
+    const getAlert = (session) => (
       <SweetAlert
         warning
         showCancel
@@ -87,7 +87,7 @@ class PendingSessions extends React.Component {
         confirmBtnBsStyle="danger"
         cancelBtnBsStyle="default"
         title="Are you sure?"
-        onConfirm={() => this.deleteForm(form, pendingForm)}
+        onConfirm={() => this.deleteSession(session, pendingSession)}
         onCancel={() => this.onCancelDelete()}
         >
         You will not be able to recover this report.
@@ -97,20 +97,20 @@ class PendingSessions extends React.Component {
     /*Setting the alert state variable to the getAlert constant defined
     in this function.*/
     this.setState({
-      alert: getAlert(form)
+      alert: getAlert(session)
     });
   }
 
   /*This function deletes the session from firebase once the delete button has been selected
   in the SweetAlert from the onDelete function.*/
-  deleteForm (form, pendingForm) {
+  deleteSession (session, pendingSession) {
     const userId = firebase.auth().currentUser.uid;
-    firebase.database().ref(`/forms/${userId}/${form.identifier}`).remove();
+    firebase.database().ref(`/sessions/${userId}/${session.identifier}`).remove();
      this.setState({
         alert: null
       });
 
-      if (pendingForm.length === 1) {
+      if (pendingSession.length === 1) {
         /*This snippet of code is utilized various times and serves the purpose
         of reloading the page once to set the state variables properly to prevent
         this page from showing a loading symbol even though there are no more no
@@ -150,7 +150,7 @@ class PendingSessions extends React.Component {
   getName(id) {
 
     const {
-      forms
+      sessions
     } = this.state;
 
     var cookie = this.getCookie(id.toString());
@@ -165,7 +165,7 @@ class PendingSessions extends React.Component {
 
 	render() {
     const {
-      forms,
+      sessions,
       isFound
     } = this.state;
 
@@ -182,8 +182,8 @@ class PendingSessions extends React.Component {
     }
     /*This constant stores all of the sessions with the completed variable
     set to 0 (meaning the sessions is pending) using the filter function to
-    filter the forms array.*/
-    const pendingForm = forms.filter((form) => form.completed === 0);
+    filter the sessions array.*/
+    const pendingSession = sessions.filter((session) => session.completed === 0);
 		return (
 			<div id="wrapper">
         {this.state.alert}
@@ -203,7 +203,7 @@ class PendingSessions extends React.Component {
                     {isFound === 'no' && <div className="well"><h3> No pending sessions.</h3></div>}
 
                     {/*Pending sessions exist.*/}
-                    {forms && pendingForm.length > 0 && <ul className="list-group list-group-body">
+                    {sessions && pendingSession.length > 0 && <ul className="list-group list-group-body">
                       <div className="row">
                         <div className="col-xs-3 text-left" id="marginTop">
                             Patient
@@ -215,34 +215,34 @@ class PendingSessions extends React.Component {
                           No. of tests in progress
                         </div>
                       </div>
-                      {/*By using the map method and the pendingForm constant defined at the beginning of the
+                      {/*By using the map method and the pendingSession constant defined at the beginning of the
                         render(), a new array is created and each element of the array is listed which in this case is
                         each pending session.*/}
-                        {pendingForm.map((form, i) => (
+                        {pendingSession.map((session, i) => (
                           <li className="list-group-item" key={i}>
                             {/*The details of each session are rendered here.*/}
                             <div className="row" id="row">
                                 <div className="col-xs-3 text-left" id="marginTop">
                                   <strong id = "pendingName">
                                     <span className="glyphicon glyphicon-file" aria-hidden="true"></span>
-                                    {this.getName(form.id)}
+                                    {this.getName(session.id)}
                                   </strong>
-                                  <p id="form_id" >ID: {form.id}</p>
+                                  <p id="form_id" >ID: {session.id}</p>
                                 </div>
                                 <div className="col-xs-3" id="marginTop">
-                                  {form.date}
+                                  {session.date}
                                 </div>
                                 <div className="col-xs-3" id="marginTop">
-                                  <span id="test-no">{noofTests(form.tests)}</span>
+                                  <span id="test-no">{noofTests(session.tests)}</span>
                                 </div>
                                 {/*Buttons that allow for completed sessions to be viewed or deleted by the user.*/}
                                 <div className="col-xs-3">
-                                  <Link className="btn icon-btn btn-success video" to={`/test/${form.identifier}`}>
+                                  <Link className="btn icon-btn btn-success video" to={`/test/${session.identifier}`}>
 
                                       <span className="glyphicon btn-glyphicon glyphicon-pencil img-circle text-success"></span>
                                       Edit Profile
                                       </Link>
-                                  <a className="btn icon-btn btn-danger" onClick={this.onDelete.bind(this, form, pendingForm)}>
+                                  <a className="btn icon-btn btn-danger" onClick={this.onDelete.bind(this, session, pendingSession)}>
                                       <span className="glyphicon btn-glyphicon glyphicon-trash img-circle text-danger"></span>
                                       Delete
                                   </a>
@@ -260,5 +260,5 @@ class PendingSessions extends React.Component {
 }
 
 export default connect(state  => ({
-    forms: state.form.forms
+    sessions: state.session.sessions
 }))(PendingSessions);

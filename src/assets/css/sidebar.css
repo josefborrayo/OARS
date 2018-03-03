@@ -1,4 +1,4 @@
-.profile {
+.settings {
   margin: 20px 0;
 }
 
@@ -9,7 +9,7 @@
 }
 
 /* Profile sidebar */
-.profile-sidebar {
+.settings-sidebar {
 
 
   background: #fff;
@@ -33,24 +33,24 @@
 
 
 }
-.profile-usertitle {
+.settings-usertitle {
   text-align: center;
   margin-top: 22px;
 }
 
-.profile-usertitle-name {
+.settings-usertitle-name {
   color: #5a7391;
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 7px;
 }
 
-.profile-userbuttons {
+.settings-userbuttons {
   text-align: center;
   margin-top: 10px;
 }
 
-.profile-userbuttons .btn {
+.settings-userbuttons .btn {
   text-transform: uppercase;
   font-size: 22px;
   font-weight: 600;
@@ -58,28 +58,28 @@
   margin-right: 5px;
 }
 
-.profile-userbuttons .btn:last-child {
+.settings-userbuttons .btn:last-child {
   margin-right: 0px;
 }
 
-.profile-usermenu {
+.settings-usermenu {
   margin-top: 30px;
 }
 
-.profile-usermenu ul li {
+.settings-usermenu ul li {
   border-bottom: 1px solid #f0f4f7;
 }
 
-.profile-usermenu ul li:last-child {
+.settings-usermenu ul li:last-child {
   border-bottom: none;
 }
 
-.profile-usermenu ul li a {
+.settings-usermenu ul li a {
   color: #93a3b5;
   font-size: 22px;
   font-weight: 400;
 }
-.profile-usermenu ul li span {
+.settings-usermenu ul li span {
   color: #6f7276;
   font-size: 22px;
   font-weight: 400;
@@ -88,21 +88,21 @@
   padding: 10px 35px;
 }
 
-.profile-usermenu ul li a i {
+.settings-usermenu ul li a i {
   margin-right: 8px;
   font-size: 22px;
 }
 
-.profile-usermenu ul li a:hover {
+.settings-usermenu ul li a:hover {
   background-color: #fafcfd;
   color: #5b9bd1;
 }
 
-.profile-sidebar .active {
+.settings-sidebar .active {
   border-bottom: none;
 }
 
-.profile-sidebar .active {
+.settings-sidebar .active {
   color: #5b9bd1 !important;
   background-color: #f6f9fb !important;
   border-left: 2px solid #5b9bd1 !important;
@@ -110,7 +110,7 @@
 }
 
 /* Profile Content */
-.profile-content {
+.settings-content {
   padding: 20px;
   background: #fff;
   min-height: 460px;
