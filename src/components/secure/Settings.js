@@ -163,7 +163,7 @@ class Settings extends React.Component {
                     </tr>
                     <tr>
                         {/*The clinician email*/}
-                        <td>Email</td>
+                        <td>Email Address</td>
                         <td>
                           <input
                             className="form-control"
@@ -217,7 +217,7 @@ class Settings extends React.Component {
                           /></td>
                     </tr>
                     <tr>
-                        {/*The clinician zip code*/}
+                        {/*The measurement units for the patient information form*/}
                         <td>Measurement Units</td>
                         <td>
                           <select className="selectpicker pull-right" autoComplete="off" value={settings.measurementUnit} onChange={this.onInputChange.bind(this, 'measurementUnit')}>
@@ -230,9 +230,13 @@ class Settings extends React.Component {
                       {/*The button to update the settings*/}
                     </tbody>
                 </table>
-                <button disabled = {!isEnabled && !unitSelected} onClick={this.updateProfile.bind(this)} onEnter={this.updateProfile.bind(this)} className="btn icon-btn btn-info pull-right">
+                <button disabled = {!isEnabled || !unitSelected} onClick={this.updateProfile.bind(this)} onEnter={this.updateProfile.bind(this)} className="btn icon-btn btn-info pull-right">
                 <span className="glyphicon glyphicon-edit"></span>  Update Settings</button>
-                {!unitSelected && !isEnabled && <div className=" col-xs-6 alert alert-danger text-left">Please fill out the email field and select a measurement unit.</div>}
+                {(!unitSelected || !isEnabled) &&
+                  <div className=" col-xs-6 alert alert-danger text-left">
+                    Please fill out the email address field and select a measurement unit.
+                  </div>
+                }
                 </div>
             </div>
             </div>

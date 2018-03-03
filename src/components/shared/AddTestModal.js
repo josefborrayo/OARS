@@ -2,8 +2,7 @@ import React from 'react';
 import firebase from 'firebase';
 import moment from 'moment';
 import PeqQuestionnaire from './PeqQuestionnaire';
-// import { connect } from 'react-redux';
-// import { Link } from 'react-router';
+
 
 class AddTestModal extends React.Component {
   constructor(props) {
