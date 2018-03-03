@@ -30,6 +30,7 @@ class Login extends React.Component {
 	state = {
 		email: '',
 		password: '',
+		measurementUnit: '',
 		error: null,
 		isLoading: false
 	};
@@ -74,7 +75,8 @@ class Login extends React.Component {
       email,
       fullname,
       hospitalid,
-      password
+      password,
+			measurementUnit
     } = this.state;
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((user) => {
@@ -82,12 +84,13 @@ class Login extends React.Component {
         const usersRef =  firebase.database().ref().child(`users/${userId}`);
         if (userId) {
           user.updateProfile({
-            displayName: fullname,
+            displayName: fullname
           }).then(() => {
             usersRef.set({
               email,
               fullname,
               hospitalid,
+							measurementUnit: "Imperial",
               password,
             }, (error) => {
               if (error) {

@@ -106,7 +106,8 @@ class Settings extends React.Component {
       settings
     } = this.state;
 
-    const isEnabled = settings.measurementUnit !== "Select"
+    const unitSelected = settings.measurementUnit !== "Select";
+    const isEnabled = settings.email.length > 0;
 
 
 		return (
@@ -229,9 +230,9 @@ class Settings extends React.Component {
                       {/*The button to update the settings*/}
                     </tbody>
                 </table>
-                <button disabled = {!isEnabled} onClick={this.updateProfile.bind(this)} onEnter={this.updateProfile.bind(this)} className="btn icon-btn btn-info pull-right">
+                <button disabled = {!isEnabled && !unitSelected} onClick={this.updateProfile.bind(this)} onEnter={this.updateProfile.bind(this)} className="btn icon-btn btn-info pull-right">
                 <span className="glyphicon glyphicon-edit"></span>  Update Settings</button>
-                {!isEnabled && <div className=" col-xs-6 alert alert-danger text-left">Please select a measurement unit.</div>}
+                {!unitSelected && !isEnabled && <div className=" col-xs-6 alert alert-danger text-left">Please fill out the email field and select a measurement unit.</div>}
                 </div>
             </div>
             </div>
