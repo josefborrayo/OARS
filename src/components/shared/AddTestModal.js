@@ -81,6 +81,7 @@ class AddTestModal extends React.Component {
   is necessary for updating the test modal content based on which test is selected.*/
   componentWillReceiveProps (nextProps) {
     let tests;
+    alert(JSON.stringify(tests))
     if (nextProps.selectedCategory && nextProps.tests) {
       if(nextProps.tests.hasOwnProperty(nextProps.selectedCategory)) {
         tests = nextProps.tests[nextProps.selectedCategory];
@@ -363,7 +364,6 @@ class AddTestModal extends React.Component {
   alertNull() {
 
     this.setState({error: null})
-
 
   }
 

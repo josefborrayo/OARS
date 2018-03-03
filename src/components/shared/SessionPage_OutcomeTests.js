@@ -261,14 +261,14 @@ class SessionPage_OutcomeTests extends React.Component {
                     </div>
                     <span>Note: If patient information is not visible, please reload the page. If patient information is still not visible, then there is no data for this patient stored locally on this machine.</span>
                 </div>
-              <AddTestModal
-                tests={this.props.patientInformation.tests}
-                questions={this.props.questions}
-                selectedTest={this.state.selectedTest}
-                selectedCategory={this.state.selectedCategory}
-                formId={this.props.patientInformation.identifier}
-                resetValue={this.resetValue.bind(this)}
-              />
+                <AddTestModal
+                  tests={this.props.patientInformation.tests}
+                  questions={this.props.questions}
+                  selectedTest={this.state.selectedTest}
+                  selectedCategory={this.state.selectedCategory}
+                  formId={this.props.patientInformation.identifier}
+                  resetValue={this.resetValue.bind(this)}
+                />
                 <PdfReportModal settings={this.props.settings} test={this.state.downloadTest} patientInformation={this.props.patientInformation} />
             </div>
 		)
