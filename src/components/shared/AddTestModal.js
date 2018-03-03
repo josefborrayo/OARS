@@ -3,8 +3,12 @@ import firebase from 'firebase';
 import moment from 'moment';
 import PeqQuestionnaire from './PeqQuestionnaire';
 
+/*This is the component that is the modal for each individual
+test.*/
 
 class AddTestModal extends React.Component {
+
+  /*Constructor for binding methods.*/
   constructor(props) {
 
     super(props)
@@ -12,6 +16,15 @@ class AddTestModal extends React.Component {
     this.alertNull = this.alertNull.bind(this)
 
   }
+
+  /*The state variables for this component. The title for the test,
+  the time for the test, comment, and selectedTest and selectedCategory
+  are common across all tests. The aidUsed variable stores whether or
+  not the patient used a walking aid for the L test. The videos and text
+  variable are for the video and text instructions for each text. The error
+  variable stores the error message if for example a title has not been
+  entered for a test. The allQuestions array stores the questions from
+  PeqQuestionnaire javascript file.*/
   state = {
     title: '',
     time: '',
@@ -50,6 +63,7 @@ class AddTestModal extends React.Component {
       'PEQ TEST': 'This is an analog sliding scale.'
     }
   }
+  /*Styles for the modal.*/
   styles = {
 		row: {
 			'padding': 25
@@ -61,6 +75,10 @@ class AddTestModal extends React.Component {
     }
   };
 
+  /*React lifecycle method: componentWillReceiveProps
+
+  This method is invoked before a mounted component receives new props. This method
+  is necessary for updating the test modal content based on which test is selected.*/
   componentWillReceiveProps (nextProps) {
     let tests;
     if (nextProps.selectedCategory && nextProps.tests) {

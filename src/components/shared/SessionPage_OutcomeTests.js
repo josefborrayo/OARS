@@ -8,6 +8,13 @@ import { Link } from 'react-router';
 var scrollIntoView = require('scroll-into-view');
 
 class SessionPage_OutcomeTests extends React.Component {
+
+    constructor(props) {
+
+      super(props)
+      this.checkCat = this.checkCat.bind(this)
+
+    }
     state = {
         allTestCategory: [
             'TUG TEST',
@@ -45,9 +52,6 @@ class SessionPage_OutcomeTests extends React.Component {
       scrollIntoView(document.getElementById("outcomeTestPanel"))
 
     }
-
-
-
 
     onDelete (test) {
       const getAlert = (test) => (
@@ -153,6 +157,13 @@ class SessionPage_OutcomeTests extends React.Component {
       return result;
     }
 
+    checkCat() {
+
+      alert("Hello")
+      alert(JSON.stringify(this.state.allTestCategory))
+
+    }
+
 	render() {
         const allTests = this.props.patientInformation.tests ? this.flattenData(this.props.patientInformation.tests) : null;
         const enableFinish = allTests;
@@ -178,7 +189,16 @@ class SessionPage_OutcomeTests extends React.Component {
                                                     <ul className="dropdown-menu btn-lg" role="menu">
                                                         {this.state.allTestCategory.map((testCategory, i) => <li key={i}><a onClick={this.selectCategory.bind(this, testCategory)}> {testCategory} </a></li>)}
                                                     </ul>
-                                                    <button disabled={!this.state.selectedCategory} onClick={this.editTest.bind(this, '', this.state.selectedCategory)} data-toggle="modal" data-target="#videoModal" className="btn btn-lg btn-default" type="button"><span className="glyphicon glyphicon-plus"></span>Add Outcome Test</button>
+                                                    <button disabled={!this.state.selectedCategory}
+                                                      onClick={this.editTest.bind(this, '', this.state.selectedCategory)}
+                                                      data-toggle="modal"
+                                                      data-target="#videoModal"
+                                                      className="btn btn-lg btn-default"
+                                                      type="button"
+                                                    >
+                                                      <span className="glyphicon glyphicon-plus">
+                                                      </span>Add Outcome Test
+                                                    </button>
                                                 </div>
 
 
