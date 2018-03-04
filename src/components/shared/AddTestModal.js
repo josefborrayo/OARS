@@ -80,25 +80,31 @@ class AddTestModal extends React.Component {
   This method is invoked before a mounted component receives new props. This method
   is necessary for updating the test modal content based on which test is selected.*/
   componentWillReceiveProps (nextProps) {
-    let tests;
+    let modalTest;
     /*The tests variable defined above is limited to the scope of this block
     using the let keyword. This component is being rendered in the SessionPage_OutcomeTests
     component and a tests prop (which contains all of the tests in firebase) is passed in
     to this component.*/
 
     /*When this component is being rendered, new props will be passed in the form
-    of the test category which would either be the TUG, L, or PEQ. The tests variable
-    will be set if a category has been selected (nextProps.category) and if there
-    is a next test that is going to be created(nextProps.tests). In which case the tests variable will store
-    an array of information */
+    of the test category which would either be the TUG, L, or PEQ. The modalTest
+    variable will store an array of tests from firebase if there is a next test
+    that is going to be edited by clicking the edit button (nextProps.tests).*/
     if (nextProps.selectedTest && nextProps.tests) {
-      if(nextProps.tests.hasOwnProperty(nextProps.selectedTest)) {
-        tests = nextProps.tests[nextProps.selectedTest];
-      }
+        modalTest = nextProps.tests[nextProps.selectedTest];
+        alert(JSON.stringify(nextProps.tests))
     }
-    if(tests) {
 
-      const testData = tests[nextProps.testId];
+    /*If tests exist in the modalTest array then the test data that corresponds to the
+    specific test id of the test that is going to be edited is stored in the constant
+    testData.*/
+    if(modalTest) {
+
+      const testData = modalTest[nextProps.testId];
+
+      /*if testData exists, (there exists a test with the specificed id specificed by
+      nextProps.testId) then the state variables get set to that of the corresponding
+      variables and their values that exist for the test being loaded. */
       if (testData) {
         this.setState({
           title: testData.title,
@@ -112,6 +118,8 @@ class AddTestModal extends React.Component {
           allQuestions: testData.questions
         })
       } else {
+        /*if testData does not exist then a new test is being created so set the state
+        variables to null so it is an empty test as intended.*/
         if (nextProps.selectedTest) {
           this.setState({
             title: '',
@@ -127,6 +135,9 @@ class AddTestModal extends React.Component {
         }
       }
     } else {
+      /*If no pre-existing tests exist in the modalTest array
+      then a new test is being created so set the input values
+      to null to create an empty test as intended.*/
       this.setState({
         title: '',
         time: '',

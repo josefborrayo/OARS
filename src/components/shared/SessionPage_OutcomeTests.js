@@ -28,7 +28,7 @@ class SessionPage_OutcomeTests extends React.Component {
         }
     }
 
-    selectCategory (selectedTest) {
+    selectTest (selectedTest) {
       this.setState({
         selectedTest
       })
@@ -174,7 +174,7 @@ class SessionPage_OutcomeTests extends React.Component {
                                                 <div className="input-group-btn">
                                                     <button type="button" className="btn btn-lg btn-default" data-toggle="dropdown">{this.state.selectedTest || 'Select an Outcome Test'} <span className="caret"></span></button>
                                                     <ul className="dropdown-menu btn-lg" role="menu">
-                                                        {this.state.allTestCategory.map((testCategory, i) => <li key={i}><a onClick={this.selectCategory.bind(this, testCategory)}> {testCategory} </a></li>)}
+                                                        {this.state.allTestCategory.map((testCategory, i) => <li key={i}><a onClick={this.selectTest.bind(this, testCategory)}> {testCategory} </a></li>)}
                                                     </ul>
                                                     <button disabled={!this.state.selectedTest}
                                                       onClick={this.editTest.bind(this, '', this.state.selectedTest)}

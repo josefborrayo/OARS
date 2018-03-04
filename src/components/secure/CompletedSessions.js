@@ -30,7 +30,7 @@ class CompletedSessions extends React.Component {
         allSessions.push(this.props.sessions[sessionId])
       })
       /*Since there are sessions in the allSessions array, this array gets stored
-      in the state array sessions. Also, the isFound state variable is set to yes
+      in the state array, sessions. Also, the isFound state variable is set to yes
       so the page is no longer loading and sessions will be displayed.
       Otherwise, isFound is set to no and no sessions will be displayed.*/
       if (allSessions.length > 0) {
@@ -256,5 +256,7 @@ state parameter, this component subscribes to the redux store updates.
 Therefore, whenever the store (state of the application) is updated, the
 component will have access to the updated state. */
 export default connect(state  => ({
+    /*The sessions state variable which keeps track of sessions both
+    pending and completed in firebase.*/
     sessions: state.session.sessions
 }))(CompletedSessions);
