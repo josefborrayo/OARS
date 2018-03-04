@@ -92,7 +92,6 @@ class AddTestModal extends React.Component {
     that is going to be edited by clicking the edit button (nextProps.tests).*/
     if (nextProps.selectedTest && nextProps.tests) {
         modalTest = nextProps.tests[nextProps.selectedTest];
-        alert(JSON.stringify(nextProps.tests))
     }
 
     /*If tests exist in the modalTest array then the test data that corresponds to the
@@ -152,11 +151,19 @@ class AddTestModal extends React.Component {
     }
   }
 
-  saveMetric (event) {
+  /*This event handles saving tests and is executed when the save button
+  of the test modal is clicked.*/
+  saveTest (event) {
     event.preventDefault();
     this.setState({
       error: ''
     })
+    /*The state variables are passed in as well as the
+    valid and error state variables for which the values
+    are set in the isValid method and prevents or allows
+    submission of the test data to firebase depending on
+    the value of valid and error.
+    */
     const {
       testId,
       selectedTest,
@@ -172,13 +179,19 @@ class AddTestModal extends React.Component {
       error
     } = this.isValid();
 
+    /*If the form (test modal) is valid, then the test is successfully created
+    and submitted to firebase using default firebase functions to store
+    the array of relevant information for each test. This is the postData array. */
     if(valid) {
 
       const userId = firebase.auth().currentUser.uid;
       let updates = {};
-      const testkey = testId || firebase.database().ref()
-        .child(`sessions/${userId}/${this.props.sessionId}/tests`).push().key
-      const postData = selectedTest !== 'PEQ TEST' ? {
+      /*testKey is the token string for each test.*/
+      const testkey = firebase.database().ref()
+        .child('sessions/'+userId + '/' + this.props.sessionId + '/tests').push().key
+        /*The values in postData change depending on the test. This array
+        is stored in firebase.*/
+      const postData = selectedTest === 'TUG TEST' ? {
         id: testkey,
         sessionId: this.props.sessionId,
         category: selectedTest,
@@ -187,6 +200,17 @@ class AddTestModal extends React.Component {
         comment,
         title,
         date
+      } : selectedTest === 'L TEST' ?  {
+
+        id: testkey,
+        sessionId: this.props.sessionId,
+        category: selectedTest,
+        aidUsed,
+        time,
+        comment,
+        title,
+        date
+
       } : {
         id: testkey,
         sessionId: this.props.sessionId,
@@ -196,24 +220,19 @@ class AddTestModal extends React.Component {
         title,
         date
       }
-      const childNode = `${selectedTest}/${testkey}`;
-      const node = `/sessions/${userId}/${this.props.sessionId}/tests/${childNode}`;
-      updates[node] = postData;
+      /*The tests in firebase get updated here.*/
+      updates['/sessions/' + userId + '/' + this.props.sessionId + '/tests/' + selectedTest + '/' + testkey] = postData;
       firebase.database().ref().update(updates)
       .then(() => {
-        this.props.resetValue(testkey, this.state.selectedTest);
         this.setState({
           successMessage: 'Test was saved sucessfully'
-        }, () => setTimeout(() => {
-          this.setState({
-            successMessage: ''
-          })
-        }, 2000))
+        })
       })
       .catch((error) => {
         this.setState({ error: error.message });
       });
-
+    /*If the form is not valid then set the state of the error using the error
+    constant passed in.*/
     } else {
       this.setState({
         error
@@ -221,6 +240,9 @@ class AddTestModal extends React.Component {
     }
   }
 
+  /*This function returns the valid variable with the value set to true
+  if the form is valid or false if not and will set the error to the appropriate
+  error message depending on the test in which the error is made.*/
   isValid () {
     let valid = true;
     let error = '';
@@ -232,7 +254,9 @@ class AddTestModal extends React.Component {
         error
       }
     }
-
+    /*In the case of the L test for example, the user would have to select whether
+    a walking aid was used or not and until the value is selected, the error message
+    below will be printed.*/
     if (this.state.selectedTest === "L TEST" && (this.state.aidUsed === "Select" || this.state.aidUsed === '')) {
       valid = false;
       error = 'Please indicate if the patient used a walking aid or not.'
@@ -242,27 +266,39 @@ class AddTestModal extends React.Component {
       }
     }
 
+    /*This is checking validity for the PEQ test.
+    Specifically, if more than half of the questions
+    for each subscale have been answered or not. The allQuestions
+    array stores the questions for the subscale and the
+    value for each question based on the range slider. By
+    using the filter function, it is possible to store only
+    those questions that have been answered (have a value greater
+    than zero) into a variable filteredQuestions and check
+    the length of that variable to ensure validitiy of the
+    questionnaire.*/
     const {
       allQuestions
     } = this.state;
     if(this.state.selectedTest === 'PEQ TEST') {
       Object.keys(allQuestions).forEach((category) => {
         const filteredQuestions =  allQuestions[category]
-          .filter(question => question.value || question.value === 0)
+          .filter(question => question.value)
 
           if (category === "Satisfaction") {
             valid = filteredQuestions.length > 1 ? true : false;
           } else if (category === "Utility") {
             valid = filteredQuestions.length > 4 ? true : false;
           }
-            error = 'You must answer at least half of the questions from each section.'
+            error = 'You must answer more than half of the questions from each section.'
             return;
           })
        return {
         valid,
         error
       }
-    } else {
+    }
+
+    if (this.state.selectedTest === 'L TEST' || this.state.selectedTest === 'TUG TEST') {
       if(!this.state.time) {
         valid = false;
         error = 'Time value is required to save test data'
@@ -280,11 +316,15 @@ class AddTestModal extends React.Component {
     }
   }
 
+  /*Handles any input change by the user and updates the
+  appropriate state variable specified by the name variable.*/
   onInputChange(name, event) {
 		var change = {};
 		change[name] = event.target.value;
 		this.setState(change);
   }
+
+  
   handleChange (index, category, answer) {
     const {
       allQuestions
@@ -430,7 +470,7 @@ class AddTestModal extends React.Component {
             </div>
             {this.renderTest()}
             <form style={ this.styles.metric } className="form-horizontal"
-              onSubmit={this.saveMetric.bind(this)}>
+              onSubmit={this.saveTest.bind(this)}>
 
               <div className="col-md-12 form-group">
                 <textarea className="form-control" placeholder="Write a Comment"
