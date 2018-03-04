@@ -26,8 +26,8 @@ class PendingSessions extends React.Component {
     with each session) and stores each session in the allSessions array.*/
     if (this.props.sessions) {
       let allSessions = [];
-      Object.keys(this.props.sessions).forEach((identifier) => {
-        allSessions.push(this.props.sessions[identifier])
+      Object.keys(this.props.sessions).forEach((sessionId) => {
+        allSessions.push(this.props.sessions[sessionId])
       })
       /*Since there are sessions in the allSessions array, this array gets stored
       in the state array sessions. Also, the isFound state variable is set to yes
@@ -57,8 +57,8 @@ class PendingSessions extends React.Component {
 
     if (nextProps.sessions) {
         let allSessions = [];
-        Object.keys(nextProps.sessions).forEach((identifier) => {
-          allSessions.push(nextProps.sessions[identifier])
+        Object.keys(nextProps.sessions).forEach((sessionId) => {
+          allSessions.push(nextProps.sessions[sessionId])
         })
         if (allSessions.length > 0) {
           this.setState({
@@ -105,7 +105,7 @@ class PendingSessions extends React.Component {
   in the SweetAlert from the onDelete function.*/
   deleteSession (session, pendingSession) {
     const userId = firebase.auth().currentUser.uid;
-    firebase.database().ref(`/sessions/${userId}/${session.identifier}`).remove();
+    firebase.database().ref(`/sessions/${userId}/${session.sessionId}`).remove();
      this.setState({
         alert: null
       });
@@ -237,7 +237,7 @@ class PendingSessions extends React.Component {
                                 </div>
                                 {/*Buttons that allow for completed sessions to be viewed or deleted by the user.*/}
                                 <div className="col-xs-3">
-                                  <Link className="btn icon-btn btn-success video" to={`/test/${session.identifier}`}>
+                                  <Link className="btn icon-btn btn-success video" to={`/test/${session.sessionId}`}>
 
                                       <span className="glyphicon btn-glyphicon glyphicon-pencil img-circle text-success"></span>
                                       Edit Profile

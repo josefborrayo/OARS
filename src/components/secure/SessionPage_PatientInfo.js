@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import { Link } from 'react-router';
 import SessionPage_OutcomeTests from '../shared/SessionPage_OutcomeTests';
-import firebase, { Promise } from 'firebase';
+import firebase from 'firebase';
 
 /*This component is for the patient information displayed on the session page for a
 patient. The component for the outcome tests panel (SessionPage_OutcomeTests)
@@ -57,7 +56,6 @@ class SessionPage_PatientInfo extends React.Component {
           isFound: 'yes',
           patientInformation: this.props.sessions[this.props.routeParams.id]
         })
-
 
       }
 

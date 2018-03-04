@@ -9,20 +9,14 @@ var scrollIntoView = require('scroll-into-view');
 
 class SessionPage_OutcomeTests extends React.Component {
 
-    constructor(props) {
-
-      super(props)
-      this.checkCat = this.checkCat.bind(this)
-
-    }
     state = {
         allTestCategory: [
             'TUG TEST',
             'L TEST',
             'PEQ TEST',
         ],
+        testId: '',
         selectedTest: '',
-        selectedCategory: '',
         successMessage: '',
         alert: null,
         downloadTest: {}
@@ -34,16 +28,16 @@ class SessionPage_OutcomeTests extends React.Component {
         }
     }
 
-    selectCategory (selectedCategory) {
+    selectCategory (selectedTest) {
       this.setState({
-        selectedCategory
+        selectedTest
       })
     }
 
-    editTest (test, selectedCategory) {
+    editTest (test, selectedTest) {
         this.setState({
-            selectedTest: test,
-            selectedCategory
+            testId: test,
+            selectedTest
         });
     }
 
@@ -104,7 +98,7 @@ class SessionPage_OutcomeTests extends React.Component {
 
     deleteTest (test) {
       const userId = firebase.auth().currentUser.uid;
-      firebase.database().ref(`/sessions/${userId}/${this.props.patientInformation.identifier}/tests/${test.category}/${test.id}`).remove();
+      firebase.database().ref(`/sessions/${userId}/${this.props.patientInformation.sessionId}/tests/${test.category}/${test.id}`).remove();
        this.setState({
           alert: null
         });
@@ -119,7 +113,7 @@ class SessionPage_OutcomeTests extends React.Component {
     finishTest (test, event) {
       event.preventDefault();
       const userId = firebase.auth().currentUser.uid;
-      firebase.database().ref(`/sessions/${userId}/${this.props.patientInformation.identifier}/tests/${test.category}/${test.identifier}`).update({
+      firebase.database().ref(`/sessions/${userId}/${this.props.patientInformation.sessionId}/tests/${test.category}/${test.sessionId}`).update({
         completed: 1
       }).then(() => {
         this.setState({
@@ -130,7 +124,7 @@ class SessionPage_OutcomeTests extends React.Component {
 
     completeForm () {
       const userId = firebase.auth().currentUser.uid;
-      firebase.database().ref(`/sessions/${userId}/${this.props.patientInformation.identifier}`).update({
+      firebase.database().ref(`/sessions/${userId}/${this.props.patientInformation.sessionId}`).update({
         completed: 1
       }).then(() => {
         this.setState({
@@ -140,10 +134,10 @@ class SessionPage_OutcomeTests extends React.Component {
       });
     }
 
-    resetValue (selectedTest, selectedCategory) {
+    resetValue (testId, selectedTest) {
       this.setState({
-        selectedTest,
-        selectedCategory
+        testId,
+        selectedTest
       })
     }
 
@@ -155,13 +149,6 @@ class SessionPage_OutcomeTests extends React.Component {
         });
       });
       return result;
-    }
-
-    checkCat() {
-
-      alert("Hello")
-      alert(JSON.stringify(this.state.allTestCategory))
-
     }
 
 	render() {
@@ -185,12 +172,12 @@ class SessionPage_OutcomeTests extends React.Component {
                                         {this.props.patientInformation.completed !== 1 && <div className="col-xs-12 pull-left">
                                             <div className="input-group input-group-xs">
                                                 <div className="input-group-btn">
-                                                    <button type="button" className="btn btn-lg btn-default" data-toggle="dropdown">{this.state.selectedCategory || 'Select an Outcome Test'} <span className="caret"></span></button>
+                                                    <button type="button" className="btn btn-lg btn-default" data-toggle="dropdown">{this.state.selectedTest || 'Select an Outcome Test'} <span className="caret"></span></button>
                                                     <ul className="dropdown-menu btn-lg" role="menu">
                                                         {this.state.allTestCategory.map((testCategory, i) => <li key={i}><a onClick={this.selectCategory.bind(this, testCategory)}> {testCategory} </a></li>)}
                                                     </ul>
-                                                    <button disabled={!this.state.selectedCategory}
-                                                      onClick={this.editTest.bind(this, '', this.state.selectedCategory)}
+                                                    <button disabled={!this.state.selectedTest}
+                                                      onClick={this.editTest.bind(this, '', this.state.selectedTest)}
                                                       data-toggle="modal"
                                                       data-target="#videoModal"
                                                       className="btn btn-lg btn-default"
@@ -264,9 +251,9 @@ class SessionPage_OutcomeTests extends React.Component {
                 <AddTestModal
                   tests={this.props.patientInformation.tests}
                   questions={this.props.questions}
+                  testId={this.state.testId}
                   selectedTest={this.state.selectedTest}
-                  selectedCategory={this.state.selectedCategory}
-                  formId={this.props.patientInformation.identifier}
+                  sessionId={this.props.patientInformation.sessionId}
                   resetValue={this.resetValue.bind(this)}
                 />
                 <PdfReportModal settings={this.props.settings} test={this.state.downloadTest} patientInformation={this.props.patientInformation} />

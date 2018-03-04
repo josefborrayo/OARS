@@ -22,7 +22,7 @@ class Help extends React.Component {
 
 						<li>Question 2</li>
 						<blockquote>Answer 2</blockquote>
-						
+
           </div>
         </div>
       </div>
@@ -30,6 +30,4 @@ class Help extends React.Component {
 	}
 }
 
-export default connect(null, dispatch => ({
-
-}))(Help);
+export default Help;

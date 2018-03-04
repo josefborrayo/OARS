@@ -27,8 +27,8 @@ class CreateForm extends React.Component {
 
   /*The state variables of this component. The majority of these state variables
     are those that belong to the patient information form. The loading variable is for the
-    the loading indicator while the identifier variable is simply the 16 character token that
-    is the unique identifier of the current patient settings. */
+    the loading indicator while the sessionId variable is simply the 16 character token that
+    is the unique sessionId of the current patient settings. */
 
   state =  {
     id: '',
@@ -45,7 +45,7 @@ class CreateForm extends React.Component {
     amputationSide: 'Select',
     limbLossCause: 'Select',
     loading: false,
-    identifier: '',
+    sessionId: '',
     measurementUnit: ''
 
   }
@@ -67,7 +67,7 @@ class CreateForm extends React.Component {
 
   /*This is the function that handles the submission of the patient settings patient information form
   to firebase. To address security concerns, the only information being stored is the patient ID as well as
-  the unique 16 character identifier of the form.*/
+  the unique 16 character sessionId of the form.*/
 
   handleSubmit(event) {
 
@@ -76,7 +76,7 @@ class CreateForm extends React.Component {
     /*This is the array that holds what is essentially the patient form. No data is actually being
     stored but an empty form is being stored in firebase with the actual user input gets stored in a cookie.*/
     const postData = {
-      identifier: randtoken.generate(16),
+      sessionId: randtoken.generate(16),
       id: this.state.id,
       fullname: '',
       sex: '',
@@ -97,14 +97,14 @@ class CreateForm extends React.Component {
     this.storeValues(postData, userId);
 
     let updates = {};
-    updates[`/sessions/${userId}/${postData['identifier']}`] = postData;
+    updates[`/sessions/${userId}/${postData['sessionId']}`] = postData;
     /*The postData array gets stored in firebase and the app redirects the user to
     the test page.*/
     firebase.database().ref().update(updates)
       .then(() => this.setState({
         loading: false
       }, () => {
-        this.props.onRedirect(`/test/${postData['identifier']}`);
+        this.props.onRedirect(`/test/${postData['sessionId']}`);
         this.props.onResetNext();
       }))
     .catch((error) => {

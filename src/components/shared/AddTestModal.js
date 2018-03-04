@@ -18,7 +18,7 @@ class AddTestModal extends React.Component {
   }
 
   /*The state variables for this component. The title for the test,
-  the time for the test, comment, and selectedTest and selectedCategory
+  the time for the test, comment, and testId and selectedTest
   are common across all tests. The aidUsed variable stores whether or
   not the patient used a walking aid for the L test. The videos and text
   variable are for the video and text instructions for each text. The error
@@ -32,8 +32,8 @@ class AddTestModal extends React.Component {
     comment: '',
     error: '',
     successMessage: '',
+    testId: '',
     selectedTest: '',
-    selectedCategory: '',
     allQuestions: {},
     videos: {
       'L TEST': '//www.youtube.com/embed/gixqOS8qBNA?rel=0',
@@ -81,37 +81,47 @@ class AddTestModal extends React.Component {
   is necessary for updating the test modal content based on which test is selected.*/
   componentWillReceiveProps (nextProps) {
     let tests;
-    alert(JSON.stringify(tests))
-    if (nextProps.selectedCategory && nextProps.tests) {
-      if(nextProps.tests.hasOwnProperty(nextProps.selectedCategory)) {
-        tests = nextProps.tests[nextProps.selectedCategory];
+    /*The tests variable defined above is limited to the scope of this block
+    using the let keyword. This component is being rendered in the SessionPage_OutcomeTests
+    component and a tests prop (which contains all of the tests in firebase) is passed in
+    to this component.*/
+
+    /*When this component is being rendered, new props will be passed in the form
+    of the test category which would either be the TUG, L, or PEQ. The tests variable
+    will be set if a category has been selected (nextProps.category) and if there
+    is a next test that is going to be created(nextProps.tests). In which case the tests variable will store
+    an array of information */
+    if (nextProps.selectedTest && nextProps.tests) {
+      if(nextProps.tests.hasOwnProperty(nextProps.selectedTest)) {
+        tests = nextProps.tests[nextProps.selectedTest];
       }
     }
     if(tests) {
-      const testData = tests[nextProps.selectedTest];
+
+      const testData = tests[nextProps.testId];
       if (testData) {
         this.setState({
           title: testData.title,
           time: testData.time,
           aidUsed: testData.aidUsed,
           comment: testData.comment,
-          selectedCategory: testData.category,
+          selectedTest: testData.category,
           date: testData.date,
           successMessage: '',
-          selectedTest: nextProps.selectedTest,
+          testId: nextProps.testId,
           allQuestions: testData.questions
         })
       } else {
-        if (nextProps.selectedCategory) {
+        if (nextProps.selectedTest) {
           this.setState({
             title: '',
             time: '',
             comment: '',
             aidUsed: '',
             date: moment().format('MMMM Do YYYY, h:mm:ss a'),
-            selectedCategory: nextProps.selectedCategory,
-            successMessage: '',
             selectedTest: nextProps.selectedTest,
+            successMessage: '',
+            testId: nextProps.testId,
             allQuestions: Object.assign({}, nextProps.questions)
           })
         }
@@ -124,8 +134,8 @@ class AddTestModal extends React.Component {
         comment: '',
         aidUsed: '',
         successMessage: '',
-        selectedCategory: nextProps.selectedCategory,
         selectedTest: nextProps.selectedTest,
+        testId: nextProps.testId,
         allQuestions: Object.assign({}, nextProps.questions)
       })
     }
@@ -137,8 +147,8 @@ class AddTestModal extends React.Component {
       error: ''
     })
     const {
+      testId,
       selectedTest,
-      selectedCategory,
       time,
       aidUsed,
       comment,
@@ -155,12 +165,12 @@ class AddTestModal extends React.Component {
 
       const userId = firebase.auth().currentUser.uid;
       let updates = {};
-      const testkey = selectedTest || firebase.database().ref()
-        .child(`sessions/${userId}/${this.props.formId}/tests`).push().key
-      const postData = selectedCategory !== 'PEQ TEST' ? {
+      const testkey = testId || firebase.database().ref()
+        .child(`sessions/${userId}/${this.props.sessionId}/tests`).push().key
+      const postData = selectedTest !== 'PEQ TEST' ? {
         id: testkey,
-        formId: this.props.formId,
-        category: selectedCategory,
+        sessionId: this.props.sessionId,
+        category: selectedTest,
         aidUsed,
         time,
         comment,
@@ -168,19 +178,19 @@ class AddTestModal extends React.Component {
         date
       } : {
         id: testkey,
-        formId: this.props.formId,
-        category: selectedCategory,
+        sessionId: this.props.sessionId,
+        category: selectedTest,
         questions: allQuestions,
         comment,
         title,
         date
       }
-      const childNode = `${selectedCategory}/${testkey}`;
-      const node = `/sessions/${userId}/${this.props.formId}/tests/${childNode}`;
+      const childNode = `${selectedTest}/${testkey}`;
+      const node = `/sessions/${userId}/${this.props.sessionId}/tests/${childNode}`;
       updates[node] = postData;
       firebase.database().ref().update(updates)
       .then(() => {
-        this.props.resetValue(testkey, this.state.selectedCategory);
+        this.props.resetValue(testkey, this.state.selectedTest);
         this.setState({
           successMessage: 'Test was saved sucessfully'
         }, () => setTimeout(() => {
@@ -212,7 +222,7 @@ class AddTestModal extends React.Component {
       }
     }
 
-    if (this.state.selectedCategory === "L TEST" && (this.state.aidUsed === "Select" || this.state.aidUsed === '')) {
+    if (this.state.selectedTest === "L TEST" && (this.state.aidUsed === "Select" || this.state.aidUsed === '')) {
       valid = false;
       error = 'Please indicate if the patient used a walking aid or not.'
       return {
@@ -224,7 +234,7 @@ class AddTestModal extends React.Component {
     const {
       allQuestions
     } = this.state;
-    if(this.state.selectedCategory === 'PEQ TEST') {
+    if(this.state.selectedTest === 'PEQ TEST') {
       Object.keys(allQuestions).forEach((category) => {
         const filteredQuestions =  allQuestions[category]
           .filter(question => question.value || question.value === 0)
@@ -277,7 +287,7 @@ class AddTestModal extends React.Component {
 
   renderTest() {
 
-    if (this.state.selectedCategory === "TUG TEST") {
+    if (this.state.selectedTest === "TUG TEST") {
 
       return (
 
@@ -309,7 +319,7 @@ class AddTestModal extends React.Component {
       )
 
 
-    } else if (this.state.selectedCategory === "L TEST") {
+    } else if (this.state.selectedTest === "L TEST") {
 
       return (
 
@@ -349,7 +359,7 @@ class AddTestModal extends React.Component {
       </table>
       )
 
-    } else if (this.state.selectedCategory === "PEQ TEST") {
+    } else if (this.state.selectedTest === "PEQ TEST") {
 
       return (
 
@@ -401,7 +411,7 @@ class AddTestModal extends React.Component {
             </div>
             <div className="form-group">
               <label htmlFor="category">Category:</label>
-              <span>   {this.state.selectedCategory}</span>
+              <span>   {this.state.selectedTest}</span>
             </div>
             <div className="form-group">
               <label htmlFor="date">Date:</label>
@@ -449,7 +459,7 @@ class AddTestModal extends React.Component {
                 </div>
                 <div id="collapse1" className="panel-collapse collapse">
                   <div className="panel-body">
-                    <div id="instructions">{this.state.text[this.state.selectedCategory]}</div>
+                    <div id="instructions">{this.state.text[this.state.selectedTest]}</div>
                   </div>
                 </div>
               </div>
@@ -469,7 +479,7 @@ class AddTestModal extends React.Component {
                   className="panel-collapse collapse videopadding">
                   <div className="panel-body">
                     <iframe id="video" className = "col-xs-12 text-center instructionalVideo" width="720" height="350"
-                      src={this.state.videos[this.state.selectedCategory]}
+                      src={this.state.videos[this.state.selectedTest]}
                       frameBorder="0" allowFullScreen></iframe>
 
                   </div>
