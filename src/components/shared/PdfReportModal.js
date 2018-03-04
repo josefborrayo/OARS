@@ -16,12 +16,14 @@ class PdfReportModal extends React.Component {
 
   }
 
+  // Constants
   state={
     test: {},
     range: {
       'TUG TEST': 12
     },
 
+    // references to be displayed in the respective reference cards.
     references: {
 
       'L TEST': "[1] Deathe, A. B., & Miller, W. C. (2005). The L Test of Functional Mobility: Measurement Properties of a Modified Version of the Timed “Up & Go” Test Designed for People With Lower-Limb Amputations. Physical Therapy. doi:10.1093/ptj/85.7.626\n\n"
@@ -32,6 +34,7 @@ class PdfReportModal extends React.Component {
 
     },
 
+    // results to be displayed in the respective reference cards.
     result: {
 
       'L TEST': "Individuals with a lower limb amputation who improve by at least 4.5 s on the L Test after an intervention have likely undergone an important change. [2]",
@@ -40,6 +43,7 @@ class PdfReportModal extends React.Component {
 
     },
 
+    // these scores are for the national average on the PEQ test.
     natAverage: [
 
       {value: 71.6},
@@ -54,6 +58,7 @@ class PdfReportModal extends React.Component {
 
     ],
 
+    // total number of questions in the PEQ
     totalNumber: [
 
       {value: 3},
@@ -76,18 +81,16 @@ class PdfReportModal extends React.Component {
     }
   }
 
+  /*
+  The function that generates the Portable Document Form (PDF)
+  */
   printDocument() {
-
-
 
     const {test} = this.state
 
-
-
     var pdfToModal = document.getElementById('pdf-content');
 
-
-
+    // prepares and copies data onto document canvas
     html2canvas(pdfToModal)
       .then((canvas) => {
 
@@ -121,6 +124,7 @@ class PdfReportModal extends React.Component {
 
   }
 
+  /* Renders the test in the previewer*/
   renderTest(whichTest, accessTime, totalQuestions, averageScore, references, result) {
 
     const { test, patientInformation } = this.props;
@@ -167,7 +171,6 @@ class PdfReportModal extends React.Component {
           </div>
       )
 
-
     } else if (whichTest === "PEQ TEST") {
 
       return (
@@ -210,13 +213,9 @@ class PdfReportModal extends React.Component {
         </div>
       </div>
       </div>
-
-
       )
 
-
-
-    } else if (whichTest === "L TEST") {
+    } else if (whichTest === "L TEST" ) {
 
       return (
         <div>
@@ -293,6 +292,7 @@ class PdfReportModal extends React.Component {
 
   }
 
+
   render() {
     const { patientInformation, test } = this.props;
     const totalQuestions = (questions => questions.filter(question => question.value || question.value === 0).length);
@@ -306,6 +306,7 @@ class PdfReportModal extends React.Component {
     // eslint-disable-next-line
     const accessTime = (time, category) => {
 
+      // determining result based on metric
       if (category === "TUG TEST") {
 
         if (time < this.state.range[category]) {
@@ -329,25 +330,20 @@ class PdfReportModal extends React.Component {
     const references = (category) => {
 
       return (
-
         <span className="text-center">{this.state.references[category]}</span>
-
       )
-
-
     }
 
     const result = (category) => {
 
       return (
-
         <span className="text-center">{this.state.result[category]}</span>
-
       )
-
-
     }
 
+    /*
+    Displays a preview document that will be generated using printDocument()
+    */
     return (
       <div className="modal fade" id="pdfModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div className="modal-dialog">

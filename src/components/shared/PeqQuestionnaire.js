@@ -1,6 +1,7 @@
 import React from 'react';
 import Slider from 'react-rangeslider'
 
+/*Component renders the questions/sliders for the questionnaire*/
 class PeqQuestionnaire extends React.Component {
     state = {
       allQuestions: {},
@@ -27,6 +28,7 @@ class PeqQuestionnaire extends React.Component {
   }
 
     render() {
+      // slider range(displayed)
       const horizontalLabels = {
         0: 'Extremely Bad',
         100: 'Really Good'
@@ -35,7 +37,8 @@ class PeqQuestionnaire extends React.Component {
         allQuestions
       } = this.state;
 
-
+      /*Iterates data from PeqQuestions.js and produces sliders for
+      both sections of questions(Utility/Satisfaction) */
       return (
           <div className="panel-body">
               <div className="card">
