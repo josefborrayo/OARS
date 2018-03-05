@@ -22,7 +22,7 @@ class PendingSessions extends React.Component {
   before render().*/
   componentWillMount() {
     /*This method checks before rendering the component if there are any
-    pending sessions and if so uses the keys in firebase (the 16 character token associated
+    sessions and if so uses the keys in firebase (the 16 character token associated
     with each session) and stores each session in the allSessions array.*/
     if (this.props.sessions) {
       let allSessions = [];
@@ -45,6 +45,7 @@ class PendingSessions extends React.Component {
         })
       }
     }
+
   }
 
   /*React lifecycle method: componentWillReceiveProps
@@ -54,7 +55,6 @@ class PendingSessions extends React.Component {
   or deleted so the list of pending sessions can be updated. This method follows the same procedure
   as the componentWillMount method for this component.*/
   componentWillReceiveProps(nextProps) {
-
     if (nextProps.sessions) {
         let allSessions = [];
         Object.keys(nextProps.sessions).forEach((sessionId) => {
@@ -101,6 +101,7 @@ class PendingSessions extends React.Component {
     });
   }
 
+
   /*This function deletes the session from firebase once the delete button has been selected
   in the SweetAlert from the onDelete function.*/
   deleteSession (session, pendingSession) {
@@ -110,14 +111,7 @@ class PendingSessions extends React.Component {
         alert: null
       });
 
-      if (pendingSession.length === 1) {
-        /*This snippet of code is utilized various times and serves the purpose
-        of reloading the page once to set the state variables properly to prevent
-        this page from showing a loading symbol even though there are no more no
-        tests to display.*/
-
-      }
-
+    this.setState({isFound: 'no'})
   }
 
   /*This function executes when the cancel button is selected from the SweetAlert in
@@ -163,6 +157,7 @@ class PendingSessions extends React.Component {
     }
   }
 
+
 	render() {
     const {
       sessions,
@@ -187,7 +182,6 @@ class PendingSessions extends React.Component {
 		return (
 			<div id="wrapper">
         {this.state.alert}
-        {isFound === 'loading' && <div id="loader"></div>}
 			    <div className="records col-xs-9">
             <div className="panel panel-default list-group-panel">
                 <div className="panel-body">
@@ -200,10 +194,9 @@ class PendingSessions extends React.Component {
                     </ul>
                     {/*This is where the pending sessions get listed or not listed
                        by checking the isFound state variable.*/}
-                    {isFound === 'no' && <div className="well"><h3> No pending sessions.</h3></div>}
+                    {(pendingSession.length === 0 || isFound === 'no') ? <div className="well"><h3> No pending sessions.</h3></div> :
 
-                    {/*Pending sessions exist.*/}
-                    {sessions && pendingSession.length > 0 && <ul className="list-group list-group-body">
+                    <ul className="list-group list-group-body">
                       <div className="row">
                         <div className="col-xs-3 text-left" id="marginTop">
                             Patient
@@ -237,6 +230,7 @@ class PendingSessions extends React.Component {
                                 </div>
                                 {/*Buttons that allow for completed sessions to be viewed or deleted by the user.*/}
                                 <div className="col-xs-3">
+
                                   <Link className="btn icon-btn btn-success video" to={`/test/${session.sessionId}`}>
 
                                       <span className="glyphicon btn-glyphicon glyphicon-pencil img-circle text-success"></span>

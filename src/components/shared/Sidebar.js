@@ -45,7 +45,6 @@ class Sidebar extends React.Component {
               <i className="glyphicon glyphicon-log-out"></i>
               Logout </Link>
             </li>
-            <br/>
             <li>
               <Link activeClassName="active" to="/help">
               <i className="glyphicon glyphicon-flag"></i>

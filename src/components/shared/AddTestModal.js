@@ -224,6 +224,7 @@ class AddTestModal extends React.Component {
       updates['/sessions/' + userId + '/' + this.props.sessionId + '/tests/' + selectedTest + '/' + testkey] = postData;
       firebase.database().ref().update(updates)
       .then(() => {
+        this.props.resetValue(testkey, this.props.selectedTest)
         this.setState({
           successMessage: 'Test was saved sucessfully'
         })
@@ -324,8 +325,8 @@ class AddTestModal extends React.Component {
 		this.setState(change);
   }
 
-  
-  handleChange (index, category, answer) {
+
+  handlePeqSliderValueChange(index, category, answer) {
     const {
       allQuestions
     } = this.state;
@@ -414,7 +415,7 @@ class AddTestModal extends React.Component {
 
       return (
 
-        <PeqQuestionnaire allQuestions={this.state.allQuestions} handleChange={this.handleChange.bind(this)} />
+        <PeqQuestionnaire allQuestions={this.state.allQuestions} handlePeqSliderValueChange={this.handlePeqSliderValueChange.bind(this)} />
 
       )
 

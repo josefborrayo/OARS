@@ -67,7 +67,7 @@ class PeqQuestionnaire extends React.Component {
                                     step={1}
                                     value={item.value}
                                     tooltip={false}
-                                    onChange={(event) => this.props.handleChange(index, item.category, event)}
+                                    onChange={(event) => this.props.handlePeqSliderValueChange(index, item.category, event)}
                                   />
                                 </div>
                                 <br />

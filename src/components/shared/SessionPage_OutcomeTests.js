@@ -122,6 +122,13 @@ class SessionPage_OutcomeTests extends React.Component {
       });
     }
 
+    resetValue (selectedTest, selectedCategory) {
+      this.setState({
+        selectedTest,
+        selectedCategory
+      })
+    }
+
     completeForm () {
       const userId = firebase.auth().currentUser.uid;
       firebase.database().ref(`/sessions/${userId}/${this.props.patientInformation.sessionId}`).update({

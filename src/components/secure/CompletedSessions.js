@@ -111,6 +111,7 @@ class CompletedSessions extends React.Component {
      this.setState({
         alert: null
       });
+      this.setState({isFound: 'no'})
 
   }
 
@@ -180,7 +181,6 @@ class CompletedSessions extends React.Component {
 		return (
 			<div id="wrapper">
       {this.state.alert}
-        {isFound === 'loading' && <div id="loader"></div>}
 			    <div className="records col-md-9">
             <div className="panel panel-default list-group-panel">
                 <div className="panel-body">
@@ -193,10 +193,8 @@ class CompletedSessions extends React.Component {
                     </ul>
                     {/*This is where the completed sessions get listed or not listed
                       by checking the isFound state variable.*/}
-                    {isFound === 'no' && <div className="well"><h3>{"No completed sessions."}</h3></div>}
-
-                    {/*Completed sessions exist.*/}
-                    {sessions && completedSession.length > 0 && <ul className="list-group list-group-body">
+                    {(completedSession.length === 0 || isFound === 'no') ? <div className="well"><h3> No pending sessions.</h3></div> :
+                    <ul className="list-group list-group-body">
                     <div className="row">
                         <div className="col-xs-3 text-left" id="marginTop">
                             Patient

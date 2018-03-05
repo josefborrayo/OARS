@@ -65,7 +65,7 @@ class App extends React.Component {
 				this.props.onResetNext();
 				firebase.database().ref('/sessions').on('value', (snapshot) => {
           const allSessions = snapshot.val();
-					this.props.fetchUserSessions(allSessions[user.uid]);
+					{allSessions ? this.props.fetchUserSessions(allSessions[user.uid]) : <span></span>};
 					this.props.saveQuestions(JSON.parse(localStorage.getItem('questions')));
 				})
 			} else {

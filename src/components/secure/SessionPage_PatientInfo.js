@@ -171,10 +171,6 @@ class SessionPage_PatientInfo extends React.Component {
 
         }));
 
-
-
-
-
       }
 
 
