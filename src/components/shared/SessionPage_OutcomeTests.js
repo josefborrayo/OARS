@@ -7,8 +7,12 @@ import PdfReportModal from './PdfReportModal';
 import { Link } from 'react-router';
 var scrollIntoView = require('scroll-into-view');
 
+/*The component that renders the outcome tests history
+as well as the dropdown list to select a test.*/
 class SessionPage_OutcomeTests extends React.Component {
 
+    /*The array of tests that gets mapped to a dropdown list
+    for the user to select from.*/
     state = {
         allTestCategory: [
             'TUG TEST',

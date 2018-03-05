@@ -325,18 +325,23 @@ class AddTestModal extends React.Component {
 		this.setState(change);
   }
 
-
-  handlePeqSliderValueChange(index, category, answer) {
+  /*This method updates the new value of a PEQ question's slider.*/
+  handlePeqSliderValueChange(index, category, newValue) {
     const {
       allQuestions
     } = this.state;
-    allQuestions[category][index]['value'] = answer
+    allQuestions[category][index]['value'] = newValue
     this.setState({
       allQuestions
     })
   }
 
-
+  /*This function handles rendering the correct test
+  on the modal depending on the selectedTest variable
+  which gets set when the desired test is selected from
+  the test dropdown selection. In this function,
+  it is possible to change or add new tests and the
+  metrics required for them.*/
   renderTest() {
 
     if (this.state.selectedTest === "TUG TEST") {
@@ -410,7 +415,10 @@ class AddTestModal extends React.Component {
         </tbody>
       </table>
       )
-
+      /*The questionnaire is a component so in this case
+      we simply return the component and pass in the method
+      to handle changes to any sliders as well as the allQuestions
+      which stores the value of the slider for each question.*/
     } else if (this.state.selectedTest === "PEQ TEST") {
 
       return (
@@ -423,12 +431,14 @@ class AddTestModal extends React.Component {
 
   }
 
+  /*This function sets the error to null once a test modal has been closed.*/
   alertNull() {
 
     this.setState({error: null})
 
   }
 
+  /*This is where the component is rendered.*/
 	render() {
     var errors = this.state.error ? <p> {this.state.error} </p> : '';
 		return (
@@ -450,7 +460,7 @@ class AddTestModal extends React.Component {
               <div className="alert alert-success">
                 {this.state.successMessage}
               </div>}
-              <label htmlFor="exampleInputEmail1">Title</label>
+              <label>Title</label>
               <input
                 id="exampleInputtitle1"
                 name="title"
@@ -462,13 +472,16 @@ class AddTestModal extends React.Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="category">Category:</label>
+              <label>Category:</label>
               <span>   {this.state.selectedTest}</span>
             </div>
             <div className="form-group">
-              <label htmlFor="date">Date:</label>
+              <label>Date:</label>
               <span>   {this.state.date}</span>
             </div>
+            {/*Once the information that is common across all test modals such as
+            the title date and category are rendered, the selected test will be
+            rendered using the renderTest function.*/}
             {this.renderTest()}
             <form style={ this.styles.metric } className="form-horizontal"
               onSubmit={this.saveTest.bind(this)}>
@@ -496,6 +509,9 @@ class AddTestModal extends React.Component {
                 </div>
               </div>
             </form>
+            {/*This is the accordion for the text instructions for each test.
+              The text instructions get set based on which test is selected
+              in the text state array.*/}
             <div className="panel-group" id="accordion">
               <div className="panel panel-default">
                 <div className="panel-heading">
@@ -511,11 +527,15 @@ class AddTestModal extends React.Component {
                 </div>
                 <div id="collapse1" className="panel-collapse collapse">
                   <div className="panel-body">
+                    {/*This is where the text instructions get printed.*/}
                     <div id="instructions">{this.state.text[this.state.selectedTest]}</div>
                   </div>
                 </div>
               </div>
             </div>
+            {/*This is the accordion for the video instructions for each test.
+              The video instructions get set in an iframe based on which test
+              is selected in the videos state array.*/}
             <div className="panel-group" id="accordion">
               <div className="panel panel-default">
                 <div className="panel-heading">
@@ -530,10 +550,10 @@ class AddTestModal extends React.Component {
                 <div id="collapse2"
                   className="panel-collapse collapse videopadding">
                   <div className="panel-body">
+                  /*This is where the video is rendered (in the iframe)*/
                     <iframe id="video" className = "col-xs-12 text-center instructionalVideo" width="720" height="350"
                       src={this.state.videos[this.state.selectedTest]}
                       frameBorder="0" allowFullScreen></iframe>
-
                   </div>
                 </div>
               </div>
