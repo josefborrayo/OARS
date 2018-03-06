@@ -19,7 +19,7 @@ class SessionPage_PatientInfo extends React.Component {
 
     }
     /*The state variables for this component are similar to those defined
-      in the CreateForm component as they represent information pertaining
+      in the CreateSession component as they represent information pertaining
       to the patient. The isFound variable refers to whether or not there
       exists information for the patient. The editPatient variable is for the
       edit button which allows a clinician to edit patient information. The patientInformation
@@ -304,7 +304,7 @@ class SessionPage_PatientInfo extends React.Component {
             <div className="row">
                 <div className="displayPanel col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 toppad" >
                 {isFound === 'no' && <div className="well"> <h1> Test with specified ID was not found </h1> </div>}
-                <div className={patientInformation.completed === 1 ? 'panel panel-success' : 'panel panel-info'}>
+                <div className={patientInformation.completed === true ? 'panel panel-success' : 'panel panel-info'}>
                     <div className="panel-heading">
                       Patient Information
                       {/*The buttons for editing and applying changes to the patient

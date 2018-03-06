@@ -220,11 +220,18 @@ class AddTestModal extends React.Component {
         title,
         date
       }
-      /*The tests in firebase get updated here.*/
+      /*The tests in firebase get updated here. Once the save button is clicked,
+      the values that were just entered are cleared from the fields. To remember
+      these values in the fields, the rememberValues function (defined in the
+      SessionPage_OutcomeTests component) is executed to set the firebase id for
+      the test as well as the selected test (in string form) which is then passed
+      into this component as props and the lifecycle functions in this component will
+      set the appropriate state variables using the props to set the input fields essentially
+      'remembering' the values.*/
       updates['/sessions/' + userId + '/' + this.props.sessionId + '/tests/' + selectedTest + '/' + testkey] = postData;
       firebase.database().ref().update(updates)
       .then(() => {
-        this.props.resetValue(testkey, this.props.selectedTest)
+        this.props.rememberValues(testkey, this.props.selectedTest)
         this.setState({
           successMessage: 'Test was saved sucessfully'
         })
@@ -442,7 +449,7 @@ class AddTestModal extends React.Component {
 	render() {
     var errors = this.state.error ? <p> {this.state.error} </p> : '';
 		return (
-      <div className="modal fade" id="videoModal" tabIndex="-1"
+      <div className="modal fade" id="testModal" tabIndex="-1"
         role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div className="modal-dialog">
       <div className="modal-content">
@@ -550,7 +557,7 @@ class AddTestModal extends React.Component {
                 <div id="collapse2"
                   className="panel-collapse collapse videopadding">
                   <div className="panel-body">
-                  /*This is where the video is rendered (in the iframe)*/
+                  {/*This is where the video is rendered (in the iframe)*/}
                     <iframe id="video" className = "col-xs-12 text-center instructionalVideo" width="720" height="350"
                       src={this.state.videos[this.state.selectedTest]}
                       frameBorder="0" allowFullScreen></iframe>

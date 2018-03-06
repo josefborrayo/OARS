@@ -178,7 +178,7 @@ class PendingSessions extends React.Component {
     /*This constant stores all of the sessions with the completed variable
     set to 0 (meaning the sessions is pending) using the filter function to
     filter the sessions array.*/
-    const pendingSession = sessions.filter((session) => session.completed === 0);
+    const pendingSession = sessions.filter((session) => session.completed === false);
 		return (
 			<div id="wrapper">
         {this.state.alert}

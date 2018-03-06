@@ -177,7 +177,7 @@ class CompletedSessions extends React.Component {
     }
     /*This constant stores all of the sessions with the completed variable
     set to 1 using the filter function to filter the sessions array.*/
-    const completedSession = sessions.filter((session) => session.completed === 1);
+    const completedSession = sessions.filter((session) => session.completed === true);
 		return (
 			<div id="wrapper">
       {this.state.alert}

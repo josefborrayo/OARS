@@ -24,7 +24,7 @@ import PendingSessions from './components/secure/PendingSessions'
 import SessionPage_PatientInfo from './components/secure/SessionPage_PatientInfo'
 import Settings from './components/secure/Settings'
 import CompletedSessions from './components/secure/CompletedSessions'
-import CreateForm from './components/secure/CreateForm'
+import CreateSession from './components/secure/CreateSession'
 import Dashboard from './components/secure/Dashboard'
 import Help from './components/secure/Help'
 
@@ -57,7 +57,7 @@ ReactDOM.render(
 				<Route path='test/:id' component={SessionPage_PatientInfo} onEnter={secure}/>
 				<Route path='settings' component={Settings} onEnter={secure}/>
 				<Route path='completed_sessions' component={CompletedSessions}  onEnter={secure}/>
-				<Route path='createform' component={CreateForm} onEnter={secure}/>
+				<Route path='createform' component={CreateSession} onEnter={secure}/>
 				<Route path='dashboard' component={Dashboard}/>
 				<Route path='help' component={Help} onEnter={secure}/>
 			</Route>
