@@ -1,6 +1,6 @@
 import React from 'react';
 
-class TUG_Report_Modal {
+class TUG_Report_Modal extends React.Component {
 
   state = {
 
@@ -28,15 +28,16 @@ class TUG_Report_Modal {
 
   render() {
 
-    const {test, tugReference, tugAdditionalResultInterpretation} = this.props;
+    const {test} = this.props;
+    const {tugReference, tugAdditionalResultInterpretation} = this.state;
 
-    const tugTestResult = (test) => {
+    const tugTestResult = (tugTime) => {
 
-        if (test.tugTime < 12) {
+        if (tugTime < 12) {
           return (
             <span className="text-center"> The patient is not at risk of falling. </span>
           )
-        } else if (test.tugTime >= 12) {
+        } else if (tugTime >= 12) {
 
           return (
             <span className="text-center"> The patient is at risk of falling. </span>
@@ -65,8 +66,8 @@ class TUG_Report_Modal {
               <td>{test.title}</td>
               <td>{test.category}</td>
               <td>Time</td>
-              <td>{test.time}</td>
-              <td className="text-center">{tugTestResult}</td>
+              <td>{test.tugTime}</td>
+              <td className="text-center">{tugTestResult(test.tugTime)}</td>
             </tr>
           </tbody>
           </table>

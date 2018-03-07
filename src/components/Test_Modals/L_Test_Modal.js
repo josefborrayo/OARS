@@ -1,11 +1,12 @@
 import React from 'react';
 import firebase from 'firebase';
 import moment from 'moment';
+import TUG_Text_Instructions from '../Test_Text_Instructions/TUG_Text_Instructions';
 
 /*This is the component that is the modal for each individual
 test.*/
 
-class TUG_Test_Modal extends React.Component {
+class L_Test_Modal extends React.Component {
 
   /*Constructor for binding methods.*/
   constructor(props) {
@@ -25,7 +26,6 @@ class TUG_Test_Modal extends React.Component {
   entered for a test. The allQuestions array stores the questions from
   PeqQuestionnaire javascript file.*/
   state = {
-    test: {},
     title: '',
     tugTime: '',
     comment: '',
@@ -34,13 +34,7 @@ class TUG_Test_Modal extends React.Component {
     testCategory: '',
     date: '',
     videoInstruction: '//www.youtube.com/embed/VljdYRXMIE8?rel=0',
-    textInstruction: 'When you say "Go", begin timing using a stopwatch and instruct the patient to:\n'+
-      '\t(1) Stand up from the chair.\n'+
-      '\t(2) Walk along the line on the floor at your normal pace.\n'+
-      '\t(3) Turn 180 degrees.\n'+
-      '\t(4) Walk back to the chair at your normal pace.\n'+
-      '\t(5) Sit down again.\n'+
-      'Stop timing once the patient has sat down and then record the time.'
+    textInstruction: {}
   }
   /*Styles for the modal.*/
   styles = {
@@ -54,75 +48,17 @@ class TUG_Test_Modal extends React.Component {
     }
   };
 
-  /*React lifecycle method: componentWillReceiveProps
 
-  This method is invoked before a mounted component receives new props. This method
-  is necessary for updating the test modal content based on which test is selected.*/
-  componentWillReceiveProps (nextProps) {
-    let modalTest;
+  componentWillReceiveProps(nextProps) {
 
-    /*The modalTest variable defined above is limited to the scope of this block
-    using the let keyword. This component is being rendered in the SessionPage_OutcomeTests
-    component and a tests prop (which contains all of the tests in firebase) is passed in
-    to this component.*/
-    alert(JSON.stringify(nextProps.tests))
-    /*When this component is being rendered, new props will be passed in the form
-    of the test category which would either be the TUG, L, or PEQ. The modalTest
-    variable will store an array of tests from firebase if there is a next test
-    that is going to be edited by clicking the edit button (nextProps.tests).*/
-    if (nextProps.selectedTest && nextProps.tests) {
-        modalTest = nextProps.tests[nextProps.selectedTest];
-    }
+    this.setState({
 
-    /*If tests exist in the modalTest array then the test data that corresponds to the
-    specific test id of the test that is going to be edited is stored in the constant
-    testData.*/
-    if(modalTest) {
+      testCategory: this.props.selectedTest,
+      date: moment().format('MMMM Do YYYY, h:mm:ss a')
 
-      const testData = modalTest[nextProps.testId];
-      alert(JSON.stringify(testData))
-      /*if testData exists, (there exists a test with the specificed id specificed by
-      nextProps.testId) then the state variables get set to that of the corresponding
-      variables and their values that exist for the test being loaded. */
-      if (testData) {
-        this.setState({
-          title: testData.title,
-          tugTime: testData.time,
-          comment: testData.comment,
-          testCategory: testData.category,
-          date: testData.date,
-          successMessage: '',
-        })
-      } else {
-        /*if testData does not exist then a new test is being created so set the state
-        variables to null so it is an empty test as intended.*/
-        if (nextProps.selectedTest) {
-          this.setState({
-            title: '',
-            tugTime: '',
-            comment: '',
-            date: moment().format('MMMM Do YYYY, h:mm:ss a'),
-            testCategory: nextProps.selectedTest,
-            successMessage: '',
-          })
-        }
-      }
-    } else {
-      /*If no pre-existing tests exist in the modalTest array
-      then a new test is being created so set the input values
-      to null to create an empty test as intended.*/
-      this.setState({
-        title: '',
-        tugTime: '',
-        date: moment().format('MMMM Do YYYY, h:mm:ss a'),
-        comment: '',
-        testCategory: nextProps.selectedTest,
-        successMessage: ''
+    })
 
-      })
-    }
   }
-
 
   /*This event handles saving tests and is executed when the save button
   of the test modal is clicked.*/
@@ -359,7 +295,7 @@ class TUG_Test_Modal extends React.Component {
                 <div id="collapse1" className="panel-collapse collapse">
                   <div className="panel-body">
                     {/*This is where the text instructions get printed.*/}
-                    <div id="instructions">{this.state.textInstruction}</div>
+                    <div id="instructions"></div>
                   </div>
                 </div>
               </div>
@@ -400,4 +336,4 @@ class TUG_Test_Modal extends React.Component {
 	}
 }
 
-export default TUG_Test_Modal;
+export default L_Test_Modal;

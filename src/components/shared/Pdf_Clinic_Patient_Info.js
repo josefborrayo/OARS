@@ -128,7 +128,7 @@ class Pdf_Clinic_Patient_Info extends React.Component {
 
       return (
 
-        <TUG_Report_Modal test = {this.state.tests}/>
+        <TUG_Report_Modal test = {this.state.test}/>
 
       )
 
@@ -263,7 +263,6 @@ class Pdf_Clinic_Patient_Info extends React.Component {
       answeredQuestions.forEach(question => sum += question.value);
       return Math.ceil(sum/answeredQuestions.length)
     }
-
     // eslint-disable-next-line
     const accessTime = (time, category) => {
 

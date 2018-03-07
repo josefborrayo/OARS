@@ -198,7 +198,6 @@ class SessionPage_OutcomeTests extends React.Component {
         constant stores the allTests constant and is used to disable the Finish
         Session button of there are no tests completed.*/
         const allTests = this.props.patientInformation.tests ? this.parseSessionDataIntoTests(this.props.patientInformation.tests) : null;
-        alert(JSON.stringify(allTests))
         const enableFinish = allTests;
 
 		return (
@@ -311,7 +310,7 @@ class SessionPage_OutcomeTests extends React.Component {
                                     <button
                                     onClick={this.editTest.bind(this, test['id'], test['category'])}
                                     data-toggle="modal"
-                                    data-target="#testModal"
+                                    data-target="#tugTestModal"
                                     className="btn icon-btn btn-info">
                                     <span className="glyphicon glyphicon-pencil">
                                     </span>  Edit</button>
@@ -396,6 +395,7 @@ class SessionPage_OutcomeTests extends React.Component {
                     selectedTest = {this.state.selectedTest}
                     sessionId={this.props.patientInformation.sessionId}
                     rememberValues={this.rememberValues.bind(this)}
+                    test = {this.state.modalToBeViewed}
                   />
               </div>
 		)
