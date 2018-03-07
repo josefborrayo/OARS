@@ -4,7 +4,8 @@ import firebase from 'firebase';
 import SweetAlert from 'react-bootstrap-sweetalert';
 import AddTestModal from '../shared/AddTestModal';
 import Pdf_Clinic_Patient_Info from './Pdf_Clinic_Patient_Info';
-import TUG_Test_Modal from '../Test_Modals/TUG_Test_Modal.js'
+import TUG_Test_Modal from '../Test_Modals/TUG_Test_Modal'
+import L_Test_Modal from '../Test_Modals/L_Test_Modal'
 import { Link } from 'react-router';
 var scrollIntoView = require('scroll-into-view');
 
@@ -44,6 +45,20 @@ class SessionPage_OutcomeTests extends React.Component {
       this.setState({
         selectedTest
       })
+
+      if (selectedTest === "TUG TEST") {
+
+        document.getElementById("addOutcomeTestButton").dataset.target = "#tugTestModal"
+
+      } else if (selectedTest === "L TEST") {
+
+        document.getElementById("addOutcomeTestButton").dataset.target = "#lTestModal"
+
+      } else if (selectedTest === "PEQ TEST") {
+
+        document.getElementById("addOutcomeTestButton").dataset.target = "#peqTestModal"
+
+      }
     }
 
     /*This function executes once a test to be edited has
@@ -53,10 +68,25 @@ class SessionPage_OutcomeTests extends React.Component {
     pre-existing tests so the proper values can be set in the test
     modal.*/
     editTest (test, selectedTest) {
+
+      if (selectedTest === "TUG TEST") {
+
+        document.getElementById("editTestButton").dataset.target = "#tugTestModal"
+
+      } else if (selectedTest === "L TEST") {
+
+        document.getElementById("editTestButton").dataset.target = "#lTestModal"
+
+      } else if (selectedTest === "PEQ TEST") {
+
+        document.getElementById("editTestButton").dataset.target = "#peqTestModal"
+
+      }
         this.setState({
             testId: test,
             selectedTest
         });
+
     }
 
     /*React lifecycle method: componentDidMount
@@ -246,7 +276,8 @@ class SessionPage_OutcomeTests extends React.Component {
                                                     <button disabled={!this.state.selectedTest}
                                                       onClick={this.editTest.bind(this, '', this.state.selectedTest)}
                                                       data-toggle="modal"
-                                                      data-target="#tugTestModal"
+                                                      id="addOutcomeTestButton"
+                                                      data-target=""
                                                       className="btn btn-lg btn-default"
                                                       type="button"
                                                     >
@@ -310,7 +341,8 @@ class SessionPage_OutcomeTests extends React.Component {
                                     <button
                                     onClick={this.editTest.bind(this, test['id'], test['category'])}
                                     data-toggle="modal"
-                                    data-target="#tugTestModal"
+                                    data-target=""
+                                    id = "editTestButton"
                                     className="btn icon-btn btn-info">
                                     <span className="glyphicon glyphicon-pencil">
                                     </span>  Edit</button>
@@ -396,7 +428,14 @@ class SessionPage_OutcomeTests extends React.Component {
                     sessionId={this.props.patientInformation.sessionId}
                     rememberValues={this.rememberValues.bind(this)}
                     tests={this.props.patientInformation.tests}
-
+                    testId={this.state.testId}
+                  />
+                  <L_Test_Modal
+                    selectedTest = {this.state.selectedTest}
+                    sessionId={this.props.patientInformation.sessionId}
+                    rememberValues={this.rememberValues.bind(this)}
+                    tests={this.props.patientInformation.tests}
+                    testId={this.state.testId}
                   />
               </div>
 		)

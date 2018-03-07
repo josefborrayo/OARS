@@ -80,7 +80,7 @@ class TUG_Test_Modal extends React.Component {
     if(modalTest) {
 
       const testData = modalTest[nextProps.testId];
-  
+
 
       /*if testData exists, (there exists a test with the specificed id specificed by
       nextProps.testId) then the state variables get set to that of the corresponding
@@ -88,7 +88,7 @@ class TUG_Test_Modal extends React.Component {
       if (testData) {
         this.setState({
           title: testData.title,
-          tugTime: testData.time,
+          tugTime: testData.tugTime,
           comment: testData.comment,
           testCategory: testData.category,
           date: testData.date,
@@ -159,12 +159,12 @@ class TUG_Test_Modal extends React.Component {
       const userId = firebase.auth().currentUser.uid;
       let updates = {};
       /*testKey is the token string for each test.*/
-      const testkey = firebase.database().ref()
-        .child('sessions/'+userId + '/' + this.props.sessionId + '/tests').push().key
+      const testKey = this.props.testId || firebase.database().ref()
+        .child('sessions/'+userId + '/' + this.props.sessionId + '/tests' + testCategory).push().key
         /*The values in postData change depending on the test. This array
         is stored in firebase.*/
       const postData = {
-        id: testkey,
+        id: testKey,
         sessionId: this.props.sessionId,
         category: testCategory,
         tugTime,
@@ -180,10 +180,10 @@ class TUG_Test_Modal extends React.Component {
       into this component as props and the lifecycle functions in this component will
       set the appropriate state variables using the props to set the input fields essentially
       'remembering' the values.*/
-      updates['/sessions/' + userId + '/' + this.props.sessionId + '/tests/' + testCategory + '/' + testkey] = postData;
+      updates['/sessions/' + userId + '/' + this.props.sessionId + '/tests/' + testCategory + '/' + testKey] = postData;
       firebase.database().ref().update(updates)
       .then(() => {
-        this.props.rememberValues(testkey, testCategory)
+        this.props.rememberValues(testKey, testCategory)
         this.setState({
           successMessage: 'Test was saved sucessfully'
         })
@@ -383,7 +383,7 @@ class TUG_Test_Modal extends React.Component {
                   <div className="panel-body">
                   {/*This is where the video is rendered (in the iframe)*/}
                     <iframe id="video" className = "col-xs-12 text-center instructionalVideo" width="720" height="350"
-                      src={this.state.videoInstructions}
+                      src={this.state.videoInstruction}
                       frameBorder="0" allowFullScreen></iframe>
                   </div>
                 </div>

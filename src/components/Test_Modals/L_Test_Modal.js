@@ -1,7 +1,6 @@
 import React from 'react';
 import firebase from 'firebase';
 import moment from 'moment';
-import TUG_Text_Instructions from '../Test_Text_Instructions/TUG_Text_Instructions';
 
 /*This is the component that is the modal for each individual
 test.*/
@@ -26,15 +25,27 @@ class L_Test_Modal extends React.Component {
   entered for a test. The allQuestions array stores the questions from
   PeqQuestionnaire javascript file.*/
   state = {
+
     title: '',
-    tugTime: '',
+    lTime: '',
+    aidUsed: '',
     comment: '',
     error: '',
     successMessage: '',
     testCategory: '',
     date: '',
-    videoInstruction: '//www.youtube.com/embed/VljdYRXMIE8?rel=0',
-    textInstruction: {}
+    videoInstruction: '//www.youtube.com/embed/gixqOS8qBNA?rel=0',
+    textInstruction: 'When you say "Go", begin timing using a stopwatch and instruct the patient to:\n'+
+      '\t(1) Stand up from the chair.\n'+
+      '\t(2) Walk 3 meters to the marker on the floor at your normal pace.\n'+
+      '\t(3) Turn 90 degrees.\n'+
+      '\t(4) Continue walking 7 meters.\n'+
+      '\t(5) Turn 180 degrees.\n'+
+      '\t(6) Return to the marker.\n'+
+      '\t(7) Turn 90 degrees.\n'+
+      '\t(8) Walk back to the chair at your normal pace.\n'+
+      '\t(9) Sit down again.\n'+
+      'Stop timing once the patient has sat down and then record the time.'
   }
   /*Styles for the modal.*/
   styles = {
@@ -48,17 +59,79 @@ class L_Test_Modal extends React.Component {
     }
   };
 
+  /*React lifecycle method: componentWillReceiveProps
 
-  componentWillReceiveProps(nextProps) {
+  This method is invoked before a mounted component receives new props. This method
+  is necessary for updating the test modal content based on which test is selected.*/
+  componentWillReceiveProps (nextProps) {
+    let modalTest;
 
-    this.setState({
+    /*The modalTest variable defined above is limited to the scope of this block
+    using the let keyword. This component is being rendered in the SessionPage_OutcomeTests
+    component and a tests prop (which contains all of the tests in firebase) is passed in
+    to this component.*/
+    /*When this component is being rendered, new props will be passed in the form
+    of the test category which would either be the TUG, L, or PEQ. The modalTest
+    variable will store an array of tests from firebase if there is a next test
+    that is going to be edited by clicking the edit button (nextProps.tests).*/
+    if (nextProps.selectedTest && nextProps.tests) {
+        modalTest = nextProps.tests[nextProps.selectedTest];
 
-      testCategory: this.props.selectedTest,
-      date: moment().format('MMMM Do YYYY, h:mm:ss a')
+    }
 
-    })
+    /*If tests exist in the modalTest array then the test data that corresponds to the
+    specific test id of the test that is going to be edited is stored in the constant
+    testData.*/
+    if(modalTest) {
 
+      const testData = modalTest[nextProps.testId];
+
+
+      /*if testData exists, (there exists a test with the specificed id specificed by
+      nextProps.testId) then the state variables get set to that of the corresponding
+      variables and their values that exist for the test being loaded. */
+      if (testData) {
+        this.setState({
+          title: testData.title,
+          lTime: testData.lTime,
+          aidUsed: testData.aidUsed,
+          comment: testData.comment,
+          testCategory: testData.category,
+          date: testData.date,
+          successMessage: '',
+        })
+      } else {
+        /*if testData does not exist then a new test is being created so set the state
+        variables to null so it is an empty test as intended.*/
+        if (nextProps.selectedTest) {
+          this.setState({
+            title: '',
+            lTime: testData.lTime,
+            aidUsed: testData.aidUsed,
+            comment: '',
+            date: moment().format('MMMM Do YYYY, h:mm:ss a'),
+            testCategory: nextProps.selectedTest,
+            successMessage: '',
+          })
+        }
+      }
+    } else {
+      /*If no pre-existing tests exist in the modalTest array
+      then a new test is being created so set the input values
+      to null to create an empty test as intended.*/
+      this.setState({
+        title: '',
+        lTime: '',
+        aidUsed: '',
+        date: moment().format('MMMM Do YYYY, h:mm:ss a'),
+        comment: '',
+        testCategory: nextProps.selectedTest,
+        successMessage: ''
+
+      })
+    }
   }
+
 
   /*This event handles saving tests and is executed when the save button
   of the test modal is clicked.*/
@@ -75,7 +148,8 @@ class L_Test_Modal extends React.Component {
     */
     const {
       testCategory,
-      tugTime,
+      lTime,
+      aidUsed,
       comment,
       title,
       date,
@@ -94,15 +168,16 @@ class L_Test_Modal extends React.Component {
       const userId = firebase.auth().currentUser.uid;
       let updates = {};
       /*testKey is the token string for each test.*/
-      const testkey = firebase.database().ref()
-        .child('sessions/'+userId + '/' + this.props.sessionId + '/tests').push().key
+      const testKey = this.props.testId || firebase.database().ref()
+        .child('sessions/'+userId + '/' + this.props.sessionId + '/tests' + testCategory).push().key
         /*The values in postData change depending on the test. This array
         is stored in firebase.*/
       const postData = {
-        id: testkey,
+        id: testKey,
         sessionId: this.props.sessionId,
         category: testCategory,
-        tugTime,
+        lTime,
+        aidUsed,
         comment,
         title,
         date
@@ -115,10 +190,10 @@ class L_Test_Modal extends React.Component {
       into this component as props and the lifecycle functions in this component will
       set the appropriate state variables using the props to set the input fields essentially
       'remembering' the values.*/
-      updates['/sessions/' + userId + '/' + this.props.sessionId + '/tests/' + testCategory + '/' + testkey] = postData;
+      updates['/sessions/' + userId + '/' + this.props.sessionId + '/tests/' + testCategory + '/' + testKey] = postData;
       firebase.database().ref().update(updates)
       .then(() => {
-        this.props.rememberValues(testkey, testCategory)
+        this.props.rememberValues(testKey, testCategory)
         this.setState({
           successMessage: 'Test was saved sucessfully'
         })
@@ -150,9 +225,9 @@ class L_Test_Modal extends React.Component {
       }
     }
 
-    if(!this.state.tugTime) {
+    if(!this.state.aidUsed || this.state.aidUsed === "Select") {
       valid = false;
-      error = 'Time value is required to save test data'
+      error = 'Please indicate if the patient used a walking aid or not.'
       return {
         valid,
         error
@@ -187,7 +262,7 @@ class L_Test_Modal extends React.Component {
 
 		return (
       <div>
-      <div className="modal fade" id="tugTestModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div className="modal fade" id="lTestModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div className="modal-dialog">
       <div className="modal-content">
         <div className="modal-body">
@@ -227,29 +302,39 @@ class L_Test_Modal extends React.Component {
             the title date and category are rendered, the selected test will be
             rendered using the renderTest function.*/}
             <table className="table table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th>Scale Name</th>
-                  <th>Value (Seconds)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Time(Seconds)</td>
-                  <td>
-                    <input
-                      id="textinput"
-                      name="textinput"
-                      type="number"
-                      placeholder='Time in Seconds'
-                      className="form-control input-lg"
-                      value = {this.state.tugTime}
-                      onChange = {this.onInputChange.bind(this, 'tugTime')}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <thead>
+              <tr>
+                <th>Scale Name</th>
+                <th>Value (Seconds)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Time(Seconds)</td>
+                <td>
+                  <input
+                    id="textinput"
+                    name="textinput"
+                    type="text"
+                    placeholder='Time in Seconds'
+                    className="form-control input-lg"
+                    value={this.state.lTime}
+                    onChange={this.onInputChange.bind(this, 'lTime')}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Walking aid used</td>
+                <td>
+                  <select className="selectpicker" value={this.state.aidUsed} onChange={this.onInputChange.bind(this, 'aidUsed')}>
+                    <option>Select</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
             <form style={ this.styles.metric } className="form-horizontal"
               onSubmit={this.saveTest.bind(this)}>
 
@@ -295,7 +380,7 @@ class L_Test_Modal extends React.Component {
                 <div id="collapse1" className="panel-collapse collapse">
                   <div className="panel-body">
                     {/*This is where the text instructions get printed.*/}
-                    <div id="instructions"></div>
+                    <div id="instructions">{this.state.textInstruction}</div>
                   </div>
                 </div>
               </div>
