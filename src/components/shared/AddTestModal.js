@@ -2,8 +2,7 @@ import React from 'react';
 import firebase from 'firebase';
 import moment from 'moment';
 import PeqQuestionnaire from './PeqQuestionnaire';
-import TUGTEST_Test_Modal from '../Test_Modals/TUGTEST_Test_Modal'
-var stringify = require('json-stringify-safe')
+import TUG_Test_Modal from '../Test_Modals/TUG_Test_Modal'
 
 /*This is the component that is the modal for each individual
 test.*/
@@ -396,7 +395,7 @@ class AddTestModal extends React.Component {
     if (this.state.selectedTest === "TUG TEST") {
       return (
 
-        <TUGTEST_Test_Modal
+        <TUG_Test_Modal
           tugTime = {this.state.testMetrics[this.state.selectedTest]['tugTime']}
           onTestValueChange = {this.onTestValueChange.bind(this)}
         />

@@ -135,7 +135,7 @@ class Settings extends React.Component {
                           <input
                             className="form-control"
                             type="text" value={settings.clinicId}
-                            placeholder="AOPA Member ID"
+                            placeholder="Clinician ID"
                             onChange={this.onInputChange.bind(this, 'clinicId')}
                           /></td>
                     </tr>

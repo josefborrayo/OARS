@@ -2,11 +2,12 @@ import React from 'react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { connect } from 'react-redux';
+import TUG_Report_Modal from '../PdfReport_Modals/TUG_Report_Modal';
 
 /*This is the component that displays the modal of
 the final report (for a completed outcome test) to be generated.*/
 
-class PdfReportModal extends React.Component {
+class Pdf_Clinic_Patient_Info extends React.Component {
 
   constructor(props) {
 
@@ -108,12 +109,6 @@ class PdfReportModal extends React.Component {
         }
         pdfMake.createPdf(docDefinition).download(test.title);
 
-        {/*
-        var image = new Image();
-        image.src = imgData;
-        var w = window.open("");
-        w.document.write(image.outerHTML);
-        */}
       });
 
   }
@@ -132,43 +127,9 @@ class PdfReportModal extends React.Component {
     if (whichTest === "TUG TEST") {
 
       return (
-        <div>
-        <table className="table table-striped informationCard custab">
-          <thead>
-            <tr className = "resultsRow">
-              <th>Title</th>
-              <th>Category</th>
-              <th>Metric</th>
-              <th>Value</th>
-              <th className="text-center">Results</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className = "resultsRow">
-              <td>{test.title}</td>
-              <td>{test.category}</td>
-              <td>Time</td>
-              <td>{test.time}</td>
-              <td className="text-center">{accessTime(test.time, test.category)}</td>
-            </tr>
-          </tbody>
-          </table>
-          <div className="afterResults">
-            <div className="card informationCard">
-              <p>{result(test.category)}</p>
-            </div>
 
-            <div className="card informationCard">
-              <strong id = "underline">Comment</strong>
-              <p>{test.comment}</p>
-            </div>
+        <TUG_Report_Modal test = {this.state.tests}/>
 
-            <div className="card referencesCard">
-              <strong id = "underline">References</strong>
-              <div id="references"><p>{references(test.category)}</p></div>
-            </div>
-          </div>
-          </div>
       )
 
     } else if (whichTest === "PEQ TEST") {
@@ -415,4 +376,4 @@ class PdfReportModal extends React.Component {
 
 export default connect(state=>({
     settings: state.auth.settings,
-}))(PdfReportModal);
+}))(Pdf_Clinic_Patient_Info);

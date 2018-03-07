@@ -5,7 +5,7 @@ import moment from 'moment';
 /*This is the component that is the modal for each individual
 test.*/
 
-class TUGTEST_Test_Modal extends React.Component {
+class TUG_Test_Modal extends React.Component {
 
   /*Constructor for binding methods.*/
   constructor(props) {
@@ -30,9 +30,9 @@ class TUGTEST_Test_Modal extends React.Component {
     comment: '',
     error: '',
     successMessage: '',
-    testId: '',
     selectedTest: '',
-    allQuestions: {},
+    testCategory: '',
+    date: '',
     videoInstruction: '//www.youtube.com/embed/VljdYRXMIE8?rel=0'
   }
   /*Styles for the modal.*/
@@ -46,6 +46,19 @@ class TUGTEST_Test_Modal extends React.Component {
       padding: 25
     }
   };
+
+  componentWillReceiveProps(nextProps) {
+
+    this.setState({
+
+      testCategory: this.props.selectedTest,
+      date: moment().format('MMMM Do YYYY, h:mm:ss a')
+
+    })
+
+  }
+
+
 
   /*This event handles saving tests and is executed when the save button
   of the test modal is clicked.*/
@@ -61,10 +74,8 @@ class TUGTEST_Test_Modal extends React.Component {
     the value of valid and error.
     */
     const {
-      testId,
       selectedTest,
-      time,
-      aidUsed,
+      tugTime,
       comment,
       title,
       date,
@@ -91,8 +102,7 @@ class TUGTEST_Test_Modal extends React.Component {
         id: testkey,
         sessionId: this.props.sessionId,
         category: selectedTest,
-        aidUsed,
-        time,
+        tugTime,
         comment,
         title,
         date
@@ -158,7 +168,6 @@ class TUGTEST_Test_Modal extends React.Component {
   /*Handles any input change by the user and updates the
   appropriate state variable specified by the name variable.*/
   onInputChange(name, event) {
-
 		var change = {};
 		change[name] = event.target.value;
 		this.setState(change);
@@ -175,12 +184,11 @@ class TUGTEST_Test_Modal extends React.Component {
   /*This is where the component is rendered.*/
 	render() {
 
-    const {tugTime} = this.state;
     var errors = this.state.error ? <p> {this.state.error} </p> : '';
 
 		return (
-      <div className="modal fade" id="tugTestModal" tabIndex="-1"
-        role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div>
+      <div className="modal fade" id="tugTestModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div className="modal-dialog">
       <div className="modal-content">
         <div className="modal-body">
@@ -210,7 +218,7 @@ class TUGTEST_Test_Modal extends React.Component {
             </div>
             <div className="form-group">
               <label>Category:</label>
-              <span>   {this.state.selectedTest}</span>
+              <span>   {this.state.testCategory}</span>
             </div>
             <div className="form-group">
               <label>Date:</label>
@@ -236,8 +244,8 @@ class TUGTEST_Test_Modal extends React.Component {
                       type="number"
                       placeholder='Time in Seconds'
                       className="form-control input-lg"
-                      value = {tugTime}
-                      onChange = {(event) => this.props.onTestValueChange('TUG TEST', 'tugTime', event)}
+                      value = {this.state.tugTime}
+                      onChange = {this.onInputChange.bind(this, 'tugTime')}
                     />
                   </td>
                 </tr>
@@ -307,8 +315,7 @@ class TUGTEST_Test_Modal extends React.Component {
                     <span className="accordion_heading">Show Video</span>
                   </h6>
                 </div>
-                <div id="collapse2"
-                  className="panel-collapse collapse videopadding">
+                <div id="collapse2" className="panel-collapse collapse videopadding">
                   <div className="panel-body">
                   {/*This is where the video is rendered (in the iframe)*/}
                     <iframe id="video" className = "col-xs-12 text-center instructionalVideo" width="720" height="350"
@@ -318,14 +325,16 @@ class TUGTEST_Test_Modal extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
+            </div>
         </div>
         </div>
       </div>
       </div>
-    </div>
+      </div>
+      </div>
+
     )
 	}
 }
 
-export default TUGTEST_Test_Modal;
+export default TUG_Test_Modal;
