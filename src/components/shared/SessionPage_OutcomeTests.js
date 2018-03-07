@@ -89,6 +89,12 @@ class SessionPage_OutcomeTests extends React.Component {
 
     }
 
+    updateEditButtonDataTarget(selectedTest) {
+
+      alert(JSON.stringify(selectedTest))
+
+    }
+
     /*React lifecycle method: componentDidMount
 
     This method is invoked after the component has mounted and rendered.
@@ -340,6 +346,7 @@ class SessionPage_OutcomeTests extends React.Component {
                                   <p>
                                     <button
                                     onClick={this.editTest.bind(this, test['id'], test['category'])}
+                                    onHover = {this.updateEditButtonDataTarget.bind(this, test['category'])}
                                     data-toggle="modal"
                                     data-target=""
                                     id = "editTestButton"
