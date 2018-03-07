@@ -189,17 +189,6 @@ class SessionPage_OutcomeTests extends React.Component {
       return sessionsParsed;
     }
 
-    renderTest() {
-
-      const {selectedTest} = this.state
-
-      if (selectedTest === "TUG TEST") {
-
-
-      }
-
-
-    }
 
 	render() {
 
