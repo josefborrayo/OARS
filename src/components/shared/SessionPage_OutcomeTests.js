@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import SweetAlert from 'react-bootstrap-sweetalert';
 import AddTestModal from '../shared/AddTestModal';
 import PdfReportModal from './PdfReportModal';
+import TUGTEST_Test_Modal from '../Test_Modals/TUGTEST_Test_Modal.js'
 import { Link } from 'react-router';
 var scrollIntoView = require('scroll-into-view');
 
@@ -188,6 +189,18 @@ class SessionPage_OutcomeTests extends React.Component {
       return sessionsParsed;
     }
 
+    renderTest() {
+
+      const {selectedTest} = this.state
+
+      if (selectedTest === "TUG TEST") {
+
+
+      }
+
+
+    }
+
 	render() {
 
         /*Using the parseSessionDataIntoTests function that returns
@@ -244,7 +257,7 @@ class SessionPage_OutcomeTests extends React.Component {
                                                     <button disabled={!this.state.selectedTest}
                                                       onClick={this.editTest.bind(this, '', this.state.selectedTest)}
                                                       data-toggle="modal"
-                                                      data-target="#testModal"
+                                                      data-target="#tugTestModal"
                                                       className="btn btn-lg btn-default"
                                                       type="button"
                                                     >
@@ -256,7 +269,7 @@ class SessionPage_OutcomeTests extends React.Component {
                                                 {/*The finish button completes the session not allowing any tests to be added or changed
                                                   and is only enabled when at least one test has been successfully saved.*/}
                                                 {this.props.patientInformation.completed !== true && <div className="col-xs-5 pull-right">
-                                                <Link  disabled = {!enableFinish} className="finish-button col-xl-12 btn btn-lg icon-btn btn-success" onClick={this.onFinish.bind(this)}>
+                                                <Link disabled = {!enableFinish} className="finish-button col-xl-12 btn btn-lg icon-btn btn-success" onClick={this.onFinish.bind(this)}>
                                                     Finish Session
                                                 </Link></div>
                                                 }
@@ -395,6 +408,8 @@ class SessionPage_OutcomeTests extends React.Component {
                    settings={this.props.settings}
                    test={this.state.modalToBeViewed}
                    patientInformation={this.props.patientInformation}
+                  />
+                  <TUGTEST_Test_Modal
                   />
               </div>
 		)

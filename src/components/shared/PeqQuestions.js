@@ -58,6 +58,4 @@ export default {
         category: 'Utility'
       }
     ]
-
-
   }
