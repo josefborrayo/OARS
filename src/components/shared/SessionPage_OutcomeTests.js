@@ -395,7 +395,8 @@ class SessionPage_OutcomeTests extends React.Component {
                     selectedTest = {this.state.selectedTest}
                     sessionId={this.props.patientInformation.sessionId}
                     rememberValues={this.rememberValues.bind(this)}
-                    test = {this.state.modalToBeViewed}
+                    tests={this.props.patientInformation.tests}
+
                   />
               </div>
 		)

@@ -25,7 +25,7 @@ class TUG_Test_Modal extends React.Component {
   entered for a test. The allQuestions array stores the questions from
   PeqQuestionnaire javascript file.*/
   state = {
-    test: {},
+
     title: '',
     tugTime: '',
     comment: '',
@@ -65,13 +65,13 @@ class TUG_Test_Modal extends React.Component {
     using the let keyword. This component is being rendered in the SessionPage_OutcomeTests
     component and a tests prop (which contains all of the tests in firebase) is passed in
     to this component.*/
-    alert(JSON.stringify(nextProps.tests))
     /*When this component is being rendered, new props will be passed in the form
     of the test category which would either be the TUG, L, or PEQ. The modalTest
     variable will store an array of tests from firebase if there is a next test
     that is going to be edited by clicking the edit button (nextProps.tests).*/
     if (nextProps.selectedTest && nextProps.tests) {
         modalTest = nextProps.tests[nextProps.selectedTest];
+
     }
 
     /*If tests exist in the modalTest array then the test data that corresponds to the
@@ -80,7 +80,8 @@ class TUG_Test_Modal extends React.Component {
     if(modalTest) {
 
       const testData = modalTest[nextProps.testId];
-      alert(JSON.stringify(testData))
+  
+
       /*if testData exists, (there exists a test with the specificed id specificed by
       nextProps.testId) then the state variables get set to that of the corresponding
       variables and their values that exist for the test being loaded. */

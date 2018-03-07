@@ -291,7 +291,7 @@ class SessionPage_PatientInfo extends React.Component {
       isFound,
       editPatient,
     } = this.state;
-
+    
 		return (
 
         <div>
