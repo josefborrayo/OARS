@@ -6,6 +6,7 @@ import AddTestModal from '../shared/AddTestModal';
 import Pdf_Clinic_Patient_Info from './Pdf_Clinic_Patient_Info';
 import TUG_Test_Modal from '../Test_Modals/TUG_Test_Modal'
 import L_Test_Modal from '../Test_Modals/L_Test_Modal'
+import PEQ_Questionnaire_Modal from '../Test_Modals/PEQ_Questionnaire_Modal'
 import { Link } from 'react-router';
 var scrollIntoView = require('scroll-into-view');
 
@@ -56,7 +57,7 @@ class SessionPage_OutcomeTests extends React.Component {
 
       } else if (selectedTest === "PEQ TEST") {
 
-        document.getElementById("addOutcomeTestButton").dataset.target = "#peqTestModal"
+        document.getElementById("addOutcomeTestButton").dataset.target = "#peqQuestionnaireModal"
 
       }
     }
@@ -101,7 +102,7 @@ class SessionPage_OutcomeTests extends React.Component {
 
       } else if (selectedTest === "PEQ TEST") {
 
-        document.getElementById("editTestButton").dataset.target = "#peqTestModal"
+        document.getElementById("editTestButton").dataset.target = "#peqQuestionnaireModal"
 
       }
 
@@ -439,6 +440,13 @@ class SessionPage_OutcomeTests extends React.Component {
                     testId={this.state.testId}
                   />
                   <L_Test_Modal
+                    selectedTest = {this.state.selectedTest}
+                    sessionId={this.props.patientInformation.sessionId}
+                    rememberValues={this.rememberValues.bind(this)}
+                    tests={this.props.patientInformation.tests}
+                    testId={this.state.testId}
+                  />
+                  <PEQ_Questionnaire_Modal
                     selectedTest = {this.state.selectedTest}
                     sessionId={this.props.patientInformation.sessionId}
                     rememberValues={this.rememberValues.bind(this)}

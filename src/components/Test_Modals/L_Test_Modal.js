@@ -152,8 +152,7 @@ class L_Test_Modal extends React.Component {
       aidUsed,
       comment,
       title,
-      date,
-      allQuestions
+      date
     } = this.state;
     const {
       valid,

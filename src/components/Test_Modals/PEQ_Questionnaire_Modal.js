@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
 import moment from 'moment';
+import Slider from 'react-rangeslider'
 
 /*This is the component that is the modal for each individual
 test.*/
@@ -27,20 +28,17 @@ class PEQ_Questionnaire_Modal extends React.Component {
   state = {
 
     title: '',
-    tugTime: '',
+    allQuestions: {},
+    question: '',
+    category: 'Satisfaction',
+    id: '',
     comment: '',
     error: '',
     successMessage: '',
     testCategory: '',
     date: '',
-    videoInstruction: '//www.youtube.com/embed/VljdYRXMIE8?rel=0',
-    textInstruction: 'When you say "Go", begin timing using a stopwatch and instruct the patient to:\n'+
-      '\t(1) Stand up from the chair.\n'+
-      '\t(2) Walk along the line on the floor at your normal pace.\n'+
-      '\t(3) Turn 180 degrees.\n'+
-      '\t(4) Walk back to the chair at your normal pace.\n'+
-      '\t(5) Sit down again.\n'+
-      'Stop timing once the patient has sat down and then record the time.'
+    videoInstruction: '/images/sliderEx.gif',
+    textInstruction: 'This is an analog sliding scale.'
   }
   /*Styles for the modal.*/
   styles = {
@@ -53,18 +51,6 @@ class PEQ_Questionnaire_Modal extends React.Component {
       padding: 25
     }
   };
-
-  componentWillMount () {
-      this.setState({
-        allQuestions: this.props.allQuestions
-      })
-  }
-
-  componentWillReceiveProps (nextProps) {
-    this.setState({
-      allQuestions: nextProps.allQuestions
-    })
-  }
 
   /*React lifecycle method: componentWillReceiveProps
 
@@ -100,7 +86,7 @@ class PEQ_Questionnaire_Modal extends React.Component {
       if (testData) {
         this.setState({
           title: testData.title,
-          tugTime: testData.tugTime,
+          allQuestions: testData.questions,
           comment: testData.comment,
           testCategory: testData.category,
           date: testData.date,
@@ -112,7 +98,7 @@ class PEQ_Questionnaire_Modal extends React.Component {
         if (nextProps.selectedTest) {
           this.setState({
             title: '',
-            tugTime: '',
+            allQuestions: Object.assign({}, nextProps.questions),
             comment: '',
             date: moment().format('MMMM Do YYYY, h:mm:ss a'),
             testCategory: nextProps.selectedTest,
@@ -126,7 +112,7 @@ class PEQ_Questionnaire_Modal extends React.Component {
       to null to create an empty test as intended.*/
       this.setState({
         title: '',
-        tugTime: '',
+        allQuestions: Object.assign({}, nextProps.questions),
         date: moment().format('MMMM Do YYYY, h:mm:ss a'),
         comment: '',
         testCategory: nextProps.selectedTest,
@@ -152,11 +138,10 @@ class PEQ_Questionnaire_Modal extends React.Component {
     */
     const {
       testCategory,
-      tugTime,
+      allQuestions,
       comment,
       title,
-      date,
-      allQuestions
+      date
     } = this.state;
     const {
       valid,
@@ -179,7 +164,7 @@ class PEQ_Questionnaire_Modal extends React.Component {
         id: testKey,
         sessionId: this.props.sessionId,
         category: testCategory,
-        tugTime,
+        questions: allQuestions,
         comment,
         title,
         date
@@ -218,23 +203,29 @@ class PEQ_Questionnaire_Modal extends React.Component {
   isValid () {
     let valid = true;
     let error = '';
-    if(!this.state.title) {
-      valid = false;
-      error = 'Title is required to save form.'
-      return {
-        valid,
-        error
-      }
+
+    const {
+      allQuestions
+    } = this.state;
+
+
+    Object.keys(allQuestions).forEach((category) => {
+      const filteredQuestions =  allQuestions[category]
+        .filter(question => question.value)
+
+        if (category === "Satisfaction") {
+          valid = filteredQuestions.length > 1 ? true : false;
+        } else if (category === "Utility") {
+          valid = filteredQuestions.length > 4 ? true : false;
+        }
+          error = 'You must answer more than half of the questions from each section.'
+          return;
+        })
+     return {
+      valid,
+      error
     }
 
-    if(!this.state.tugTime) {
-      valid = false;
-      error = 'A time value is required to save test data'
-      return {
-        valid,
-        error
-      }
-    }
 
     return {
       valid,
@@ -245,9 +236,21 @@ class PEQ_Questionnaire_Modal extends React.Component {
   /*Handles any input change by the user and updates the
   appropriate state variable specified by the name variable.*/
   onInputChange(name, event) {
+
 		var change = {};
 		change[name] = event.target.value;
 		this.setState(change);
+  }
+
+  handlePeqSliderValueChange(index, category, newValue) {
+
+    const {
+      allQuestions
+    } = this.state;
+    allQuestions[category][index]['value'] = newValue
+    this.setState({
+      allQuestions
+    })
   }
 
 
@@ -260,6 +263,14 @@ class PEQ_Questionnaire_Modal extends React.Component {
 
   /*This is where the component is rendered.*/
 	render() {
+
+    const horizontalLabels = {
+      0: 'Extremely Bad',
+      100: 'Really Good'
+    }
+
+    const {allQuestions} = this.state;
+
     var errors = this.state.error ? <p> {this.state.error} </p> : '';
 
 		return (
@@ -330,7 +341,7 @@ class PEQ_Questionnaire_Modal extends React.Component {
                                       step={1}
                                       value={item.value}
                                       tooltip={false}
-                                      onChange={(event) => this.props.handlePeqSliderValueChange(index, item.category, event)}
+                                      onChange={(event) => this.handlePeqSliderValueChange.bind(this, index, item.category, event)}
                                     />
                                   </div>
                                   <br />

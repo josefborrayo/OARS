@@ -143,8 +143,7 @@ class TUG_Test_Modal extends React.Component {
       tugTime,
       comment,
       title,
-      date,
-      allQuestions
+      date
     } = this.state;
     const {
       valid,
