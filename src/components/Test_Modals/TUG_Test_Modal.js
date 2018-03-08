@@ -217,7 +217,7 @@ class TUG_Test_Modal extends React.Component {
 
     if(!this.state.tugTime) {
       valid = false;
-      error = 'Time value is required to save test data'
+      error = 'A time value is required to save test data'
       return {
         valid,
         error

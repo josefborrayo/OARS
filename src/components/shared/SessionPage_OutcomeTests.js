@@ -69,29 +69,10 @@ class SessionPage_OutcomeTests extends React.Component {
     modal.*/
     editTest (test, selectedTest) {
 
-      if (selectedTest === "TUG TEST") {
-
-        document.getElementById("editTestButton").dataset.target = "#tugTestModal"
-
-      } else if (selectedTest === "L TEST") {
-
-        document.getElementById("editTestButton").dataset.target = "#lTestModal"
-
-      } else if (selectedTest === "PEQ TEST") {
-
-        document.getElementById("editTestButton").dataset.target = "#peqTestModal"
-
-      }
         this.setState({
             testId: test,
             selectedTest
         });
-
-    }
-
-    updateEditButtonDataTarget(selectedTest) {
-
-      alert(JSON.stringify(selectedTest))
 
     }
 
@@ -103,6 +84,26 @@ class SessionPage_OutcomeTests extends React.Component {
     componentDidMount() {
 
       scrollIntoView(document.getElementById("outcomeTestPanel"))
+
+    }
+
+    setTarget(selectedTest) {
+
+      if (selectedTest === "TUG TEST") {
+
+        document.getElementById("editTestButton").dataset.target = "#tugTestModal"
+
+
+      } else if (selectedTest === "L TEST") {
+
+        document.getElementById("editTestButton").dataset.target = "#lTestModal"
+
+
+      } else if (selectedTest === "PEQ TEST") {
+
+        document.getElementById("editTestButton").dataset.target = "#peqTestModal"
+
+      }
 
     }
 
@@ -346,7 +347,7 @@ class SessionPage_OutcomeTests extends React.Component {
                                   <p>
                                     <button
                                     onClick={this.editTest.bind(this, test['id'], test['category'])}
-                                    onHover = {this.updateEditButtonDataTarget.bind(this, test['category'])}
+                                    onMouseOver={this.setTarget.bind(this, test['category'])}
                                     data-toggle="modal"
                                     data-target=""
                                     id = "editTestButton"

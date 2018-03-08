@@ -106,8 +106,8 @@ class L_Test_Modal extends React.Component {
         if (nextProps.selectedTest) {
           this.setState({
             title: '',
-            lTime: testData.lTime,
-            aidUsed: testData.aidUsed,
+            lTime: '',
+            aidUsed: '',
             comment: '',
             date: moment().format('MMMM Do YYYY, h:mm:ss a'),
             testCategory: nextProps.selectedTest,
@@ -228,6 +228,15 @@ class L_Test_Modal extends React.Component {
     if(!this.state.aidUsed || this.state.aidUsed === "Select") {
       valid = false;
       error = 'Please indicate if the patient used a walking aid or not.'
+      return {
+        valid,
+        error
+      }
+    }
+
+    if(!this.state.lTime) {
+      valid = false;
+      error = 'A time value is required to save test data'
       return {
         valid,
         error
