@@ -13,7 +13,7 @@ import { push } from 'react-router-redux';
 //component
 import Sidebar from './shared/Sidebar';
 import HeaderBar from './shared/HeaderBar';
-import PeqQuestions from './shared/PeqQuestions';
+import PeqQuestions from './Test_Modals/PeqQuestions';
 
 class App extends React.Component {
 

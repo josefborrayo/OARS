@@ -3,6 +3,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { connect } from 'react-redux';
 import TUG_Report_Modal from '../PdfReport_Modals/TUG_Report_Modal';
+import L_Test_Report_Modal from '../PdfReport_Modals/L_Test_Report_Modal';
 
 /*This is the component that displays the modal of
 the final report (for a completed outcome test) to be generated.*/
@@ -179,73 +180,8 @@ class Pdf_Clinic_Patient_Info extends React.Component {
     } else if (whichTest === "L TEST" ) {
 
       return (
-        <div>
-          <div className>
-            <table className="table table-striped informationCard custab lTestTable">
-              <thead>
-                <tr className = "resultsRow">
-                  <th>Title</th>
-                  <th>Category</th>
-                  <th>Time</th>
-                  <th>WA Used?</th>
-                  {/*<th className="text-center">Time to Complete L Test(s) [1]</th>*/}
-                </tr>
-              </thead>
-              <tbody>
-                <tr className = "resultsRow">
-                  <td>{test.title}</td>
-                  <td>{test.category}</td>
-                  <td>{test.time} Seconds</td>
-                  <td>{test.aidUsed}</td>
-                </tr>
-              </tbody>
-            </table>
-            <table className = "table table-bordered rightAlignTable pull-right col-md-6">
-              <thead>
-                <tr className = "bg-primary">
-                  <th colSpan="2" className="text-center table-title">Time to Complete L Test(s) [1]</th>
-                </tr>
-                <tr className = "bg-info">
-                  <th className="table-info">Average Time</th>
-                  <th>Standard Deviation</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  {patientInformation.limbLev === "Transfemoral" ? <td>Transfemoral: 41.7</td> : patientInformation.limbLev === "Transtibial" ? <td>Transtibial: 29.5</td> : <td>N/A</td>}
-                  {patientInformation.limbLev === "Transfemoral" ? <td>Transfemoral: 16.8</td> : patientInformation.limbLev === "Transtibial" ? <td>Transtibial: 12.8</td> : <td>N/A</td>}
-                </tr>
-                <tr>
-                  {patientInformation.limbLost === "Traumatic" ? <td>Traumatic: 26.4</td> : patientInformation.limbLev === "Vascular" ? <td>Vascular: 42.0</td> : <td>Limb Loss Cause: N/A</td>}
-                  {patientInformation.limbLost === "Traumatic" ? <td>Traumatic: 7.8</td> : patientInformation.limbLev === "Vascular" ? <td>Vascular: 17.8</td> : <td>Limb Loss Cause: N/A</td>}
-                </tr>
-                <tr>
-                  {patientInformation.age < 55 ? <td>Under 55: 25.4</td> : patientInformation.age >= 55 ? <td>55 or older: 39.7</td> : <td>N/A</td>}
-                  {patientInformation.age < 55 ? <td>Under 55: 6.8</td> : patientInformation.age >= 55 ? <td>55 or older: 17.1</td> : <td>N/A</td>}
-                </tr>
-                <tr>
-                  {test.aidUsed === "Yes" ? <td>Aid used: 43.3</td> : test.aidUsed === "No" ? <td>Aid not used: 25.5</td> : <td>N/A</td>}
-                  {test.aidUsed === "Yes" ? <td>Aid used: 17.5</td> : test.aidUsed === "No" ? <td>Aid not used: 6.4</td> : <td>N/A</td>}
-                </tr>
-              </tbody>
-            </table>
-          </div>
-            <div className="afterResults">
-              <div className="card informationCard lTestResult">
-                <p>{result(test.category)}</p>
-              </div>
 
-              <div className="card informationCard">
-                <strong id = "underline">Comment</strong>
-                <p>{test.comment}</p>
-              </div>
-
-              <div className="card referencesCard">
-                <strong id = "underline">References</strong>
-                <div id="references"><p>{references(test.category)}</p></div>
-              </div>
-            </div>
-        </div>
+        <L_Test_Report_Modal test = {this.state.test} patientInformation = {this.props.patientInformation}/>
 
       )
 

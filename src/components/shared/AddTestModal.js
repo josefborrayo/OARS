@@ -1,7 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
 import moment from 'moment';
-import PeqQuestionnaire from './PeqQuestionnaire';
+import PeqQuestionnaire from '../Test_Modals/PeqQuestionnaire';
 import TUG_Test_Modal from '../Test_Modals/TUG_Test_Modal'
 
 /*This is the component that is the modal for each individual
