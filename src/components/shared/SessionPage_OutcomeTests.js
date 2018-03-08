@@ -2,11 +2,10 @@ import React from 'react';
 import moment from 'moment';
 import firebase from 'firebase';
 import SweetAlert from 'react-bootstrap-sweetalert';
-import AddTestModal from '../shared/AddTestModal';
 import Pdf_Clinic_Patient_Info from './Pdf_Clinic_Patient_Info';
 import TUG_Test_Modal from '../Test_Modals/TUG_Test_Modal'
 import L_Test_Modal from '../Test_Modals/L_Test_Modal'
-import PEQ_Questionnaire_Modal from '../Test_Modals/PEQ_Questionnaire_Modal'
+import PEQ_Modal from '../Test_Modals/PEQ_Modal'
 import { Link } from 'react-router';
 var scrollIntoView = require('scroll-into-view');
 
@@ -244,7 +243,7 @@ class SessionPage_OutcomeTests extends React.Component {
             for a test or the Finish Session has been clicked.*/}
             {this.state.alert}
 				<div className="records">
-        {/*This is where the Outcome Tests History is rendered.*/}
+        {/*This is where the Outcome Test_Modals History is rendered.*/}
         {this.state.successMessage && <div className="alert alert-success">{this.state.successMessage}</div>}
                     <div className="panel panel-default list-group-panel" id = "outcomeTestPanel">
                         <div className="panel-body">
@@ -252,7 +251,7 @@ class SessionPage_OutcomeTests extends React.Component {
                                 <li className="list-group-item list-group-body">
                                     <div className="row">
                                       <div className="panel-heading">
-                                        Outcome Tests History
+                                        Outcome Test_Modals History
                                       </div>
                                       {/*The completed variable of each session in firebase stored in the patientInformation prop
                                       is checked (indicates if the session is completed or not). If the completed variable is
@@ -446,12 +445,13 @@ class SessionPage_OutcomeTests extends React.Component {
                     tests={this.props.patientInformation.tests}
                     testId={this.state.testId}
                   />
-                  <PEQ_Questionnaire_Modal
+                  <PEQ_Modal
                     selectedTest = {this.state.selectedTest}
                     sessionId={this.props.patientInformation.sessionId}
                     rememberValues={this.rememberValues.bind(this)}
                     tests={this.props.patientInformation.tests}
                     testId={this.state.testId}
+                    questions={this.props.questions}
                   />
               </div>
 		)

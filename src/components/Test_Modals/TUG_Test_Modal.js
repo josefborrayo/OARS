@@ -347,16 +347,16 @@ class TUG_Test_Modal extends React.Component {
               <div className="panel panel-default">
                 <div className="panel-heading">
                   <button data-toggle="collapse" data-parent="#accordion"
-                    href="#collapse1"
+                    href="#tugTextInstructionPanel"
                     className="btn btn-primary pull-left left-arrow">+</button>
                   <h6 data-toggle="collapse" data-parent="#accordion"
-                    href="#collapse1" className="panel-title">
+                    href="#tugTextInstructionPanel" className="panel-title">
                     <span className="accordion_heading">
                       Show Instructions
                     </span>
                   </h6>
                 </div>
-                <div id="collapse1" className="panel-collapse collapse">
+                <div id="tugTextInstructionPanel" className="panel-collapse collapse">
                   <div className="panel-body">
                     {/*This is where the text instructions get printed.*/}
                     <div id="instructions">{this.state.textInstruction}</div>
@@ -371,14 +371,14 @@ class TUG_Test_Modal extends React.Component {
               <div className="panel panel-default">
                 <div className="panel-heading">
                   <button data-toggle="collapse" data-parent="#accordion"
-                    href="#collapse2"
+                    href="#tugVideoInstructionPanel"
                     className="btn btn-primary pull-left left-arrow">+</button>
                   <h6 data-toggle="collapse" data-parent="#accordion"
-                    href="#collapse2" className="panel-title">
+                    href="#tugVideoInstructionPanel" className="panel-title">
                     <span className="accordion_heading">Show Video</span>
                   </h6>
                 </div>
-                <div id="collapse2" className="panel-collapse collapse videopadding">
+                <div id="tugVideoInstructionPanel" className="panel-collapse collapse videopadding">
                   <div className="panel-body">
                   {/*This is where the video is rendered (in the iframe)*/}
                     <iframe id="video" className = "col-xs-12 text-center instructionalVideo" width="720" height="350"

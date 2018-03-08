@@ -2,8 +2,9 @@ import React from 'react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { connect } from 'react-redux';
-import TUG_Report_Modal from '../PdfReport_Modals/TUG_Report_Modal';
+import TUG_Test_Report_Modal from '../PdfReport_Modals/TUG_Test_Report_Modal';
 import L_Test_Report_Modal from '../PdfReport_Modals/L_Test_Report_Modal';
+import PEQ_Report_Modal from '../PdfReport_Modals/PEQ_Report_Modal';
 
 /*This is the component that displays the modal of
 the final report (for a completed outcome test) to be generated.*/
@@ -13,60 +14,13 @@ class Pdf_Clinic_Patient_Info extends React.Component {
   constructor(props) {
 
     super(props)
-    this.handleStore = this.handleStore.bind(this)
     this.printDocument = this.printDocument.bind(this)
 
   }
 
   // Constants
   state={
-    test: {},
-    range: {
-      'TUG TEST': 12
-    },
-
-    // references to be displayed in the respective reference cards.
-    references: {
-
-      'L TEST': "[1] Deathe, A. B., & Miller, W. C. (2005). The L Test of Functional Mobility: Measurement Properties of a Modified Version of the Timed “Up & Go” Test Designed for People With Lower-Limb Amputations. Physical Therapy. doi:10.1093/ptj/85.7.626\n\n"
-                + "[2] Rushton, P. W., Miller, W. C., & Deathe, A. B. (2014). Minimal clinically important difference of the L Test for individuals with lower limb amputation: A pilot study. Prosthetics and Orthotics International, 39(6), 470-476. doi:10.1177/0309364614545418\n\n" + "Link:\n[1] https://academic.oup.com/ptj/article/85/7/626/2804973\n" + "[2] https://academic.oup.com/ptj/article/85/7/626/2804973\n\n" + "Video: \nhttps://www.youtube.com/watch?v=gixqOS8qBNA",
-      'TUG TEST': "Instructions:  \n[1] Centers for Disease Control and Prevention. (2017). Timed Up & Go (TUG). Retrieved from https://www.cdc.gov/steadi/pdf/tug_test-a.pdf \n\n" +
-                "Video:\nhttps://www.youtube.com/watch?v=VljdYRXMIE8",
-      'PEQ TEST': "[1] Legro, M. W., Reiber, G. D., Smith, D. G., Aguila, M. D., Larsen, J., & Boone, D. (1998). Prosthesis evaluation questionnaire for persons with lower limb amputations: Assessing prosthesis-related quality of life. Archives of Physical Medicine and Rehabilitation, 79(8), 931-938. doi:10.1016/s0003-9993(98)90090-9\n\n" + "Link: http://www.archives-pmr.org/article/S0003-9993(98)90090-9/pdf"
-
-    },
-
-    // results to be displayed in the respective reference cards.
-    result: {
-
-      'L TEST': "Individuals with a lower limb amputation who improve by at least 4.5 s on the L Test after an intervention have likely undergone an important change. [2]",
-      'TUG TEST': "An older adult who takes 12 seconds or more to complete the TUG is at risk for falling.[1]",
-      'PEQ TEST': "This prosthesis evaluation questionnaire takes into account the satisfaction and utility subscales and compares against the population averages."
-
-    },
-
-    // these scores are for the national average on the PEQ test.
-    natAverage: [
-
-      {value: 71.6},
-      {value: 72}
-
-    ],
-
-    totalScore: [
-
-      {value: '0'},
-      {value: '0'}
-
-    ],
-
-    // total number of questions in the PEQ
-    totalNumber: [
-
-      {value: 3},
-      {value: 8}
-
-    ]
+    test: {}
   }
 
   componentDidMount() {
@@ -121,7 +75,7 @@ class Pdf_Clinic_Patient_Info extends React.Component {
   }
 
   /* Renders the test in the previewer*/
-  renderTest(whichTest, accessTime, totalQuestions, averageScore, references, result) {
+  renderReport(whichTest) {
 
     const { test, patientInformation } = this.props;
 
@@ -129,52 +83,14 @@ class Pdf_Clinic_Patient_Info extends React.Component {
 
       return (
 
-        <TUG_Report_Modal test = {this.state.test}/>
+        <TUG_Test_Report_Modal test = {this.state.test}/>
 
       )
 
     } else if (whichTest === "PEQ TEST") {
 
       return (
-        <div>
-        <table className="table table-striped informationCard custab">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Category</th>
-            <th>No. of Questions</th>
-            <th className="text-center">Score</th>
-            <th className="text-center">Population Average [1]</th>
-          </tr>
-        </thead>
-
-        {Object.keys(test.questions).map((category, i) => <tr key={i}>
-            <td></td>
-            <td>{category}</td>
-            <td>{totalQuestions(test.questions[category])}/{this.state.totalNumber[i].value}</td>
-            <td className="text-center text-success">{averageScore(test.questions[category])}</td>
-            {this.handleStore(averageScore(test.questions[category]), i)}
-            <td className="text-center text-success">{this.state.natAverage[i].value}</td>
-          </tr>
-
-        )}
-      </table>
-      <div className="afterResults">
-        <div className="card informationCard">
-          <p>{result(test.category)}</p>
-        </div>
-
-        <div className="card informationCard">
-          <strong id = "underline">Comment</strong>
-          <p>{test.comment}</p>
-        </div>
-
-        <div className="card referencesCard">
-          <strong id = "underline">References</strong>
-          <div id="references"><p>{references(test.category)}</p></div>
-        </div>
-      </div>
-      </div>
+        <PEQ_Report_Modal test = {this.state.test}/>
       )
 
     } else if (whichTest === "L TEST" ) {
@@ -191,51 +107,8 @@ class Pdf_Clinic_Patient_Info extends React.Component {
 
 
   render() {
-    const { patientInformation, test } = this.props;
-    const totalQuestions = (questions => questions.filter(question => question.value || question.value === 0).length);
-    const averageScore = (questions) => {
-      let sum = 0
-      let answeredQuestions = questions.filter(question => question.value || question.value === 0);
-      answeredQuestions.forEach(question => sum += question.value);
-      return Math.ceil(sum/answeredQuestions.length)
-    }
-    // eslint-disable-next-line
-    const accessTime = (time, category) => {
 
-      // determining result based on metric
-      if (category === "TUG TEST") {
-
-        if (time < this.state.range[category]) {
-          return (
-            <span className="text-center"> The patient is not at risk of falling. </span>
-          )
-        } else if (time >= this.state.range[category]) {
-
-          return (
-            <span className="text-center"> The patient is at risk of falling. </span>
-          )
-
-        }
-
-      }
-      return (
-        <span className="text-center"> L Test results interpretation in progress. Please check references.</span>
-      )
-    }
-
-    const references = (category) => {
-
-      return (
-        <span className="text-center">{this.state.references[category]}</span>
-      )
-    }
-
-    const result = (category) => {
-
-      return (
-        <span className="text-center">{this.state.result[category]}</span>
-      )
-    }
+    const {test, patientInformation} = this.props;
 
     /*
     Displays a preview document that will be generated using printDocument()
@@ -297,7 +170,7 @@ class Pdf_Clinic_Patient_Info extends React.Component {
                 </div>
                 <div className="row">
                   <div className="afterCard col-sm-12">
-                    {this.renderTest(test.category, accessTime, totalQuestions, averageScore, references, result)}
+                    {this.renderReport(test.category)}
                   </div>
                 </div>
               </div>

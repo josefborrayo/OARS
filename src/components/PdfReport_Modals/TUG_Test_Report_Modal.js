@@ -1,6 +1,6 @@
 import React from 'react';
 
-class TUG_Report_Modal extends React.Component {
+class TUG_Test_Report_Modal extends React.Component {
 
   state = {
 
@@ -94,4 +94,4 @@ class TUG_Report_Modal extends React.Component {
 
 }
 
-export default TUG_Report_Modal
+export default TUG_Test_Report_Modal

@@ -291,7 +291,7 @@ class SessionPage_PatientInfo extends React.Component {
       isFound,
       editPatient,
     } = this.state;
-    
+
 		return (
 
         <div>
@@ -478,7 +478,10 @@ class SessionPage_PatientInfo extends React.Component {
                         {/*The panel that displays the outcome tests pending/completed
                           and allows for an outcome test to be selected are rendered
                           from the SessionPage_OutcomeTests component.*/}
-                        <SessionPage_OutcomeTests questions={this.props.questions} patientInformation={patientInformation} settings={this.props.settings} />
+                        <SessionPage_OutcomeTests 
+                          questions={this.props.questions}
+                          patientInformation={patientInformation}
+                          settings={this.props.settings} />
                         </div>
                     </div>
                     </div>

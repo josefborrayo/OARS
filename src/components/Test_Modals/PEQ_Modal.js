@@ -1,13 +1,12 @@
 import React from 'react';
 import firebase from 'firebase';
 import moment from 'moment';
-import PeqQuestionnaire from '../Test_Modals/PeqQuestionnaire';
-import TUG_Test_Modal from '../Test_Modals/TUG_Test_Modal'
+import Slider from 'react-rangeslider'
 
 /*This is the component that is the modal for each individual
 test.*/
 
-class AddTestModal extends React.Component {
+class PEQ_Modal extends React.Component {
 
   /*Constructor for binding methods.*/
   constructor(props) {
@@ -27,55 +26,19 @@ class AddTestModal extends React.Component {
   entered for a test. The allQuestions array stores the questions from
   PeqQuestionnaire javascript file.*/
   state = {
+
     title: '',
-    time: '',
-    aidUsed: '',
+    allQuestions: {},
+    question: '',
+    category: 'Satisfaction',
+    id: '',
     comment: '',
     error: '',
     successMessage: '',
-    testId: '',
-    selectedTest: '',
-    allQuestions: {},
-    videos: {
-      'L TEST': '//www.youtube.com/embed/gixqOS8qBNA?rel=0',
-      'TUG TEST': '//www.youtube.com/embed/VljdYRXMIE8?rel=0',
-      'PEQ TEST': '/images/sliderEx.gif'
-    },
-    text: {
-      'L TEST': 'When you say "Go", begin timing using a stopwatch and instruct the patient to:\n'+
-        '\t(1) Stand up from the chair.\n'+
-        '\t(2) Walk 3 meters to the marker on the floor at your normal pace.\n'+
-        '\t(3) Turn 90 degrees.\n'+
-        '\t(4) Continue walking 7 meters.\n'+
-        '\t(5) Turn 180 degrees.\n'+
-        '\t(6) Return to the marker.\n'+
-        '\t(7) Turn 90 degrees.\n'+
-        '\t(8) Walk back to the chair at your normal pace.\n'+
-        '\t(9) Sit down again.\n'+
-        'Stop timing once the patient has sat down and then record the time.',
-
-      'TUG TEST': 'When you say "Go", begin timing using a stopwatch and instruct the patient to:\n'+
-        '\t(1) Stand up from the chair.\n'+
-        '\t(2) Walk along the line on the floor at your normal pace.\n'+
-        '\t(3) Turn 180 degrees.\n'+
-        '\t(4) Walk back to the chair at your normal pace.\n'+
-        '\t(5) Sit down again.\n'+
-        'Stop timing once the patient has sat down and then record the time.',
-      'PEQ TEST': 'This is an analog sliding scale.'
-    },
-    testMetrics: {
-
-      'TUG TEST':
-        {
-          tugTime: ''
-        },
-      'L TEST':
-        {
-          lTime: '',
-          aidUsed: ''
-        }
-
-    }
+    testCategory: '',
+    date: '',
+    videoInstruction: '/images/sliderEx.gif',
+    textInstruction: 'This is an analog sliding scale.'
   }
   /*Styles for the modal.*/
   styles = {
@@ -100,13 +63,13 @@ class AddTestModal extends React.Component {
     using the let keyword. This component is being rendered in the SessionPage_OutcomeTests
     component and a tests prop (which contains all of the tests in firebase) is passed in
     to this component.*/
-
     /*When this component is being rendered, new props will be passed in the form
     of the test category which would either be the TUG, L, or PEQ. The modalTest
     variable will store an array of tests from firebase if there is a next test
     that is going to be edited by clicking the edit button (nextProps.tests).*/
     if (nextProps.selectedTest && nextProps.tests) {
         modalTest = nextProps.tests[nextProps.selectedTest];
+
     }
 
     /*If tests exist in the modalTest array then the test data that corresponds to the
@@ -115,21 +78,19 @@ class AddTestModal extends React.Component {
     if(modalTest) {
 
       const testData = modalTest[nextProps.testId];
-      alert(JSON.stringify(testData))
+
+
       /*if testData exists, (there exists a test with the specificed id specificed by
       nextProps.testId) then the state variables get set to that of the corresponding
       variables and their values that exist for the test being loaded. */
       if (testData) {
         this.setState({
           title: testData.title,
-          time: testData.time,
-          aidUsed: testData.aidUsed,
+          allQuestions: testData.questions,
           comment: testData.comment,
-          selectedTest: testData.category,
+          testCategory: testData.category,
           date: testData.date,
           successMessage: '',
-          testId: nextProps.testId,
-          allQuestions: testData.questions
         })
       } else {
         /*if testData does not exist then a new test is being created so set the state
@@ -137,14 +98,11 @@ class AddTestModal extends React.Component {
         if (nextProps.selectedTest) {
           this.setState({
             title: '',
-            time: '',
+            allQuestions: Object.assign({}, nextProps.questions),
             comment: '',
-            aidUsed: '',
             date: moment().format('MMMM Do YYYY, h:mm:ss a'),
-            selectedTest: nextProps.selectedTest,
+            testCategory: nextProps.selectedTest,
             successMessage: '',
-            testId: nextProps.testId,
-            allQuestions: Object.assign({}, nextProps.questions)
           })
         }
       }
@@ -153,19 +111,17 @@ class AddTestModal extends React.Component {
       then a new test is being created so set the input values
       to null to create an empty test as intended.*/
       this.setState({
-        tugTime: '',
         title: '',
-        time: '',
+        allQuestions: Object.assign({}, nextProps.questions),
         date: moment().format('MMMM Do YYYY, h:mm:ss a'),
         comment: '',
-        aidUsed: '',
-        successMessage: '',
-        selectedTest: nextProps.selectedTest,
-        testId: nextProps.testId,
-        allQuestions: Object.assign({}, nextProps.questions)
+        testCategory: nextProps.selectedTest,
+        successMessage: ''
+
       })
     }
   }
+
 
   /*This event handles saving tests and is executed when the save button
   of the test modal is clicked.*/
@@ -181,14 +137,11 @@ class AddTestModal extends React.Component {
     the value of valid and error.
     */
     const {
-      testId,
-      selectedTest,
-      time,
-      aidUsed,
+      testCategory,
+      allQuestions,
       comment,
       title,
-      date,
-      allQuestions
+      date
     } = this.state;
     const {
       valid,
@@ -203,34 +156,14 @@ class AddTestModal extends React.Component {
       const userId = firebase.auth().currentUser.uid;
       let updates = {};
       /*testKey is the token string for each test.*/
-      const testkey = firebase.database().ref()
-        .child('sessions/'+userId + '/' + this.props.sessionId + '/tests').push().key
+      const testKey = this.props.testId || firebase.database().ref()
+        .child('sessions/'+userId + '/' + this.props.sessionId + '/tests' + testCategory).push().key
         /*The values in postData change depending on the test. This array
         is stored in firebase.*/
-      const postData = selectedTest === 'TUG TEST' ? {
-        id: testkey,
+      const postData = {
+        id: testKey,
         sessionId: this.props.sessionId,
-        category: selectedTest,
-        aidUsed,
-        time,
-        comment,
-        title,
-        date
-      } : selectedTest === 'L TEST' ?  {
-
-        id: testkey,
-        sessionId: this.props.sessionId,
-        category: selectedTest,
-        aidUsed,
-        time,
-        comment,
-        title,
-        date
-
-      } : {
-        id: testkey,
-        sessionId: this.props.sessionId,
-        category: selectedTest,
+        category: testCategory,
         questions: allQuestions,
         comment,
         title,
@@ -244,10 +177,10 @@ class AddTestModal extends React.Component {
       into this component as props and the lifecycle functions in this component will
       set the appropriate state variables using the props to set the input fields essentially
       'remembering' the values.*/
-      updates['/sessions/' + userId + '/' + this.props.sessionId + '/tests/' + selectedTest + '/' + testkey] = postData;
+      updates['/sessions/' + userId + '/' + this.props.sessionId + '/tests/' + testCategory + '/' + testKey] = postData;
       firebase.database().ref().update(updates)
       .then(() => {
-        this.props.rememberValues(testkey, this.props.selectedTest)
+        this.props.rememberValues(testKey, testCategory)
         this.setState({
           successMessage: 'Test was saved sucessfully'
         })
@@ -270,78 +203,27 @@ class AddTestModal extends React.Component {
   isValid () {
     let valid = true;
     let error = '';
-    if(!this.state.title) {
-      valid = false;
-      error = 'Title is required to save form.'
-      return {
-        valid,
-        error
-      }
-    }
-    /*In the case of the L test for example, the user would have to select whether
-    a walking aid was used or not and until the value is selected, the error message
-    below will be printed.*/
-    if (this.state.selectedTest === "L TEST" && (this.state.aidUsed === "Select" || this.state.aidUsed === '')) {
-      valid = false;
-      error = 'Please indicate if the patient used a walking aid or not.'
-      return {
-        valid,
-        error
-      }
-    }
 
-    /*This is checking validity for the PEQ test.
-    Specifically, if more than half of the questions
-    for each subscale have been answered or not. The allQuestions
-    array stores the questions for the subscale and the
-    value for each question based on the range slider. By
-    using the filter function, it is possible to store only
-    those questions that have been answered (have a value greater
-    than zero) into a variable filteredQuestions and check
-    the length of that variable to ensure validitiy of the
-    questionnaire.*/
     const {
       allQuestions
     } = this.state;
-    if(this.state.selectedTest === 'PEQ TEST') {
-      Object.keys(allQuestions).forEach((category) => {
-        const filteredQuestions =  allQuestions[category]
-          .filter(question => question.value)
 
-          if (category === "Satisfaction") {
-            valid = filteredQuestions.length > 1 ? true : false;
-          } else if (category === "Utility") {
-            valid = filteredQuestions.length > 4 ? true : false;
-          }
-            error = 'You must answer more than half of the questions from each section.'
-            return;
-          })
-       return {
-        valid,
-        error
-      }
-    }
 
-    if (this.state.selectedTest === 'L TEST') {
-      if(!this.state.time) {
-        valid = false;
-        error = 'Time value is required to save test data'
-        return {
-          valid,
-          error
+    Object.keys(allQuestions).forEach((category) => {
+      const filteredQuestions =  allQuestions[category]
+        .filter(question => question.value)
+
+        if (category === "Satisfaction") {
+          valid = filteredQuestions.length > 1 ? true : false;
+        } else if (category === "Utility") {
+          valid = filteredQuestions.length > 4 ? true : false;
         }
-      }
-    }
-
-    if (this.state.selectedTest === 'TUG TEST') {
-      if(!this.state.tugTime) {
-        valid = false;
-        error = 'Time value is required to save test data'
-        return {
-          valid,
-          error
-        }
-      }
+          error = 'You must answer more than half of the questions from each section.'
+          return;
+        })
+     return {
+      valid,
+      error
     }
 
 
@@ -360,103 +242,17 @@ class AddTestModal extends React.Component {
 		this.setState(change);
   }
 
-  /*This method updates the new value of a PEQ question's slider.*/
-  handlePeqSliderValueChange(index, category, newValue) {
+  handlePeqSliderValueChange = (index, category, value) => {
 
     const {
       allQuestions
     } = this.state;
-    allQuestions[category][index]['value'] = newValue
+    allQuestions[category][index]['value'] = value
     this.setState({
       allQuestions
     })
   }
 
-  onTestValueChange(testName, nameOfValue, newValue) {
-
-    alert(JSON.stringify(newValue))
-    const {testMetrics} = this.state;
-
-    testMetrics[testName][nameOfValue] = newValue;
-    this.setState({testMetrics})
-
-  }
-
-
-
-  /*This function handles rendering the correct test
-  on the modal depending on the selectedTest variable
-  which gets set when the desired test is selected from
-  the test dropdown selection. In this function,
-  it is possible to change or add new tests and the
-  metrics required for them.*/
-  renderTest() {
-
-    if (this.state.selectedTest === "TUG TEST") {
-      return (
-
-        <TUG_Test_Modal
-          tugTime = {this.state.testMetrics[this.state.selectedTest]['tugTime']}
-          onTestValueChange = {this.onTestValueChange.bind(this)}
-        />
-
-      )
-
-
-    } else if (this.state.selectedTest === "L TEST") {
-
-      return (
-
-        <table className="table table-bordered table-hover">
-        <thead>
-          <tr>
-            <th>Scale Name</th>
-            <th>Value (Seconds)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Time(Seconds)</td>
-            <td>
-              <input
-                id="textinput"
-                name="textinput"
-                type="text"
-                placeholder='Time in Seconds'
-                className="form-control input-lg"
-                value={this.state.time}
-                onChange={this.onInputChange.bind(this, 'time')}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>Walking aid used</td>
-            <td>
-              <select className="selectpicker" value={this.state.aidUsed} onChange={this.onInputChange.bind(this, 'aidUsed')}>
-                <option>Select</option>
-                <option>Yes</option>
-                <option>No</option>
-              </select>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      )
-      /*The questionnaire is a component so in this case
-      we simply return the component and pass in the method
-      to handle changes to any sliders as well as the allQuestions
-      which stores the value of the slider for each question.*/
-    } else if (this.state.selectedTest === "PEQ TEST") {
-
-      return (
-
-        <PeqQuestionnaire allQuestions={this.state.allQuestions} handlePeqSliderValueChange={this.handlePeqSliderValueChange.bind(this)} />
-
-      )
-
-    }
-
-  }
 
   /*This function sets the error to null once a test modal has been closed.*/
   alertNull() {
@@ -467,11 +263,19 @@ class AddTestModal extends React.Component {
 
   /*This is where the component is rendered.*/
 	render() {
+
+    const horizontalLabels = {
+      0: 'Extremely Bad',
+      100: 'Really Good'
+    }
+
+    const {allQuestions} = this.state;
+
     var errors = this.state.error ? <p> {this.state.error} </p> : '';
 
 		return (
-      <div className="modal fade" id="testModal" tabIndex="-1"
-        role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div>
+      <div className="modal fade" id="peqQuestionnaireModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div className="modal-dialog">
       <div className="modal-content">
         <div className="modal-body">
@@ -501,7 +305,7 @@ class AddTestModal extends React.Component {
             </div>
             <div className="form-group">
               <label>Category:</label>
-              <span>   {this.state.selectedTest}</span>
+              <span>   {this.state.testCategory}</span>
             </div>
             <div className="form-group">
               <label>Date:</label>
@@ -510,7 +314,46 @@ class AddTestModal extends React.Component {
             {/*Once the information that is common across all test modals such as
             the title date and category are rendered, the selected test will be
             rendered using the renderTest function.*/}
-            {this.renderTest()}
+            <div className="panel-body">
+                <div className="card">
+                  <ul className="nav nav-tabs" role="tablist">
+                    {Object.keys(allQuestions)
+                      .map((category, i) => <li role="presentation" className={i === 0 ? 'col-xs-6 active' : 'col-xs-6'} key={i}><a href={"#tab" + i} data-toggle="tab">Section {i+1}: {category}</a></li>)}
+                  </ul>
+                  <div className="tab-content">
+                    {Object.keys(allQuestions)
+                      .map((category, i) =>
+                      <div
+                        key={i}
+                        className={i === 0 ? 'tab-pane fade in active' : 'tab-pane fade'}
+                        role="tabpanel"
+                        id={"tab" + i}>
+                          {allQuestions[category]
+                            .map((item, index) =>
+                              <div key={index} className="row" style={ this.styles.row }>
+                                <div className="form-group">
+                                  <h4><b>{item.question}</b></h4>
+                                  <div className="col-sm-7">
+                                    <Slider
+                                      min={0}
+                                      max={100}
+                                      labels={horizontalLabels}
+                                      step={1}
+                                      value={item.value}
+                                      tooltip={false}
+                                      onChange={this.handlePeqSliderValueChange.bind(this, index, item.category)}
+                                    />
+                                  </div>
+                                  <br />
+                                  <br />
+                                  <br />
+                                </div>
+                              </div>
+                            )}
+                      </div>)}
+                  </div>
+              </div>
+            </div>
             <form style={ this.styles.metric } className="form-horizontal"
               onSubmit={this.saveTest.bind(this)}>
 
@@ -544,19 +387,19 @@ class AddTestModal extends React.Component {
               <div className="panel panel-default">
                 <div className="panel-heading">
                   <button data-toggle="collapse" data-parent="#accordion"
-                    href="#collapse1"
+                    href="#peqTextInstructionPanel"
                     className="btn btn-primary pull-left left-arrow">+</button>
                   <h6 data-toggle="collapse" data-parent="#accordion"
-                    href="#collapse1" className="panel-title">
+                    href="#peqTextInstructionPanel" className="panel-title">
                     <span className="accordion_heading">
                       Show Instructions
                     </span>
                   </h6>
                 </div>
-                <div id="collapse1" className="panel-collapse collapse">
+                <div id="peqTextInstructionPanel" className="panel-collapse collapse">
                   <div className="panel-body">
                     {/*This is where the text instructions get printed.*/}
-                    <div id="instructions">{this.state.text[this.state.selectedTest]}</div>
+                    <div id="instructions">{this.state.textInstruction}</div>
                   </div>
                 </div>
               </div>
@@ -568,32 +411,33 @@ class AddTestModal extends React.Component {
               <div className="panel panel-default">
                 <div className="panel-heading">
                   <button data-toggle="collapse" data-parent="#accordion"
-                    href="#collapse2"
+                    href="#peqVideoInstructionPanel"
                     className="btn btn-primary pull-left left-arrow">+</button>
                   <h6 data-toggle="collapse" data-parent="#accordion"
-                    href="#collapse2" className="panel-title">
+                    href="#peqVideoInstructionPanel" className="panel-title">
                     <span className="accordion_heading">Show Video</span>
                   </h6>
                 </div>
-                <div id="collapse2"
-                  className="panel-collapse collapse videopadding">
+                <div id="peqVideoInstructionPanel" className="panel-collapse collapse videopadding">
                   <div className="panel-body">
                   {/*This is where the video is rendered (in the iframe)*/}
                     <iframe id="video" className = "col-xs-12 text-center instructionalVideo" width="720" height="350"
-                      src={this.state.videos[this.state.selectedTest]}
+                      src={this.state.videoInstruction}
                       frameBorder="0" allowFullScreen></iframe>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+            </div>
         </div>
         </div>
       </div>
       </div>
-    </div>
+      </div>
+      </div>
+
     )
 	}
 }
 
-export default AddTestModal;
+export default PEQ_Modal;
