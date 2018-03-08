@@ -74,7 +74,7 @@ class Login extends React.Component {
     const {
       email,
       fullname,
-      hospitalid,
+      clinicId,
       password,
 			measurementUnit
     } = this.state;
@@ -89,7 +89,7 @@ class Login extends React.Component {
             usersRef.set({
               email,
               fullname,
-              hospitalid,
+              clinicId,
 							measurementUnit: "Imperial",
               password,
             }, (error) => {
@@ -268,8 +268,8 @@ class Login extends React.Component {
 	                  tabIndex="2"
 	                  className="form-control"
 	                  placeholder="Clinician ID"
-	                  value={this.state.hospitalid}
-	                  onChange={this.onInputChange.bind(this, 'hospitalid')}
+	                  value={this.state.clinicId}
+	                  onChange={this.onInputChange.bind(this, 'clinicId')}
 	                />
 	              </div>
 								{errors && <div className="alert alert-danger">{errors}</div>}

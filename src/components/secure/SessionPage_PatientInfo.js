@@ -119,6 +119,7 @@ class SessionPage_PatientInfo extends React.Component {
 
 
       const {patientInformation} = this.state;
+      alert(JSON.stringify(patientInformation))
       document.cookie = "username=" + patientInformation.id.toString() + " ; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       patientInformation.fullname = document.getElementById("pname").value;
       patientInformation.id = document.getElementById("identification").value;
@@ -478,7 +479,7 @@ class SessionPage_PatientInfo extends React.Component {
                         {/*The panel that displays the outcome tests pending/completed
                           and allows for an outcome test to be selected are rendered
                           from the SessionPage_OutcomeTests component.*/}
-                        <SessionPage_OutcomeTests 
+                        <SessionPage_OutcomeTests
                           questions={this.props.questions}
                           patientInformation={patientInformation}
                           settings={this.props.settings} />
