@@ -137,15 +137,7 @@ class L_Test_Modal extends React.Component {
   of the test modal is clicked.*/
   saveTest (event) {
     event.preventDefault();
-    this.setState({
-      error: ''
-    })
-    /*The state variables are passed in as well as the
-    valid and error state variables for which the values
-    are set in the isValid method and prevents or allows
-    submission of the test data to firebase depending on
-    the value of valid and error.
-    */
+
     const {
       testCategory,
       lTime,
@@ -158,6 +150,17 @@ class L_Test_Modal extends React.Component {
       valid,
       error
     } = this.isValid();
+
+    this.setState({
+      error: ''
+    })
+    /*The state variables are passed in as well as the
+    valid and error state variables for which the values
+    are set in the isValid method and prevents or allows
+    submission of the test data to firebase depending on
+    the value of valid and error.
+    */
+
 
     /*If the form (test modal) is valid, then the test is successfully created
     and submitted to firebase using default firebase functions to store
@@ -215,6 +218,7 @@ class L_Test_Modal extends React.Component {
   isValid () {
     let valid = true;
     let error = '';
+    alert(JSON.stringify(this.state.title))
     if(!this.state.title) {
       valid = false;
       error = 'Title is required to save form.'
@@ -323,7 +327,7 @@ class L_Test_Modal extends React.Component {
                   <input
                     id="textinput"
                     name="textinput"
-                    type="text"
+                    type="number"
                     placeholder='Time in Seconds'
                     className="form-control input-lg"
                     value={this.state.lTime}

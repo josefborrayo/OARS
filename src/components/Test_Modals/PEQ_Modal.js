@@ -52,6 +52,7 @@ class PEQ_Modal extends React.Component {
     }
   };
 
+
   /*React lifecycle method: componentWillReceiveProps
 
   This method is invoked before a mounted component receives new props. This method
@@ -186,6 +187,8 @@ class PEQ_Modal extends React.Component {
         })
       })
       .catch((error) => {
+
+        alert(JSON.stringify(this.state.error))
         this.setState({ error: error.message });
       });
     /*If the form is not valid then set the state of the error using the error
@@ -208,7 +211,7 @@ class PEQ_Modal extends React.Component {
       allQuestions
     } = this.state;
 
-
+    alert(JSON.stringify(allQuestions))
     Object.keys(allQuestions).forEach((category) => {
       const filteredQuestions =  allQuestions[category]
         .filter(question => question.value)
@@ -316,6 +319,7 @@ class PEQ_Modal extends React.Component {
             rendered using the renderTest function.*/}
             <div className="panel-body">
                 <div className="card">
+
                   <ul className="nav nav-tabs" role="tablist">
                     {Object.keys(allQuestions)
                       .map((category, i) => <li role="presentation" className={i === 0 ? 'col-xs-6 active' : 'col-xs-6'} key={i}><a href={"#tab" + i} data-toggle="tab">Section {i+1}: {category}</a></li>)}
