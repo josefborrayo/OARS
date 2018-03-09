@@ -283,8 +283,6 @@ class L_Test_Modal extends React.Component {
     var errors = this.state.error ? <p> {this.state.error} </p> : '';
 
 		return (
-      <div>
-      <div className="modal fade" id="lTestModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div className="modal-dialog">
       <div className="modal-content">
         <div className="modal-body">
@@ -436,9 +434,6 @@ class L_Test_Modal extends React.Component {
         </div>
       </div>
       </div>
-      </div>
-      </div>
-
     )
 	}
 }

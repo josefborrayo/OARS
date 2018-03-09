@@ -3,7 +3,7 @@ import moment from 'moment';
 import firebase from 'firebase';
 import SweetAlert from 'react-bootstrap-sweetalert';
 import Pdf_Clinic_Patient_Info from './Pdf_Clinic_Patient_Info';
-import Test_Modal from '../Test_Modals/TestModal'
+import TestModal from '../Test_Modals/TestModal'
 import { Link } from 'react-router';
 var scrollIntoView = require('scroll-into-view');
 
@@ -250,7 +250,7 @@ class SessionPage_OutcomeTests extends React.Component {
                                                       onClick={this.editTest.bind(this, '', this.state.selectedTest)}
                                                       data-toggle="modal"
                                                       id="addOutcomeTestButton"
-                                                      data-target=""
+                                                      data-target="#testModal"
                                                       className="btn btn-lg btn-default"
                                                       type="button"
                                                     >
@@ -313,9 +313,8 @@ class SessionPage_OutcomeTests extends React.Component {
                                   <p>
                                     <button
                                     onClick={this.editTest.bind(this, test['id'], test['category'])}
-                                    onMouseOver={this.setTarget.bind(this, test['category'])}
                                     data-toggle="modal"
-                                    data-target=""
+                                    data-target="#testModal"
                                     id = "editTestButton"
                                     className="btn icon-btn btn-info">
                                     <span className="glyphicon glyphicon-pencil">
@@ -397,7 +396,14 @@ class SessionPage_OutcomeTests extends React.Component {
                    test={this.state.modalToBeViewed}
                    patientInformation={this.props.patientInformation}
                   />
-
+                  <TestModal
+                    selectedTest={this.state.selectedTest}
+                    sessionId={this.props.patientInformation.sessionId}
+                    rememberValues={this.rememberValues.bind(this)}
+                    questions={this.props.questions}
+                    tests={this.props.patientInformation.tests}
+                    testId={this.state.testId}
+                  />
               </div>
 		)
 	}
