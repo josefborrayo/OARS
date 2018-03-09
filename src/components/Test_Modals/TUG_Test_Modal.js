@@ -189,7 +189,7 @@ class TUG_Test_Modal extends React.Component {
       })
       .catch((error) => {
 
-          this.setState({ error: error.message });
+        this.setState({ error: error.message });
 
       });
     /*If the form is not valid then set the state of the error using the error
@@ -252,6 +252,7 @@ class TUG_Test_Modal extends React.Component {
   /*This is where the component is rendered.*/
 	render() {
     var errors = this.state.error ? <p> {this.state.error} </p> : '';
+
 		return (
       <div className="modal-dialog">
       <div className="modal-content">

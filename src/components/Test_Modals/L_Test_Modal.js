@@ -132,6 +132,8 @@ class L_Test_Modal extends React.Component {
     }
   }
 
+  
+
 
   /*This event handles saving tests and is executed when the save button
   of the test modal is clicked.*/
@@ -201,17 +203,7 @@ class L_Test_Modal extends React.Component {
         })
       })
       .catch((error) => {
-        if (error.message === "Cannot convert undefined or null to object") {
-
-          this.setState({
-            successMessage: 'Test was saved sucessfully'
-          })
-
-        } else {
-
-          this.setState({ error: error.message });
-
-        }
+        this.setState({ error: error.message });
       });
     /*If the form is not valid then set the state of the error using the error
     constant passed in.*/

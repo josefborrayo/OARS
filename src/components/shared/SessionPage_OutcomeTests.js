@@ -217,7 +217,7 @@ class SessionPage_OutcomeTests extends React.Component {
                                 <li className="list-group-item list-group-body">
                                     <div className="row">
                                       <div className="panel-heading">
-                                        Outcome Test_Modals History
+                                        Outcome Test History
                                       </div>
                                       {/*The completed variable of each session in firebase stored in the patientInformation prop
                                       is checked (indicates if the session is completed or not). If the completed variable is
