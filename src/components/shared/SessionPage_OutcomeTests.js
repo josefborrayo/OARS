@@ -313,6 +313,7 @@ class SessionPage_OutcomeTests extends React.Component {
                                   <p>
                                     <button
                                     onClick={this.editTest.bind(this, test['id'], test['category'])}
+                                    onMouseOver={this.editTest.bind(this, test['id'], test['category'])}
                                     data-toggle="modal"
                                     data-target="#testModal"
                                     id = "editTestButton"

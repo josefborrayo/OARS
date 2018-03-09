@@ -41,7 +41,6 @@ class TestModal extends React.Component {
 
     } else if (this.props.selectedTest === "L TEST") {
 
-      alert(JSON.stringify(this.props.tests))
 
       return (
 

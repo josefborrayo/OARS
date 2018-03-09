@@ -59,6 +59,7 @@ class L_Test_Modal extends React.Component {
     }
   };
 
+
   /*React lifecycle method: componentWillReceiveProps
 
   This method is invoked before a mounted component receives new props. This method
@@ -132,7 +133,7 @@ class L_Test_Modal extends React.Component {
     }
   }
 
-  
+
 
 
   /*This event handles saving tests and is executed when the save button
