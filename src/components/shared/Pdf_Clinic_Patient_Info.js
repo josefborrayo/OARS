@@ -55,22 +55,10 @@ class Pdf_Clinic_Patient_Info extends React.Component {
         var pdfMake = require('pdfmake/build/pdfmake.js');
         var pdfFonts = require('pdfmake/build/vfs_fonts.js');
         pdfMake.vfs = pdfFonts.pdfMake.vfs;
-        if (test.category === "L TEST") {
-          docDefinition = { content: [{image: imgData, width: 515, height: 830}] };
-        } else {
-
-          docDefinition = { content: [{image: imgData, width: 525, height: 800}] };
-
-        }
+        docDefinition = { content: [{image: imgData, width: 525, height: 800}] };
         pdfMake.createPdf(docDefinition).download(test.title);
 
       });
-
-  }
-
-  handleStore(totalVal, i) {
-
-    this.state.totalScore[i].value = totalVal;
 
   }
 

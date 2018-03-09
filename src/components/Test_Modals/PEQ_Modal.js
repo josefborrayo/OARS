@@ -53,19 +53,13 @@ class PEQ_Modal extends React.Component {
     }
   };
 
-  componentDidMount() {
-
-    alert(JSON.stringify(this.props.questions))
-
-
-  }
 
   /*React lifecycle method: componentWillReceiveProps
 
   This method is invoked before a mounted component receives new props. This method
   is necessary for updating the test modal content based on which test is selected.*/
   componentWillReceiveProps (nextProps) {
-
+    alert(JSON.stringify(this.props.questions))
     let modalTest;
     /*The modalTest variable defined above is limited to the scope of this block
     using the let keyword. This component is being rendered in the SessionPage_OutcomeTests
@@ -195,8 +189,9 @@ class PEQ_Modal extends React.Component {
       })
       .catch((error) => {
 
-        alert(JSON.stringify(this.state.error))
         this.setState({ error: error.message });
+
+
       });
     /*If the form is not valid then set the state of the error using the error
     constant passed in.*/
@@ -218,7 +213,6 @@ class PEQ_Modal extends React.Component {
       allQuestions
     } = this.state;
 
-    alert(JSON.stringify(allQuestions))
     Object.keys(allQuestions).forEach((category) => {
       const filteredQuestions =  allQuestions[category]
         .filter(question => question.value)

@@ -54,6 +54,11 @@ class TUG_Test_Modal extends React.Component {
     }
   };
 
+  componentWillMount() {
+
+    this.setState({tugTime: ''})
+
+  }
   /*React lifecycle method: componentWillReceiveProps
 
   This method is invoked before a mounted component receives new props. This method
