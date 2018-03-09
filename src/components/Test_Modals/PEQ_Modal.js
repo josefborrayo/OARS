@@ -53,13 +53,17 @@ class PEQ_Modal extends React.Component {
     }
   };
 
+  componentDidUpdate(prevProps) {
+
+    this.setState({allQuestions: Object.assign({}, prevProps.questions)})
+
+  }
 
   /*React lifecycle method: componentWillReceiveProps
 
   This method is invoked before a mounted component receives new props. This method
   is necessary for updating the test modal content based on which test is selected.*/
   componentWillReceiveProps (nextProps) {
-    alert(JSON.stringify(this.props.questions))
     let modalTest;
     /*The modalTest variable defined above is limited to the scope of this block
     using the let keyword. This component is being rendered in the SessionPage_OutcomeTests
@@ -71,7 +75,6 @@ class PEQ_Modal extends React.Component {
     that is going to be edited by clicking the edit button (nextProps.tests).*/
     if (nextProps.selectedTest && nextProps.tests) {
         modalTest = nextProps.tests[nextProps.selectedTest];
-
     }
 
     /*If tests exist in the modalTest array then the test data that corresponds to the
@@ -189,8 +192,17 @@ class PEQ_Modal extends React.Component {
       })
       .catch((error) => {
 
-        this.setState({ error: error.message });
+        if (error.message === "Cannot convert undefined or null to object") {
 
+          this.setState({
+            successMessage: 'Test was saved sucessfully'
+          })
+
+        } else {
+
+          this.setState({ error: error.message });
+
+        }
 
       });
     /*If the form is not valid then set the state of the error using the error
@@ -222,12 +234,17 @@ class PEQ_Modal extends React.Component {
         } else if (category === "Utility") {
           valid = filteredQuestions.length > 4 ? true : false;
         }
-          error = 'You must answer more than half of the questions from each section.'
-          return;
-        })
-     return {
-      valid,
-      error
+        error = 'You must answer more than half of the questions from each section.'
+        return;
+    })
+
+    if(!this.state.title) {
+      valid = false;
+      error = 'Title is required to save form.'
+      return {
+        valid,
+        error
+      }
     }
 
 
@@ -445,6 +462,4 @@ class PEQ_Modal extends React.Component {
 	}
 }
 
-export default connect(state=>({
-    questions: state.session.questions
-}))(PEQ_Modal);
+export default PEQ_Modal;

@@ -119,7 +119,6 @@ class SessionPage_PatientInfo extends React.Component {
 
 
       const {patientInformation} = this.state;
-      alert(JSON.stringify(patientInformation))
       document.cookie = "username=" + patientInformation.id.toString() + " ; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       patientInformation.fullname = document.getElementById("pname").value;
       patientInformation.id = document.getElementById("identification").value;

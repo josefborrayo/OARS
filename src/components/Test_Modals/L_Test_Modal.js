@@ -201,7 +201,17 @@ class L_Test_Modal extends React.Component {
         })
       })
       .catch((error) => {
-        this.setState({ error: error.message });
+        if (error.message === "Cannot convert undefined or null to object") {
+
+          this.setState({
+            successMessage: 'Test was saved sucessfully'
+          })
+
+        } else {
+
+          this.setState({ error: error.message });
+
+        }
       });
     /*If the form is not valid then set the state of the error using the error
     constant passed in.*/

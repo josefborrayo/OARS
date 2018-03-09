@@ -54,11 +54,6 @@ class TUG_Test_Modal extends React.Component {
     }
   };
 
-  componentWillMount() {
-
-    this.setState({tugTime: ''})
-
-  }
   /*React lifecycle method: componentWillReceiveProps
 
   This method is invoked before a mounted component receives new props. This method
@@ -194,7 +189,7 @@ class TUG_Test_Modal extends React.Component {
       })
       .catch((error) => {
 
-        this.setState({ error: error.message });
+          this.setState({ error: error.message });
 
       });
     /*If the form is not valid then set the state of the error using the error
@@ -257,7 +252,6 @@ class TUG_Test_Modal extends React.Component {
   /*This is where the component is rendered.*/
 	render() {
     var errors = this.state.error ? <p> {this.state.error} </p> : '';
-
 		return (
       <div>
       <div className="modal fade" id="tugTestModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
