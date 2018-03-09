@@ -1,7 +1,8 @@
 import React from 'react';
 import firebase from 'firebase';
 import moment from 'moment';
-import Slider from 'react-rangeslider'
+import Slider from 'react-rangeslider';
+import { connect } from 'react-redux';
 
 /*This is the component that is the modal for each individual
 test.*/
@@ -52,14 +53,20 @@ class PEQ_Modal extends React.Component {
     }
   };
 
+  componentDidMount() {
+
+    alert(JSON.stringify(this.props.questions))
+
+
+  }
 
   /*React lifecycle method: componentWillReceiveProps
 
   This method is invoked before a mounted component receives new props. This method
   is necessary for updating the test modal content based on which test is selected.*/
   componentWillReceiveProps (nextProps) {
-    let modalTest;
 
+    let modalTest;
     /*The modalTest variable defined above is limited to the scope of this block
     using the let keyword. This component is being rendered in the SessionPage_OutcomeTests
     component and a tests prop (which contains all of the tests in firebase) is passed in
@@ -444,4 +451,6 @@ class PEQ_Modal extends React.Component {
 	}
 }
 
-export default PEQ_Modal;
+export default connect(state=>({
+    questions: state.session.questions
+}))(PEQ_Modal);

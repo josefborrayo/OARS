@@ -84,6 +84,7 @@ class SessionPage_OutcomeTests extends React.Component {
     componentDidMount() {
 
       scrollIntoView(document.getElementById("outcomeTestPanel"))
+      alert
 
     }
 

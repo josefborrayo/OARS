@@ -188,7 +188,9 @@ class TUG_Test_Modal extends React.Component {
         })
       })
       .catch((error) => {
+
         this.setState({ error: error.message });
+
       });
     /*If the form is not valid then set the state of the error using the error
     constant passed in.*/
@@ -197,6 +199,8 @@ class TUG_Test_Modal extends React.Component {
         error
       })
     }
+
+
   }
 
   /*This function returns the valid variable with the value set to true

@@ -218,7 +218,7 @@ class L_Test_Modal extends React.Component {
   isValid () {
     let valid = true;
     let error = '';
-    alert(JSON.stringify(this.state.title))
+
     if(!this.state.title) {
       valid = false;
       error = 'Title is required to save form.'
