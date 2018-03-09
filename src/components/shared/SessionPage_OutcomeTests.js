@@ -3,9 +3,7 @@ import moment from 'moment';
 import firebase from 'firebase';
 import SweetAlert from 'react-bootstrap-sweetalert';
 import Pdf_Clinic_Patient_Info from './Pdf_Clinic_Patient_Info';
-import TUG_Test_Modal from '../Test_Modals/TUG_Test_Modal'
-import L_Test_Modal from '../Test_Modals/L_Test_Modal'
-import PEQ_Modal from '../Test_Modals/PEQ_Modal'
+import Test_Modal from '../Test_Modals/TestModal'
 import { Link } from 'react-router';
 var scrollIntoView = require('scroll-into-view');
 
@@ -45,20 +43,6 @@ class SessionPage_OutcomeTests extends React.Component {
       this.setState({
         selectedTest
       })
-
-      if (selectedTest === "TUG TEST") {
-
-        document.getElementById("addOutcomeTestButton").dataset.target = "#tugTestModal"
-
-      } else if (selectedTest === "L TEST") {
-
-        document.getElementById("addOutcomeTestButton").dataset.target = "#lTestModal"
-
-      } else if (selectedTest === "PEQ TEST") {
-
-        document.getElementById("addOutcomeTestButton").dataset.target = "#peqQuestionnaireModal"
-
-      }
     }
 
     /*This function executes once a test to be edited has
@@ -88,25 +72,6 @@ class SessionPage_OutcomeTests extends React.Component {
 
     }
 
-    setTarget(selectedTest) {
-
-      if (selectedTest === "TUG TEST") {
-
-        document.getElementById("editTestButton").dataset.target = "#tugTestModal"
-
-
-      } else if (selectedTest === "L TEST") {
-
-        document.getElementById("editTestButton").dataset.target = "#lTestModal"
-
-
-      } else if (selectedTest === "PEQ TEST") {
-
-        document.getElementById("editTestButton").dataset.target = "#peqQuestionnaireModal"
-
-      }
-
-    }
 
     onDelete (test) {
       const getAlert = (test) => (
@@ -432,28 +397,7 @@ class SessionPage_OutcomeTests extends React.Component {
                    test={this.state.modalToBeViewed}
                    patientInformation={this.props.patientInformation}
                   />
-                  <TUG_Test_Modal
-                    selectedTest = {this.state.selectedTest}
-                    sessionId={this.props.patientInformation.sessionId}
-                    rememberValues={this.rememberValues.bind(this)}
-                    tests={this.props.patientInformation.tests}
-                    testId={this.state.testId}
-                  />
-                  <L_Test_Modal
-                    selectedTest = {this.state.selectedTest}
-                    sessionId={this.props.patientInformation.sessionId}
-                    rememberValues={this.rememberValues.bind(this)}
-                    tests={this.props.patientInformation.tests}
-                    testId={this.state.testId}
-                  />
-                  <PEQ_Modal
-                    selectedTest = {this.state.selectedTest}
-                    sessionId={this.props.patientInformation.sessionId}
-                    rememberValues={this.rememberValues.bind(this)}
-                    tests={this.props.patientInformation.tests}
-                    testId={this.state.testId}
-                    questions={this.props.questions}
-                  />
+
               </div>
 		)
 	}
