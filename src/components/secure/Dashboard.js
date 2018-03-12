@@ -26,7 +26,7 @@ class Dashboard extends React.Component {
 					var peqNumber = childSnapshot.child("tests").child("PEQ TEST").numChildren();
 					var lNumber = childSnapshot.child("tests").child("L TEST").numChildren();
 					var sum = tugNumber + peqNumber + lNumber;
-					document.getElementById("total").innerHTML = sum;
+					document.getElementById("total").innerHTML = Math.ceil(sum);
 
 				})
 		})

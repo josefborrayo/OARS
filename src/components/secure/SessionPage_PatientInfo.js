@@ -449,10 +449,10 @@ class SessionPage_PatientInfo extends React.Component {
                                     <select id = "loss" className = "selector" class="selectpicker" defaultValue = {patientInformation.limbLossCause} onChange={this.onInputChange.bind(this, 'limbLossCause')}>
                                       <option>Cancer</option>
                                       <option>Congenital Condition</option>
-                                      <option>Diabetes-Related Complications</option>
-                                      <option>Vascular Disease (non-diabetes related)</option>
-                                      <option>Infection (non-diabetes related)</option>
-                                      <option>Traumatic Incident</option>
+                                      <option>Diabetes-Related</option>
+                                      <option>Vascular</option>
+                                      <option>Infection</option>
+                                      <option>Traumatic</option>
                                       <option>Unknown</option>
                                     </select>
                                   </div>

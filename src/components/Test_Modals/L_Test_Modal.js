@@ -416,7 +416,7 @@ class L_Test_Modal extends React.Component {
                   <div className="panel-body">
                   {/*This is where the video is rendered (in the iframe)*/}
                     <iframe id="video" className = "col-xs-12 text-center instructionalVideo" width="720" height="350"
-                      src={this.state.videoInstructions}
+                      src={this.state.videoInstruction}
                       frameBorder="0" allowFullScreen></iframe>
                   </div>
                 </div>

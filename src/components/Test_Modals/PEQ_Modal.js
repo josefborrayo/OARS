@@ -271,11 +271,6 @@ class PEQ_Modal extends React.Component {
   /*This is where the component is rendered.*/
 	render() {
 
-    const horizontalLabels = {
-      0: 'Extremely Bad',
-      100: 'Really Good'
-    }
-
     const {allQuestions} = this.state;
 
     var errors = this.state.error ? <p> {this.state.error} </p> : '';
@@ -342,7 +337,7 @@ class PEQ_Modal extends React.Component {
                                     <Slider
                                       min={0}
                                       max={100}
-                                      labels={horizontalLabels}
+                                      labels={{0: item.lowerLimit, 100: item.upperLimit}}
                                       step={1}
                                       value={item.value}
                                       tooltip={false}

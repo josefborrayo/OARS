@@ -61,8 +61,7 @@ class App extends React.Component {
 						this.props.fetchUserSettings(snapshot.val());
 					})
 				this.props.onLogin(user);
-				this.props.onRedirect(this.props.next || '/dashboard');
-				this.props.onResetNext();
+				this.props.onRedirect('/dashboard');
 				firebase.database().ref('/sessions').on('value', (snapshot) => {
           const allSessions = snapshot.val();
 					{allSessions ? this.props.fetchUserSessions(allSessions[user.uid]) : <span></span>};
@@ -71,7 +70,6 @@ class App extends React.Component {
 			} else {
 				if (this.props.user) {
 					this.props.onRedirect('/');
-					this.props.onResetNext();
 				} else {
 					this.props.onLogout();
 				}
@@ -116,7 +114,6 @@ component will have access to the updated state. The dispatch function
 is used to dispatch a redux action (function - action creator) which gets
 sent to a redux reducer to update the store.*/
 export default connect(state => ({
-  next: state.auth.next,
   user: state.auth.user}), dispatch => ({
 	onLogin: user => {
 		dispatch(login(user));
@@ -129,9 +126,6 @@ export default connect(state => ({
 	},
 	onRedirect: (path) => {
 		dispatch(push(path));
-	},
-	onResetNext: () => {
-		dispatch(resetNext());
 	},
 	fetchUserSessions: sessions => {
     dispatch(fetchSessions(sessions));

@@ -157,6 +157,10 @@ class Login extends React.Component {
 	/*This is where the component is rendered*/
 	render() {
 		var errors = this.state.error ? <p> {this.state.error} </p> : '';
+		const isRegisterEnabled = this.state.email.length > 0 &&
+		this.state.password.length > 0 && (this.state.fullname && this.state.fullname.length > 0)
+		&& (this.state.clinicId && this.state.clinicId.length > 0);
+
 		return (
 			<div>
 			{/*This is the login form. When the sign in button is clicked this form's submission
@@ -190,7 +194,7 @@ class Login extends React.Component {
 						tabIndex="2"
 						className="form-control"
 						placeholder="Password"
-											value={this.state.password}
+						value={this.state.password}
 						onChange={this.onInputChange.bind(this, 'password')}
 					/>
 				</div>
@@ -272,6 +276,7 @@ class Login extends React.Component {
 	                  onChange={this.onInputChange.bind(this, 'clinicId')}
 	                />
 	              </div>
+								{!isRegisterEnabled && <div className="alert alert-danger">All fields are required</div>}
 								{errors && <div className="alert alert-danger">{errors}</div>}
 				  			<br/>
 								{/*Submit button for the form*/}
@@ -283,8 +288,9 @@ class Login extends React.Component {
 	                    name="register-submit"
 	                    id="register-submit"
 	                    tabIndex="4"
-	                    className="form-control btn btn-register"
+	                    className="form-control btn btn-success btn-register"
 	                    value="Register Now"
+											disabled={!isRegisterEnabled}
 	                  />
 										{/*When this link is clicked, the CSS of the register form gets set so that it is hidden while the login form is displayed.*/}
 	                </div>
@@ -297,4 +303,4 @@ class Login extends React.Component {
 	}
 }
 
-export default connect()(Login);
+export default Login;

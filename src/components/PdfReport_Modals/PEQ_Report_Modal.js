@@ -1,10 +1,17 @@
 import React from 'react';
+/*
+This is the PDF report component for the Prosthesis Evaluation Questionnaire.
 
+All test reports follow a similar format and a new test report
+would be added in the format shown below.
+*/
 class PEQ_Report_Modal extends React.Component {
 
+  /*State variables for the component which includes
+  references and other information necessary for the
+  results interpretation.*/
   state = {
 
-    test: {},
     peqReference: "[1] Legro, M. W., Reiber, G. D., Smith, D. G., Aguila, M. D., Larsen, J., & Boone, D. (1998). Prosthesis evaluation questionnaire for persons with lower limb amputations: Assessing prosthesis-related quality of life. Archives of Physical Medicine and Rehabilitation, 79(8), 931-938. doi:10.1016/s0003-9993(98)90090-9\n\n" + "Link: http://www.archives-pmr.org/article/S0003-9993(98)90090-9/pdf",
     peqAdditionalResultInterpretation: "This prosthesis evaluation questionnaire takes into account the satisfaction and utility subscales and compares against the population averages.",
     populationAverage: [
@@ -13,13 +20,13 @@ class PEQ_Report_Modal extends React.Component {
       {value: 72}
 
     ],
-    totalNumber: [
+    totalNumberOfQuestionsInSubscale: [
 
       {value: 3},
       {value: 8}
 
     ],
-    totalScore: [
+    totalScoreOfEachSubscale: [
 
       {value: '0'},
       {value: '0'}
@@ -28,31 +35,25 @@ class PEQ_Report_Modal extends React.Component {
 
   }
 
-  componentDidMount() {
-    this.setState({
-      test: this.props.test
-    })
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.test) {
-      this.setState({
-        test: nextProps.test
-      })
-    }
-  }
-
-  handleStore(totalVal, i) {
-
-    this.state.totalScore[i].value = totalVal;
-
-  }
 
   render() {
 
+    /*Test data and other state variables
+    are passed in to get printed to the report.*/
     const {test} = this.props;
     const {peqReference, peqAdditionalResultInterpretation} = this.state;
-    const totalQuestions = (questions => questions.filter(question => question.value || question.value === 0).length);
+    {/*This constant utilizes the filter function to create a new array
+      of questions that have been answered (have a value equal to or
+      greater than 0) and store the length of the array (number of questions
+      answered). It takes the a question for a subscale as a parameter
+      when called.*/}
+    const totalQuestionsAnswered = (questions => questions.filter(question => question.value || question.value === 0).length);
+
+    {/*This constant utilizes the filter function to create a new array
+      of questions that have been answered (have a value equal to or
+      greater than 0). For each question, its value is added to a sum
+      and the total sum value is divided by the total number of questions
+      answered. To get the average score for each subscale.*/}
     const averageScore = (questions) => {
       let sum = 0
       let answeredQuestions = questions.filter(question => question.value || question.value === 0);
@@ -60,6 +61,7 @@ class PEQ_Report_Modal extends React.Component {
       return Math.ceil(sum/answeredQuestions.length)
     }
 
+    {/*This is where the information gets printed to the report.*/}
     return (
 
       <div>
@@ -73,18 +75,21 @@ class PEQ_Report_Modal extends React.Component {
           <th className="text-center">Population Average [1]</th>
         </tr>
       </thead>
-
+      {/*This is where the predefined constants are called. The map function is used
+        to get the properties of each question stored in the questions array in the test props
+        which are then used to calculate averages, etc using the predefined constants*/}
       {Object.keys(test.questions).map((category, i) => <tr key={i}>
           <td></td>
           <td>{category}</td>
-          <td>{totalQuestions(test.questions[category])}/{this.state.totalNumber[i].value}</td>
+          <td>{totalQuestionsAnswered(test.questions[category])}/{this.state.totalNumberOfQuestionsInSubscale[i].value}</td>
           <td className="text-center text-success">{averageScore(test.questions[category])}</td>
-          {this.handleStore(averageScore(test.questions[category]), i)}
           <td className="text-center text-success">{this.state.populationAverage[i].value}</td>
         </tr>
 
       )}
     </table>
+    {/*The comment for the test, other results interpretations, and citations
+      for documents are printed here.*/}
     <div className="afterResults">
       <div className="card informationCard">
         <p>{peqAdditionalResultInterpretation}</p>

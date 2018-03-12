@@ -1,7 +1,14 @@
 import React from 'react';
+/*
+This is the PDF report component for the Timed Up & Go test.
 
+All test reports follow a similar format and a new test report
+would be added in the format shown below.
+*/
 class TUG_Test_Report_Modal extends React.Component {
 
+  /*State variables for the TUG test which include
+  references and results interpretations.*/
   state = {
 
     test: {},
@@ -12,25 +19,17 @@ class TUG_Test_Report_Modal extends React.Component {
 
   }
 
-  componentDidMount() {
-    this.setState({
-      test: this.props.test
-    })
-  }
 
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.test) {
-      this.setState({
-        test: nextProps.test
-      })
-    }
-  }
-
+  /*The test data is passed in as props in addition
+  to the state variables for references and results
+  which are printed to the report below.*/
   render() {
 
     const {test} = this.props;
     const {tugReference, tugAdditionalResultInterpretation} = this.state;
 
+    {/*This constant takes the time metric entered for the test as a parameter
+    and returns the result.*/}
     const tugTestResult = (tugTime) => {
 
         if (tugTime < 12) {
@@ -47,7 +46,7 @@ class TUG_Test_Report_Modal extends React.Component {
 
     }
 
-
+    {/*This is where information gets printed to the report.*/}
     return (
 
       <div>

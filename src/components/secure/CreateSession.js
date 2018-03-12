@@ -78,18 +78,6 @@ class CreateSession extends React.Component {
     const postData = {
       sessionId: randtoken.generate(16),
       id: this.state.id,
-      fullname: '',
-      sex: '',
-      age: '',
-      race: '',
-      amputationLevel: '',
-      limbLossCause: '',
-      kLevel: '',
-      amputationSide: '',
-      weight: '',
-      feet: '',
-      inch: '',
-      centimeter: '',
       completed: false,
       date: moment().format('MMMM Do YYYY, h:mm:ss a')
     }
@@ -130,8 +118,8 @@ class CreateSession extends React.Component {
             if (currentId === childData) {
 
               swal({
-                button: "Continue",
-                text: "There is already a patient on record with this ID. You will be creating a duplicate record for this patient.",
+                button: "Got it",
+                text: "Note: There is already a patient on record with this ID.",
                 icon: "warning",
                 className: "matchingID"
               });
@@ -398,6 +386,7 @@ class CreateSession extends React.Component {
                           class="form-control"
                           value={this.state.id}
                           placeholder="ex. 12345"
+                          max = "999999999999"
                           onBlur={this.autoCompleteForm.bind(this)}
                           onChange={this.onInputChange.bind(this, 'id')}
                         />
@@ -412,6 +401,7 @@ class CreateSession extends React.Component {
                             type="text"
                             class="form-control"
                             id="patientName"
+                            maxLength = "25"
                             value={this.state.fullname}
                             onChange={this.onInputChange.bind(this, 'fullname')}
                           />
@@ -480,6 +470,8 @@ class CreateSession extends React.Component {
                                 type="number"
                                 id="patientCentimeter"
                                 value={this.state.centimeter}
+                                min="0"
+                                max="300"
                                 onChange={this.onInputChange.bind(this, 'centimeter')}
                               /><span> Centimeter(s): </span>
 
@@ -609,9 +601,9 @@ class CreateSession extends React.Component {
                           <option>Select</option>
                           <option>Cancer</option>
                           <option>Congenital Condition</option>
-                          <option>Diabetes-Related Complications</option>
-                          <option>Vascular Disease (non-diabetes related)</option>
-                          <option>Infection (non-diabetes related)</option>
+                          <option>Diabetes-Related</option>
+                          <option>Vascular</option>
+                          <option>Infection</option>
                           <option>Traumatic Incident</option>
                           <option>Unknown</option>
                         </select>
