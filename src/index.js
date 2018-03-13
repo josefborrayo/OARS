@@ -69,7 +69,7 @@ ReactDOM.render(
 				<Route path='test/:id' component={SessionPage_PatientInfo} onEnter={secure}/>
 				<Route path='settings' component={Settings} onEnter={secure}/>
 				<Route path='completed_sessions' component={CompletedSessions}  onEnter={secure}/>
-				<Route path='createform' component={CreateSession} onEnter={secure}/>
+				<Route path='create_session' component={CreateSession} onEnter={secure}/>
 				<Route path='dashboard' component={Dashboard}/>
 				<Route path='help' component={Help} onEnter={secure}/>
 			</Route>

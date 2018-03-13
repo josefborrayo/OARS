@@ -22,7 +22,7 @@ class Sidebar extends React.Component {
               Dashboard </Link>
             </li>
             <li>
-              <Link activeClassName="active" to="/createform">
+              <Link activeClassName="active" to="/create_session">
               <i className="glyphicon glyphicon-plus"></i>
               Create New Session </Link>
             </li>
