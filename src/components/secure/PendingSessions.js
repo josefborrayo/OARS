@@ -252,7 +252,13 @@ class PendingSessions extends React.Component {
 		)
 	}
 }
-
+/*The connect function connects the application to a redux store.
+Redux store stores the state of the application. By passing in the
+state parameter, this component subscribes to the redux store updates.
+Therefore, whenever the store (state of the application) is updated, the
+component will have access to the updated state. The dispatch function
+is used to dispatch a redux action (function - action creator) which gets
+sent to a redux reducer to update the store.*/
 export default connect(state  => ({
     sessions: state.session.sessions
 }))(PendingSessions);

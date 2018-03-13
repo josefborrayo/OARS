@@ -7,10 +7,13 @@ import L_Test_Report_Modal from '../PdfReport_Modals/L_Test_Report_Modal';
 import PEQ_Report_Modal from '../PdfReport_Modals/PEQ_Report_Modal';
 
 /*This is the component that displays the modal of
-the final report (for a completed outcome test) to be generated.*/
+the final report (for a completed outcome test) to be generated
+Specifically the clinician and patient information which is common
+across all tests.*/
 
 class Pdf_Clinic_Patient_Info extends React.Component {
 
+  /*Constructor to bind methods*/
   constructor(props) {
 
     super(props)
@@ -23,30 +26,19 @@ class Pdf_Clinic_Patient_Info extends React.Component {
     test: {}
   }
 
-  componentDidMount() {
-    this.setState({
-      test: this.props.test
-    })
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.test) {
-      this.setState({
-        test: nextProps.test
-      })
-    }
-  }
-
   /*
   The function that generates the Portable Document Form (PDF)
   */
   printDocument() {
 
-    const {test} = this.state
-
+    const {test} = this.props
+    /*This var stores the html modal where the report is printed.*/
     var pdfToModal = document.getElementById('pdf-content');
 
-    // prepares and copies data onto document canvas
+    /*The html2canvas function converts html which in
+    this case is the pdf modal, to a blank canvas. The
+    dataurl for this canvas is then printed to a pdf
+    and can be printed using the pdfMake library.*/
     html2canvas(pdfToModal)
       .then((canvas) => {
 
@@ -62,7 +54,7 @@ class Pdf_Clinic_Patient_Info extends React.Component {
 
   }
 
-  /* Renders the test in the previewer*/
+  /*Renders the test in the previewer*/
   renderReport(whichTest) {
 
     const { test, patientInformation } = this.props;
@@ -71,21 +63,21 @@ class Pdf_Clinic_Patient_Info extends React.Component {
 
       return (
 
-        <TUG_Test_Report_Modal test = {this.state.test}/>
+        <TUG_Test_Report_Modal test = {test}/>
 
       )
 
     } else if (whichTest === "PEQ TEST") {
 
       return (
-        <PEQ_Report_Modal test = {this.state.test}/>
+        <PEQ_Report_Modal test = {test}/>
       )
 
     } else if (whichTest === "L TEST" ) {
 
       return (
 
-        <L_Test_Report_Modal test = {this.state.test} patientInformation = {this.props.patientInformation}/>
+        <L_Test_Report_Modal test = {test} patientInformation = {patientInformation}/>
 
       )
 
@@ -169,7 +161,11 @@ class Pdf_Clinic_Patient_Info extends React.Component {
     )
   }
 }
-
+/*The connect function connects the application to a redux store.
+Redux store stores the state of the application. By passing in the
+state parameter, this component subscribes to the redux store updates.
+The settings state variable is used to print information in the settings
+such as the clinician name to the report.*/
 export default connect(state=>({
-    settings: state.auth.settings,
+  settings: state.auth.settings
 }))(Pdf_Clinic_Patient_Info);

@@ -1,3 +1,6 @@
+/*These are the questions for the Prosthesis Evaluation Questionnare.
+These questions are stored in an array in the App.js component. Additional
+subscales/questions can be added as shown below.*/
 export default {
     Satisfaction: [
       {

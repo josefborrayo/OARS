@@ -5,7 +5,7 @@ import TUG_Test_Modal from '../Test_Modals/TUG_Test_Modal'
 import L_Test_Modal from '../Test_Modals/L_Test_Modal'
 import PEQ_Modal from '../Test_Modals/PEQ_Modal'
 
-/*This is the component that is the modal for each individual
+/*This is the component that renders the modal for each
 test.*/
 
 class TestModal extends React.Component {
@@ -18,9 +18,8 @@ class TestModal extends React.Component {
   /*This function handles rendering the correct test
   on the modal depending on the selectedTest variable
   which gets set when the desired test is selected from
-  the test dropdown selection. In this function,
-  it is possible to change or add new tests and the
-  metrics required for them.*/
+  the test dropdown selection in the SessionPage_OutcomeTests
+  component.*/
   renderTest() {
 
     if (this.props.selectedTest === "TUG TEST") {

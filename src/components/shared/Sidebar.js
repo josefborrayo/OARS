@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
+/*The sidebar component*/
 class Sidebar extends React.Component {
 
   render() {
@@ -57,7 +58,12 @@ class Sidebar extends React.Component {
     )
   }
 }
-
+/*The connect function connects the application to a redux store.
+Redux store stores the state of the application. By passing in the
+state parameter, this component subscribes to the redux store updates
+So the state of the variables such as user and settings can be shared
+across different components.
+*/
 export default connect(state=>({
 	user: state.auth.user,
 	settings: state.auth.settings

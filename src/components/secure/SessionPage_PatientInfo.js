@@ -38,7 +38,7 @@ class SessionPage_PatientInfo extends React.Component {
       feet: '',
       inch: '',
       centimeter: '',
-      amputationLevel: '',
+      limbLevel: '',
       kLevel: '',
       amputationSide: '',
       limbLossCause: ''
@@ -126,7 +126,7 @@ class SessionPage_PatientInfo extends React.Component {
       patientInformation.race = document.getElementById("race").value;
       patientInformation.weight = document.getElementById("weight").value;
       patientInformation.sex = document.getElementById("sex").value;
-      patientInformation.amputationLevel = document.getElementById("level").value;
+      patientInformation.limbLevel = document.getElementById("level").value;
       patientInformation.kLevel = document.getElementById("klevel").value;
       patientInformation.amputationSide = document.getElementById("amp").value
       patientInformation.limbLossCause = document.getElementById("loss").value;
@@ -142,7 +142,7 @@ class SessionPage_PatientInfo extends React.Component {
           field3: patientInformation.sex,
           field4: patientInformation.age,
           field5: patientInformation.race,
-          field6: patientInformation.amputationLevel,
+          field6: patientInformation.limbLevel,
           field7: patientInformation.limbLossCause,
           field8: patientInformation.kLevel,
           field9: patientInformation.amputationSide,
@@ -162,7 +162,7 @@ class SessionPage_PatientInfo extends React.Component {
           field3: patientInformation.sex,
           field4: patientInformation.age,
           field5: patientInformation.race,
-          field6: patientInformation.amputationLevel,
+          field6: patientInformation.limbLevel,
           field7: patientInformation.limbLossCause,
           field8: patientInformation.kLevel,
           field9: patientInformation.amputationSide,
@@ -232,7 +232,7 @@ class SessionPage_PatientInfo extends React.Component {
         patientInformation.sex= cookieParse.field3
         patientInformation.age= cookieParse.field4
         patientInformation.race=cookieParse.field5
-        patientInformation.amputationLevel= cookieParse.field6
+        patientInformation.limbLevel= cookieParse.field6
         patientInformation.limbLossCause= cookieParse.field7
         patientInformation.kLevel=cookieParse.field8
         patientInformation.amputationSide= cookieParse.field9
@@ -248,7 +248,7 @@ class SessionPage_PatientInfo extends React.Component {
             sex: cookieParse.field3,
             age: cookieParse.field4,
             race: cookieParse.field5,
-            amputationLevel: cookieParse.field6,
+            limbLevel: cookieParse.field6,
             limbLossCause: cookieParse.field7,
             kLevel: cookieParse.field8,
             amputationSide: cookieParse.field9,
@@ -267,7 +267,7 @@ class SessionPage_PatientInfo extends React.Component {
             sex: cookieParse.field3,
             age: cookieParse.field4,
             race: cookieParse.field5,
-            amputationLevel: cookieParse.field6,
+            limbLevel: cookieParse.field6,
             limbLossCause: cookieParse.field7,
             kLevel: cookieParse.field8,
             amputationSide: cookieParse.field9,
@@ -416,7 +416,7 @@ class SessionPage_PatientInfo extends React.Component {
                                 <td>Limb Loss Level:</td>
                                 <td>{editPatient === true ?
                                   <div>
-                                    <select id = "level" className = "selector" class="selectpicker" defaultValue = {patientInformation.amputationLevel} onChange={this.onInputChange.bind(this, 'amputationLevel')}>
+                                    <select id = "level" className = "selector" class="selectpicker" defaultValue = {patientInformation.limbLevel} onChange={this.onInputChange.bind(this, 'limbLevel')}>
                                       <option>Partial Foot</option>
                                       <option>Ankle Disarticulation</option>
                                       <option>Knee Disarticulation</option>
@@ -426,7 +426,7 @@ class SessionPage_PatientInfo extends React.Component {
                                       <option>Hemipelvectomy</option>
                                     </select>
                                   </div>
-                                  :patientInformation.amputationLevel}</td>
+                                  :patientInformation.limbLevel}</td>
                             </tr>
                             <tr>
                                 <td>Amputation Side:</td>

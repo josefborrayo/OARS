@@ -6,7 +6,7 @@ import { push } from 'react-router-redux';
 
 import '../assets/css/home.css';
 
-//components
+//This is login/register page component.
 import Login from './auth/Login';
 
 class Home extends React.Component {
@@ -18,25 +18,16 @@ class Home extends React.Component {
 	};
 
 	componentDidMount() {
+		/*If there is successful login, redirect to the next page
+		or reload the login page using the default redux next
+		and redirect functions.*/
 		if (firebase.auth().currentUser) {
 			this.props.onRedirect(this.props.next || '/dashboard');
 		}
 	}
 
-	handleSubmit(event) {
-		event.preventDefault();
-		firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-			.catch((error)=> {
-				this.setState({ error: error });
-			});
-	}
-
-	onInputChange(name, event) {
-		var change= {};
-		change[name]= event.target.value;
-		this.setState(change);
-	}
-
+	//The Login component is rendered here which
+	//handles both logging in and registering a user.
 	render() {
 		return (
 			<div>
@@ -67,6 +58,15 @@ class Home extends React.Component {
 	}
 }
 
+/*The connect function connects the application to a redux store.
+Redux store stores the state of the application. By passing in the
+state parameter, this component subscribes to the redux store updates.
+Therefore, whenever the store (state of the application) is updated, the
+component will have access to the updated state. The dispatch function
+is used to dispatch a redux action (function - action creator) which gets
+sent to a redux reducer to update the store. In this case, onRedirect is
+an included function so there is no action or reducer defined for this
+function.*/
 export default connect(null, dispatch=> ({
 	onRedirect: (path)=> {
 		dispatch(push(path));

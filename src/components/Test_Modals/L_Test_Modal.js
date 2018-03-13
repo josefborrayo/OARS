@@ -2,8 +2,8 @@ import React from 'react';
 import firebase from 'firebase';
 import moment from 'moment';
 
-/*This is the component that is the modal for each individual
-test.*/
+/*Test modal for L test. Test modals for new tests would
+be added in a similar format.*/
 
 class L_Test_Modal extends React.Component {
 
@@ -16,14 +16,7 @@ class L_Test_Modal extends React.Component {
 
   }
 
-  /*The state variables for this component. The title for the test,
-  the time for the test, comment, and testId and selectedTest
-  are common across all tests. The aidUsed variable stores whether or
-  not the patient used a walking aid for the L test. The videos and text
-  variable are for the video and text instructions for each text. The error
-  variable stores the error message if for example a title has not been
-  entered for a test. The allQuestions array stores the questions from
-  PeqQuestionnaire javascript file.*/
+  /*The state variables for this component.*/
   state = {
 
     title: '',
@@ -164,7 +157,6 @@ class L_Test_Modal extends React.Component {
     the value of valid and error.
     */
 
-
     /*If the form (test modal) is valid, then the test is successfully created
     and submitted to firebase using default firebase functions to store
     the array of relevant information for each test. This is the postData array. */
@@ -217,7 +209,7 @@ class L_Test_Modal extends React.Component {
 
   /*This function returns the valid variable with the value set to true
   if the form is valid or false if not and will set the error to the appropriate
-  error message depending on the test in which the error is made.*/
+  error message depending on the test where the error was made.*/
   isValid () {
     let valid = true;
     let error = '';
@@ -311,9 +303,7 @@ class L_Test_Modal extends React.Component {
               <label>Date:</label>
               <span>   {this.state.date}</span>
             </div>
-            {/*Once the information that is common across all test modals such as
-            the title date and category are rendered, the selected test will be
-            rendered using the renderTest function.*/}
+            {/*Test inputs specific to the test are printed here.*/}
             <table className="table table-bordered table-hover">
             <thead>
               <tr>
@@ -374,9 +364,7 @@ class L_Test_Modal extends React.Component {
                 </div>
               </div>
             </form>
-            {/*This is the accordion for the text instructions for each test.
-              The text instructions get set based on which test is selected
-              in the text state array.*/}
+            {/*This is the accordion for the text instructions for the test.*/}
             <div className="panel-group" id="accordion">
               <div className="panel panel-default">
                 <div className="panel-heading">
@@ -399,8 +387,7 @@ class L_Test_Modal extends React.Component {
               </div>
             </div>
             {/*This is the accordion for the video instructions for each test.
-              The video instructions get set in an iframe based on which test
-              is selected in the videos state array.*/}
+              The video instructions get set in an iframe.*/}
             <div className="panel-group" id="accordion">
               <div className="panel panel-default">
                 <div className="panel-heading">

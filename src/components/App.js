@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import * as firebase from 'firebase';
 import { login, logout, resetNext, fetchUserSettings } from '../actions/auth';
 
+/*This is the top level component of the application.*/
+
 import {
     fetchSessions,
 		saveQuestions
@@ -45,13 +47,26 @@ class App extends React.Component {
 		}
 	};
 
+  /*React lifecycle function.
+  This function is automatically executed when the component mounts.*/
 	componentDidMount() {
+    /*The array of questions for the subscales in the PeqQuestions.js
+    file are stored in the questions variable using the localStorage method.
+    the checkAuthentication method is also called here.*/
 		localStorage.setItem('questions', JSON.stringify(PeqQuestions))
 		this.checkAuthentication();
 	}
 
+  /*This function is executed when the user logins
+  and will redirect the user to the login page if login
+  fails but will otherwise redirect to the dashboard page.*/
   checkAuthentication() {
 		firebase.auth().onAuthStateChanged(user => {
+
+      /*Using default firebase functions, if the user
+      has successfully logged in, a snapshot of the data
+      specific to the user will be taken (sessions) and stored
+      using the redux reducers to be shared across all components.*/
 			if (user) {
 				this.setState({
 					authenticated: true
@@ -61,15 +76,18 @@ class App extends React.Component {
 						this.props.fetchUserSettings(snapshot.val());
 					})
 				this.props.onLogin(user);
-				this.props.onRedirect('/dashboard');
+				this.props.onRedirect(this.props.next || '/dashboard');
 				firebase.database().ref('/sessions').on('value', (snapshot) => {
           const allSessions = snapshot.val();
+          /*PEQ questions and sessions are stored using redux reducers
+          and actions once the user has successfully logged in.*/
 					{allSessions ? this.props.fetchUserSessions(allSessions[user.uid]) : <span></span>};
 					this.props.saveQuestions(JSON.parse(localStorage.getItem('questions')));
 				})
-			} else {
+      } else {
 				if (this.props.user) {
 					this.props.onRedirect('/');
+					this.props.onResetNext();
 				} else {
 					this.props.onLogout();
 				}
@@ -83,7 +101,9 @@ class App extends React.Component {
 		});
 	}
 
-
+  /*The top level component is always rendered so
+  the header bar and side bar components are rendered
+  here as they are static across all pages.*/
 	render() {
 
 		const view1 = <div id="wrapper" style={ this.styles.app }>
@@ -114,6 +134,7 @@ component will have access to the updated state. The dispatch function
 is used to dispatch a redux action (function - action creator) which gets
 sent to a redux reducer to update the store.*/
 export default connect(state => ({
+  next: state.auth.next,
   user: state.auth.user}), dispatch => ({
 	onLogin: user => {
 		dispatch(login(user));
@@ -126,6 +147,9 @@ export default connect(state => ({
 	},
 	onRedirect: (path) => {
 		dispatch(push(path));
+	},
+	onResetNext: () => {
+		dispatch(resetNext());
 	},
 	fetchUserSessions: sessions => {
     dispatch(fetchSessions(sessions));

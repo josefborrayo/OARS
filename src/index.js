@@ -28,6 +28,8 @@ import CreateSession from './components/secure/CreateSession'
 import Dashboard from './components/secure/Dashboard'
 import Help from './components/secure/Help'
 
+//Routing for the application is handled in this component.
+
 const reducer = combineReducers({
 	...reducers,
 	routing: routerReducer
@@ -35,16 +37,26 @@ const reducer = combineReducers({
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+/*Using the reducer and composeEnhancers constants defined above,
+the redux store is created which stores the state of the application
+and by using reducers and actions, predefined state variables can
+be shared across components.*/
 const store = createStore(
 	reducer,
 	composeEnhancers(applyMiddleware(routerMiddleware(browserHistory)))
 );
 
+/*This constant handles browser session history.*/
 const history = syncHistoryWithStore(browserHistory, store);
 
+/*This constant checks for user authentication when
+a page is navigated to. The requireAuth function is located
+in the secure.js file.*/
 const secure = requireAuth(store);
 
-
+/*This where routing for each component is handled. The onEnter
+event handler calls the secure constant to check user authentication
+*/
 ReactDOM.render(
 	<Provider store={store}>
 		<Router history={history}>

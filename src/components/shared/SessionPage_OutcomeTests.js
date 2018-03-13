@@ -388,7 +388,7 @@ class SessionPage_OutcomeTests extends React.Component {
                     </span>
                 </div>
                 {/*This is where both modal types are called so props can
-                  be passed in. AddTestModal is the test modal for each test.
+                  be passed in. TestModal is the test modal for each test.
                   Pdf_Clinic_Patient_Info is the modal which reports the interpretation
                   of results for each test.*/}
 

@@ -54,7 +54,6 @@ class CompletedSessions extends React.Component {
   or deleted so the list of completed sessions can be updated. This method follows the same procedure
   as the componentWillMount method for this component.*/
   componentWillReceiveProps(nextProps) {
-
     if (nextProps.sessions) {
         let allSessions = [];
         Object.keys(nextProps.sessions).forEach((sessionId) => {

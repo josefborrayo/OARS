@@ -252,8 +252,7 @@ class Settings extends React.Component {
 /*The connect function connects the application to a redux store.
 Redux store stores the state of the application. By passing in the
 state parameter, this component subscribes to the redux store updates.
-Therefore, whenever the store (state of the application) is updated, the
-component will have access to the updated state.*/
+*/
 export default connect(state=>({
 	user: state.auth.user,
 	settings: state.auth.settings

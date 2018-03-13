@@ -40,7 +40,7 @@ class CreateSession extends React.Component {
     feet: '',
     inch: '',
     centimeter: '',
-    amputationLevel: 'Select',
+    limbLevel: 'Select',
     kLevel: 'Select',
     amputationSide: 'Select',
     limbLossCause: 'Select',
@@ -144,7 +144,7 @@ class CreateSession extends React.Component {
         field3: this.state.sex,
         field4: this.state.age,
         field5: this.state.race,
-        field6: this.state.amputationLevel,
+        field6: this.state.limbLevel,
         field7: this.state.limbLossCause,
         field8: this.state.kLevel,
         field9: this.state.amputationSide,
@@ -165,7 +165,7 @@ class CreateSession extends React.Component {
         field3: this.state.sex,
         field4: this.state.age,
         field5: this.state.race,
-        field6: this.state.amputationLevel,
+        field6: this.state.limbLevel,
         field7: this.state.limbLossCause,
         field8: this.state.kLevel,
         field9: this.state.amputationSide,
@@ -245,7 +245,7 @@ class CreateSession extends React.Component {
           sex: cookieParse.field3,
           age: cookieParse.field4,
           race: cookieParse.field5,
-          amputationLevel: cookieParse.field6,
+          limbLevel: cookieParse.field6,
           limbLossCause: cookieParse.field7,
           kLevel: cookieParse.field8,
           amputationSide: cookieParse.field9,
@@ -264,7 +264,7 @@ class CreateSession extends React.Component {
           sex: cookieParse.field3,
           age: cookieParse.field4,
           race: cookieParse.field5,
-          amputationLevel: cookieParse.field6,
+          limbLevel: cookieParse.field6,
           limbLossCause: cookieParse.field7,
           kLevel: cookieParse.field8,
           amputationSide: cookieParse.field9,
@@ -282,7 +282,7 @@ class CreateSession extends React.Component {
         document.getElementById("patientGender").value = this.state.sex;
         document.getElementById("patientAge").value = this.state.age;
         document.getElementById("patientRace").value = this.state.race;
-        document.getElementById("patientLevel").value = this.state.amputationLevel;
+        document.getElementById("patientLevel").value = this.state.limbLevel;
         document.getElementById("patientCause").value = this.state.limbLossCause;
         document.getElementById("patientKLevel").value = this.state.kLevel;
         document.getElementById("patientSide").value = this.state.amputationSide;
@@ -360,11 +360,11 @@ class CreateSession extends React.Component {
       patient information form. The button is disabled until all input fields are filled out
       and in the case of the drop down selections, once any option other than the default "Select"
       option is selected.*/}
-    const { id, sex, age, race, amputationLevel, limbLossCause, kLevel, amputationSide,
+    const { id, sex, age, race, limbLevel, limbLossCause, kLevel, amputationSide,
       weight, feet, inch, centimeter, fullname, measurementUnit} = this.state;
     const isEnabled = fullname.length > 0 && id.length > 0 && (sex !== "Select") && age.length > 0 &&
     (race !== "Select") && weight.length > 0 && ((feet.length > 0 && inch.length > 0) || centimeter.length > 0) &&
-    (amputationLevel !== "Select") && (limbLossCause !== "Select") && (kLevel !== "Select") && (amputationSide !== "Select");
+    (limbLevel !== "Select") && (limbLossCause !== "Select") && (kLevel !== "Select") && (amputationSide !== "Select");
 
 		return (
       <div id="wrapper" className="container">
@@ -577,7 +577,7 @@ class CreateSession extends React.Component {
 
                       <div class="form-group">
                         <label for="patientLevel">Amputation Level:</label><br />
-                        <select class="selectpicker" id="patientLevel" autoComplete="off" value={this.state.amputationLevel} onChange={this.onInputChange.bind(this, 'amputationLevel')}>
+                        <select class="selectpicker" id="patientLevel" autoComplete="off" value={this.state.limbLevel} onChange={this.onInputChange.bind(this, 'limbLevel')}>
                           <option>Select</option>
                           <option>Partial Foot</option>
                           <option>Ankle Disarticulation</option>
@@ -661,7 +661,13 @@ class CreateSession extends React.Component {
 		)
 	}
 }
-
+/*The connect function connects the application to a redux store.
+Redux store stores the state of the application. By passing in the
+state parameter, this component subscribes to the redux store updates.
+Therefore, whenever the store (state of the application) is updated, the
+component will have access to the updated state. The dispatch function
+is used to dispatch a redux action (function - action creator) which gets
+sent to a redux reducer to update the store.*/
 export default connect(state => ({
   settings: state.auth.settings
   }), dispatch => ({

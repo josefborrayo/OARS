@@ -21,9 +21,12 @@ class Help extends React.Component {
 								When viewing these sessions on another device, the information for the patient
 								will no longer be available.</h3>
 							</blockquote>
-
+							{/*
 							<li>Question 2</li>
-							<blockquote>Answer 2</blockquote>
+							<blockquote>
+								Answer 2
+							</blockquote>
+							*/}
 						</div>
 
           </div>
