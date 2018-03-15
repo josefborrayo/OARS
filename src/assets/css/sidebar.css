@@ -1,38 +1,14 @@
 .settings {
   margin: 20px 0;
 }
-
-.fixFont {
-
-  width: 130%;
-
-}
-
-/* Profile sidebar */
+/*Sidebar settings*/
 .settings-sidebar {
 
 
   background: #fff;
 
-
 }
 
-.fixFont {
-
-  height: 20px;
-  bottom: 20px;
-
-
-}
-
-#sidebarLogo {
-
-
-  width: 120%;
-  height: 120%;
-
-
-}
 .settings-usertitle {
   text-align: center;
   margin-top: 22px;
@@ -109,7 +85,7 @@
   margin-left: -2px !important;
 }
 
-/* Profile Content */
+/* Settings Content */
 .settings-content {
   padding: 20px;
   background: #fff;

@@ -1,15 +1,10 @@
-{/*
-
-This is the login component for the application.
-
-*/}
-
 import React from 'react';
 import * as firebase from 'firebase';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-
+//The login/register component
+//This component inherits css from assets/home.css
 class Login extends React.Component {
 
 	/*Constructor to bind methods*/
@@ -167,7 +162,7 @@ class Login extends React.Component {
 			is handled using the handleLogin method above.*/}
 			<form onSubmit={this.handleLogin.bind(this)} id="login-form" action="#" method="post" role="form">
 				<div className = "panel-heading text-center">
-					<h4 id = "heading-value">Login</h4>
+					<h4 id = "header">Login</h4>
 				</div>
 				{/*Clinician's email*/}
 				<div className="form-group">
@@ -215,7 +210,7 @@ class Login extends React.Component {
 				{/*This is the register form*/}
 				<form onSubmit={this.handleRegister.bind(this)} id="register-form" action="#" method="post" role="form">
 									<div className = "panel-heading text-center">
-										<h3 id = "heading-value">Register</h3>
+										<h3 id = "header">Register</h3>
 									</div>
 									{/*Clinician's full name*/}
 	                <div className="form-group">

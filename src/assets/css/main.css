@@ -6,9 +6,7 @@ body {
 	color: #000;
 	font-size: 25px;
 }
-.mrgn-50 {
-	margin: 50px 0 20px
-}
+
 span.icon {
 	margin: 0 5px;
 	color: #D64541;
@@ -36,6 +34,7 @@ a {
   margin-top: 30px;
 }
 
+/*CSS for the headerbar (navbar - bootstrap)*/
 .navbar-inverse {
     background-color: beige;
     border-color: black;
@@ -48,35 +47,16 @@ a {
 	width: 90%;
 
 }
-.panel-thumbnail {
-    width: 358px;
-    height: 240px;
-    text-align: center;
-    background-color: #ccc;
+
+.navbar-brand {
+  padding: 0px;
 }
-.panel-thumbnail h1 {
-	margin: 0 auto;
+
+.navbar-header {
+
+	height: 120px;
 }
-.progress {
-    position: relative;
-	height: 25px;
-	background-color: #e7e7e7;
-}
-.progress > .progress-type {
-	position: absolute;
-	left: 0px;
-	font-weight: 800;
-	padding: 3px 30px 2px 10px;
-	color: rgb(255, 255, 255);
-	background-color: rgba(25, 25, 25, 0.2);
-}
-.progress > .progress-completed {
-	position: absolute;
-	right: 0px;
-	font-weight: 800;
-	padding: 3px 10px 2px;
-	color: #000;
-}
+
 .first {
 	margin-left: 90px;
 }
@@ -87,12 +67,16 @@ a {
 .modal-content {
 	height: 100%;
 }
+
+/*CSS for listing tests*/
 .records {
 
 	margin: 20px;
 	left: 3%;
 
 }
+
+/*CSS for loading icon*/
 #loader {
 	position: absolute;
 	left: 50%;
@@ -133,26 +117,7 @@ a {
 	100% { transform: rotate(360deg); }
   }
 
-  /* Add animation to "page content" */
-  .animate-bottom {
-	position: relative;
-	-webkit-animation-name: animatebottom;
-	-webkit-animation-duration: 5s;
-	animation-name: animatebottom;
-	animation-duration: 1s
-  }
-
-  @-webkit-keyframes animatebottom {
-	from { bottom:-100px; opacity:0 }
-	to { bottom:0px; opacity:1 }
-  }
-
-  @keyframes animatebottom {
-	from{ bottom:-100px; opacity:0 }
-	to{ bottom:0; opacity:1 }
-  }
-
-	#form_id {
+	#session_id {
 		font-size: 22px;
 		margin-left: 30px;
 		color: #727272;
@@ -164,20 +129,11 @@ a {
 		border-color: rgb(212, 63, 58);
 		cursor: pointer;
 }
-.navbar-brand {
-  padding: 0px;
-}
 
-.navbar-header {
-
-	height: 120px;
-}
 
 .header-title {
 
 	padding-left: 33%;
-
-
 
 }
 #headerLogo {
@@ -187,15 +143,6 @@ a {
 	position: fixed;
 	top: -40px;
 	left: -20px;
-
-}
-
-
-#appTitle {
-
-
-	padding-left: 300px;
-	font-size: 150%;
 
 }
 
@@ -222,7 +169,7 @@ a {
 
 }
 
-.createForm {
+.createSession {
 
 	padding-top: 20px;
 	padding-right: 20px;
@@ -232,26 +179,25 @@ a {
 
 }
 
-.total {
+.dashboardNumbers {
 
 	font-size: 100px;
 
 }
 
-.average {
+.dashboardNumbers {
 
 	font-size: 100px;
 
 }
 
-.testForm {
+.patientInfoPanel {
 
 	width: 1200px;
 
-
 }
 
-.dashWidth {
+.helpAndDashboardPanelWidth {
 
 	padding-top: 20px;
 	margin-left: 210px;
@@ -260,12 +206,11 @@ a {
 
 }
 
-.statCard {
-
+.dashboardStatCard {
 	width: 90%;
 }
 
-.dash {
+.helpAndDashboardHeaders {
 
 	font-size: 40px;
 

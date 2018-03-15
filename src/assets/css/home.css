@@ -1,4 +1,4 @@
-#regContainer{
+#loginPageContainer{
     margin-top: 3%;
 
 }
@@ -28,16 +28,9 @@
     border-radius: 0;
 }
 
-#heading-value {
+#header {
 
   font-size: 150%;
-
-}
-
-.swal-text {
-
-  font-size: 15px;
-
 
 }
 
@@ -56,7 +49,6 @@
   width: 25%;
   height: 25%;
   margin: auto;
-
 
 }
 

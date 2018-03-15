@@ -217,7 +217,7 @@ class CompletedSessions extends React.Component {
                                     <span className="glyphicon glyphicon-file" aria-hidden="true"></span>
                                     {this.getName(session.id)}
                                   </strong>
-                                  <p id="form_id">ID: {session.id}</p>
+                                  <p id="session_id">ID: {session.id}</p>
                                 </div>
                                 <div className="col-xs-3" id="marginTop">
                                   {session.date}

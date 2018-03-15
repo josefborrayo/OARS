@@ -9,10 +9,10 @@ class Help extends React.Component {
 
 		return (
       <div id="wrapper" className="container">
-        <div className="dashWidth">
+        <div className="helpAndDashboardPanelWidth">
           <div className="panel panel-default col-lg panel-info">
             <div className="panel-heading text-center">
-              <h3 className = "dash">Frequently Asked Questions</h3>
+              <h3 className = "helpAndDashboardHeaders">Frequently Asked Questions</h3>
             </div>
 						<div className = "panel-body">
 	            <li>Why cannot I not see any patient information in a pending or completed session?</li>

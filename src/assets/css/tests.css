@@ -108,6 +108,7 @@ right: 70px;
     color: #0b63ad !important;
 }
 
+/*CSS for the PEQ modal*/
 .nav-tabs { border-bottom: 2px solid #DDD; }
     .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover { border-width: 0; }
     .nav-tabs > li > a { border: none; color: #666; text-align: center; font-weight: 600; }

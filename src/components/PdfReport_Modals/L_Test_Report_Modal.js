@@ -33,7 +33,7 @@ class L_Test_Report_Modal extends React.Component {
     return (
 
     <div>
-      <div className>
+      <div>
         <table className="table table-striped informationCard custab lTestTable">
           <thead>
           {/*This is the header for the table of results.*/}

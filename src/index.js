@@ -4,7 +4,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux';
-
+/*The css for each component is inherited from here.*/
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './assets/css/main.css'
 import './assets/css/sidebar.css'

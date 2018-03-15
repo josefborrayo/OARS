@@ -368,7 +368,7 @@ class CreateSession extends React.Component {
 
 		return (
       <div id="wrapper" className="container">
-        <div className="createForm">
+        <div className="createSession">
           <div className="panel panel-default col-lg panel-primary">
             <div className="panel-heading text-left">Patient Information</div>
               <div className="panel-body text-left">

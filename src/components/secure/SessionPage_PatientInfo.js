@@ -300,7 +300,7 @@ class SessionPage_PatientInfo extends React.Component {
             the loading symbol will be displayed indefinitely or until the record is
             found if it does exist.*/}
           {isFound === 'yes' && <div className="container">
-          <div className = "testForm">
+          <div className = "patientInfoPanel">
             <div className="row">
                 <div className="displayPanel col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 toppad" >
                 {isFound === 'no' && <div className="well"> <h1> Test with specified ID was not found </h1> </div>}
