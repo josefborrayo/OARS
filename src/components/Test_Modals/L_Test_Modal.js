@@ -40,18 +40,6 @@ class L_Test_Modal extends React.Component {
       '\t(9) Sit down again.\n'+
       'Stop timing once the patient has sat down and then record the time.'
   }
-  /*Styles for the modal.*/
-  styles = {
-		row: {
-			'padding': 25
-    },
-    metric: {
-      maxHeight: 500,
-      'overflow': 'scroll',
-      padding: 25
-    }
-  };
-
 
   /*React lifecycle method: componentWillReceiveProps
 
@@ -278,6 +266,7 @@ class L_Test_Modal extends React.Component {
           <div className="col-sm-6 col-sm-offset-5">
             <h3 className="form-text text-muted">{this.state.title}</h3></div>
           <div className="col-md-10 col-sm-offset-1 well">
+          <form className="form-horizontal" onSubmit={this.saveTest.bind(this)}>
             <div className="form-group">
               {errors && <div className="alert alert-danger">{errors}</div>}
               {this.state.successMessage &&
@@ -289,6 +278,7 @@ class L_Test_Modal extends React.Component {
                 id="exampleInputtitle1"
                 name="title"
                 type="text"
+                maxLength="30"
                 placeholder='Enter Title'
                 className="form-control input-lg"
                 value={this.state.title}
@@ -316,9 +306,8 @@ class L_Test_Modal extends React.Component {
                 <td>Time(Seconds)</td>
                 <td>
                   <input
-                    id="textinput"
-                    name="textinput"
                     type="number"
+                    min="0"
                     placeholder='Time in Seconds'
                     className="form-control input-lg"
                     value={this.state.lTime}
@@ -338,78 +327,78 @@ class L_Test_Modal extends React.Component {
               </tr>
             </tbody>
           </table>
-            <form style={ this.styles.metric } className="form-horizontal"
-              onSubmit={this.saveTest.bind(this)}>
+            <div className="col-md-12 form-group">
+              <textarea
+                className="form-control"
+                placeholder="Write a Comment"
+                maxLength = "140"
+                id="textarea"
+                onChange={this.onInputChange.bind(this, 'comment')}
+                name="comment" value={this.state.comment}
+              />
+            </div>
+            <div className="col-xs-3 col-xs-offset-1 form-group">
+                <button type="submit" id="singlebutton"
+                  name="singlebutton"
 
-              <div className="col-md-12 form-group">
-                <textarea className="form-control" placeholder="Write a Comment"
-                  id="textarea"
-                  onChange={this.onInputChange.bind(this, 'comment')}
-                  name="comment" value={this.state.comment}
-                />
+                  className="btn btn-lg btn-success col-xs-12">Save</button>
+            </div>
+            <div className = "row">
+              <div className="col-lg-10">
+                {errors && <div className="alert alert-danger">{errors}</div>}
+                {this.state.successMessage &&
+                <div className="alert alert-success">
+                  {this.state.successMessage}
+                </div>}
               </div>
-              <div className="col-xs-3 col-xs-offset-1 form-group">
-                  <button type="submit" id="singlebutton"
-                    name="singlebutton"
-
-                    className="btn btn-lg btn-success col-xs-12">Save</button>
+            </div>
+          </form>
+          {/*This is the accordion for the text instructions for the test.*/}
+          <div className="panel-group" id="accordion">
+            <div className="panel panel-default">
+              <div className="panel-heading">
+                <button data-toggle="collapse" data-parent="#accordion"
+                  href="#lTextInstructionPanel"
+                  className="btn btn-primary pull-left left-arrow">+</button>
+                <h6 data-toggle="collapse" data-parent="#accordion"
+                  href="#lTextInstructionPanel" className="panel-title">
+                  <span className="accordion_heading">
+                    Show Instructions
+                  </span>
+                </h6>
               </div>
-              <div className = "row">
-                <div className="col-lg-10">
-                  {errors && <div className="alert alert-danger">{errors}</div>}
-                  {this.state.successMessage &&
-                  <div className="alert alert-success">
-                    {this.state.successMessage}
-                  </div>}
-                </div>
-              </div>
-            </form>
-            {/*This is the accordion for the text instructions for the test.*/}
-            <div className="panel-group" id="accordion">
-              <div className="panel panel-default">
-                <div className="panel-heading">
-                  <button data-toggle="collapse" data-parent="#accordion"
-                    href="#lTextInstructionPanel"
-                    className="btn btn-primary pull-left left-arrow">+</button>
-                  <h6 data-toggle="collapse" data-parent="#accordion"
-                    href="#lTextInstructionPanel" className="panel-title">
-                    <span className="accordion_heading">
-                      Show Instructions
-                    </span>
-                  </h6>
-                </div>
-                <div id="lTextInstructionPanel" className="panel-collapse collapse">
-                  <div className="panel-body">
-                    {/*This is where the text instructions get printed.*/}
-                    <div id="instructions">{this.state.textInstruction}</div>
-                  </div>
+              <div id="lTextInstructionPanel" className="panel-collapse collapse">
+                <div className="panel-body">
+                  {/*This is where the text instructions get printed.*/}
+                  <div id="instructions">{this.state.textInstruction}</div>
                 </div>
               </div>
             </div>
-            {/*This is the accordion for the video instructions for each test.
-              The video instructions get set in an iframe.*/}
-            <div className="panel-group" id="accordion">
-              <div className="panel panel-default">
-                <div className="panel-heading">
-                  <button data-toggle="collapse" data-parent="#accordion"
-                    href="#lVideoInstructionPanel"
-                    className="btn btn-primary pull-left left-arrow">+</button>
-                  <h6 data-toggle="collapse" data-parent="#accordion"
-                    href="#lVideoInstructionPanel" className="panel-title">
-                    <span className="accordion_heading">Show Video</span>
-                  </h6>
-                </div>
-                <div id="lVideoInstructionPanel" className="panel-collapse collapse videopadding">
-                  <div className="panel-body">
-                  {/*This is where the video is rendered (in the iframe)*/}
-                    <iframe id="video" className = "col-xs-12 text-center instructionalVideo" width="720" height="350"
-                      src={this.state.videoInstruction}
-                      frameBorder="0" allowFullScreen></iframe>
-                  </div>
+          </div>
+          {/*This is the accordion for the video instructions for each test.
+            The video instructions get set in an iframe.*/}
+          <div className="panel-group" id="accordion">
+            <div className="panel panel-default">
+              <div className="panel-heading">
+                <button data-toggle="collapse" data-parent="#accordion"
+                  href="#lVideoInstructionPanel"
+                  className="btn btn-primary pull-left left-arrow">+</button>
+                <h6 data-toggle="collapse" data-parent="#accordion"
+                  href="#lVideoInstructionPanel" className="panel-title">
+                  <span className="accordion_heading">Show Video</span>
+                </h6>
+              </div>
+              <div id="lVideoInstructionPanel" className="panel-collapse collapse videopadding">
+                <div className="panel-body">
+                {/*This is where the video is rendered (in the iframe)*/}
+                  <iframe id="video" className = "col-xs-12 text-center instructionalVideo" width="720" height="350"
+                    src={this.state.videoInstruction}
+                    frameBorder="0" allowFullScreen></iframe>
                 </div>
               </div>
             </div>
-            </div>
+          </div>
+          </div>
         </div>
         </div>
       </div>

@@ -41,7 +41,7 @@ class L_Test_Report_Modal extends React.Component {
               <th>Title</th>
               <th>Category</th>
               <th>Time</th>
-              <th>WA Used?</th>
+              <th>WA Used?*</th>
             </tr>
           </thead>
           <tbody>
@@ -61,7 +61,7 @@ class L_Test_Report_Modal extends React.Component {
             </tr>
             <tr className = "bg-info">
               <th className="table-info">Category</th>
-              <th>AT+-SD</th>
+              <th>AT+-SD*</th>
             </tr>
           </thead>
           <tbody>
@@ -100,6 +100,7 @@ class L_Test_Report_Modal extends React.Component {
             </tr>
           </tbody>
         </table>
+        <span><h4>* AT+-SD = Average Time plus or minus Standard deviation, WA = Walking Aid</h4></span>
       </div>
         {/*Additional results interpretation*/}
         <div className="afterResults">

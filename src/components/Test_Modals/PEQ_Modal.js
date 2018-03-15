@@ -37,11 +37,6 @@ class PEQ_Modal extends React.Component {
   styles = {
 		row: {
 			'padding': 25
-    },
-    metric: {
-      maxHeight: 500,
-      'overflow': 'scroll',
-      padding: 25
     }
   };
 
@@ -277,6 +272,7 @@ class PEQ_Modal extends React.Component {
           <div className="col-sm-6 col-sm-offset-5">
             <h3 className="form-text text-muted">{this.state.title}</h3></div>
           <div className="col-md-10 col-sm-offset-1 well">
+          <form className="form-horizontal" onSubmit={this.saveTest.bind(this)}>
             <div className="form-group">
               {errors && <div className="alert alert-danger">{errors}</div>}
               {this.state.successMessage &&
@@ -288,6 +284,7 @@ class PEQ_Modal extends React.Component {
                 id="exampleInputtitle1"
                 name="title"
                 type="text"
+                maxLength="30"
                 placeholder='Enter Title'
                 className="form-control input-lg"
                 value={this.state.title}
@@ -347,11 +344,13 @@ class PEQ_Modal extends React.Component {
                   </div>
               </div>
             </div>
-            <form style={ this.styles.metric } className="form-horizontal"
-              onSubmit={this.saveTest.bind(this)}>
+
 
               <div className="col-md-12 form-group">
-                <textarea className="form-control" placeholder="Write a Comment"
+                <textarea
+                  className="form-control"
+                  placeholder="Write a Comment"
+                  maxLength="140"
                   id="textarea"
                   onChange={this.onInputChange.bind(this, 'comment')}
                   name="comment" value={this.state.comment}

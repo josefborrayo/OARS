@@ -134,7 +134,7 @@ class Settings extends React.Component {
                         <td>
                           <input
                             className="form-control"
-                            type="text" value={settings.clinicId}
+                            type="number" value={settings.clinicId}
                             placeholder="Clinician ID"
                             onChange={this.onInputChange.bind(this, 'clinicId')}
                           /></td>

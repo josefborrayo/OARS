@@ -186,7 +186,7 @@ class CompletedSessions extends React.Component {
                     <ul className="list-group list-group-header">
                         <li className="list-group-item list-group-body">
                             <div className="row">
-                                <div className="col-xs-6 text-left"><h3>Completed Profiles</h3></div>
+                                <div className="col-xs-6 text-left"><h3>Completed Sessions</h3></div>
                             </div>
                         </li>
                     </ul>
@@ -229,7 +229,7 @@ class CompletedSessions extends React.Component {
                                 <div className="col-xs-3">
                                   <Link to={'/test/' + session.sessionId} className="btn icon-btn btn-primary video">
                                       <span className="glyphicon btn-glyphicon glyphicon-eye-open img-circle text-success"></span>
-                                      View Profile
+                                      View Session
                                       </Link>
                                   <a onClick={this.onDelete.bind(this, session, completedSession)} className="btn icon-btn btn-danger">
                                       <span className="glyphicon btn-glyphicon glyphicon-trash img-circle text-danger"></span>

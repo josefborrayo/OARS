@@ -32,30 +32,6 @@ a {
 	cursor: pointer;
 }
 
-/*Example styling to make the slides visible,
- but this IS NOT PART OF THE GridColumnCarousel styling*/
-.grid-column-carousel__list li {
-}
-.grid-column-carousel__list li h3 {
-	color:#09acff}
-
-
-.grid-column-carousel__page-indicators {
-  list-style: none;
-}
-
-.grid-column-carousel__page-indicators li {
-  background: #f9f9f9;
-  padding: 5px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-left: 20px;
-}
-
-.grid-column-carousel__page-indicators li.active {
-  background: #bbb;
-}
-
 .button-panel {
   margin-top: 30px;
 }
@@ -211,12 +187,6 @@ a {
 	position: fixed;
 	top: -40px;
 	left: -20px;
-
-
-
-
-
-
 
 }
 

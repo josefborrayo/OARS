@@ -32,9 +32,9 @@ class Home extends React.Component {
 		return (
 			<div>
 
-			<div id="fullscreen_bg" className="fullscreen_bg" />
+			<div className="loginPageBackground" />
 			<img
-			id = "smallLogo"
+			id = "loginLogo"
 			src="/images/aopaLOGO.png"
 			alt="AOPA"
 			/>
@@ -42,13 +42,13 @@ class Home extends React.Component {
 			<div className="row">
 			<div className="col-md-6 col-md-offset-3">
 			  <div className="panel panel-login loginPanel">
-				<div className="panel-body">
-				  <div className="row">
-					<div className="col-lg-12">
-					  <Login />
+					<div className="panel-body">
+					  <div className="row">
+							<div className="col-lg-12">
+							  <Login />
+							</div>
+					  </div>
 					</div>
-				  </div>
-				</div>
 			  </div>
 			</div>
 		  </div>

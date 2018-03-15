@@ -234,7 +234,7 @@ class PendingSessions extends React.Component {
                                   <Link className="btn icon-btn btn-success video" to={`/test/${session.sessionId}`}>
 
                                       <span className="glyphicon btn-glyphicon glyphicon-pencil img-circle text-success"></span>
-                                      Edit Profile
+                                      Edit Session
                                       </Link>
                                   <a className="btn icon-btn btn-danger" onClick={this.onDelete.bind(this, session, pendingSession)}>
                                       <span className="glyphicon btn-glyphicon glyphicon-trash img-circle text-danger"></span>
