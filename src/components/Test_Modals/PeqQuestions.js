@@ -57,8 +57,8 @@ export default {
       {
         id: '2E',
         question: 'How often you felt off balance while using your prosthesis',
-        lowerLimit: 'Off balance',
-        upperLimit: 'Balance',
+        lowerLimit: 'Always',
+        upperLimit: 'Never',
         category: 'Utility'
       },
       {

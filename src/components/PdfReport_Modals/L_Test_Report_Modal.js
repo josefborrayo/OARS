@@ -70,7 +70,7 @@ class L_Test_Report_Modal extends React.Component {
                 <span>Limb level: {patientInformation.limbLevel}</span>
               </td>
               <td>
-                {patientInformation.limbLevel === "Transfemoral" ? <span>41.7 +- 16.8</span> : patientInformation.limbLevel === "Transtibial" ? <span>29.5 +- 12.8</span>: <span>N/A</span>}
+                {patientInformation.limbLevel === "Transfemoral" ? <span>41.7 +- 16.8</span> : patientInformation.limbLevel === "Transtibial" ? <span>29.5 +- 12.8</span>: <span>N/A*</span>}
               </td>
             </tr>
             <tr>
@@ -78,7 +78,7 @@ class L_Test_Report_Modal extends React.Component {
                 <span>Limb level: {patientInformation.limbLossCause}</span>
               </td>
               <td>
-              {patientInformation.limbLossCause === "Vascular" ? <span>26.4 +- 7.8</span> : patientInformation.limbLossCause === "Traumatic" ? <span>42.0 +- 17.8</span>: <span>N/A</span>}
+              {patientInformation.limbLossCause === "Vascular" ? <span>26.4 +- 7.8</span> : patientInformation.limbLossCause === "Traumatic" ? <span>42.0 +- 17.8</span>: <span>N/A*</span>}
               </td>
             </tr>
             <tr>
@@ -86,7 +86,7 @@ class L_Test_Report_Modal extends React.Component {
                 <span>Under/Over 55: {patientInformation.age}</span>
               </td>
               <td>
-                {patientInformation.age < 55 ? <span>25.4</span> : patientInformation.age >= 55 ? <span>39.7</span> : <span>N/A</span>}
+                {patientInformation.age < 55 ? <span>25.4</span> : patientInformation.age >= 55 ? <span>39.7</span> : <span>N/A*</span>}
               </td>
             </tr>
             <tr>
@@ -94,13 +94,16 @@ class L_Test_Report_Modal extends React.Component {
                 <span>Walking aid used: {test.aidUsed}</span>
               </td>
               <td>
-                {test.aidUsed === "Yes" ? <span>43.3 +- 17.5</span> : test.aidUsed === "No" ? <span>25.5 +- 6.4</span> : <span>N/A</span>}
+                {test.aidUsed === "Yes" ? <span>43.3 +- 17.5</span> : test.aidUsed === "No" ? <span>25.5 +- 6.4</span> : <span>N/A*</span>}
               </td>
 
             </tr>
           </tbody>
         </table>
-        <span><h4>* AT+-SD = Average Time plus or minus Standard deviation, WA = Walking Aid</h4></span>
+        <span><h4>* AT+-SD = Average Time plus or minus Standard deviation, WA = Walking Aid,
+        N/A: From the reference document, times are only available for patients with
+        Vascular/Traumatic cause of limb loss and Transfemoral/Transtibial
+        level of limb loss.</h4></span>
       </div>
         {/*Additional results interpretation*/}
         <div className="afterResults">
