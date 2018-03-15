@@ -21,12 +21,12 @@ class Help extends React.Component {
 								When viewing these sessions on another device, the information for the patient
 								will no longer be available.</h3>
 							</blockquote>
-							{/*
+							{/*Questions and answers can be added in this format.*/}
 							<li>Question 2</li>
 							<blockquote>
 								Answer 2
 							</blockquote>
-							*/}
+
 						</div>
 
           </div>
