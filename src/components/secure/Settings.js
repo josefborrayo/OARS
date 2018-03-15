@@ -1,7 +1,6 @@
 import React from 'react';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
-import Sidebar from '../shared/Sidebar.js';
 
 {/*This is the settings component.*/}
 
@@ -244,6 +243,8 @@ class Settings extends React.Component {
         </div>
         </div>
         </div>}
+        <div>
+        </div>
 			</div>
 		)
 	}

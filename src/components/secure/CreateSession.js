@@ -360,10 +360,12 @@ class CreateSession extends React.Component {
       patient information form. The button is disabled until all input fields are filled out
       and in the case of the drop down selections, once any option other than the default "Select"
       option is selected.*/}
+
     const { id, sex, age, race, limbLevel, limbLossCause, kLevel, amputationSide,
       weight, feet, inch, centimeter, fullname, measurementUnit} = this.state;
+
     const isEnabled = fullname.length > 0 && id.length > 0 && (sex !== "Select") && age.length > 0 &&
-    (race !== "Select") && weight.length > 0 && ((feet.length > 0 && inch.length > 0) || centimeter.length > 0) &&
+    (race !== "Select") && weight.length > 0 && ((feet !== "Select" > 0 && inch !== "Select") || centimeter.length > 0) &&
     (limbLevel !== "Select") && (limbLossCause !== "Select") && (kLevel !== "Select") && (amputationSide !== "Select");
 
 		return (
@@ -433,31 +435,40 @@ class CreateSession extends React.Component {
                           <br />
                           <br />
                           <div id = "feetAndInches" className="form-group">
+                            <span>  Feet: </span>
+                              <select id = "patientFeet" className = "selectorHeight" class="selectpicker" value = {this.state.feet} onChange={this.onInputChange.bind(this, 'feet')}>
+                                <option>Select</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                              </select>
 
-                              <span>Feet: </span>
-                              <input
-                                autoComplete="off"
-                                type="number"
-                                id="patientFeet"
-                                min="1"
-                                max="8"
-                                value={this.state.feet}
-                                onChange={this.onInputChange.bind(this, "feet")}
-                              />
+                            <span>  Inches: </span>
+                              <select id = "patientInch" className = "selectorHeight" class="selectpicker" value = {this.state.inch} onChange={this.onInputChange.bind(this, 'inch')}>
 
-                              <span> Inches: </span>
-                              <input
-                                autoComplete="off"
-                                type="number"
-                                id="patientInch"
-                                min="0"
-                                max="11"
-                                value={this.state.inch}
-                                onChange={this.onInputChange.bind(this, "inch")}
-                              />
+                                <option>Select</option>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
 
+                              </select>
                           </div>
-                        </div> : measurementUnit === "Metric" ?
+                        </div>
+                          : measurementUnit === "Metric" ?
                         <div className="form-group">
                           <label>Height</label>
                           <br />

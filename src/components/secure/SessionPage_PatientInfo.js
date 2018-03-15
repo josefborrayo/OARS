@@ -88,19 +88,13 @@ class SessionPage_PatientInfo extends React.Component {
 
       this.fillForm();
 
-
     }
 
     componentDidUpdate() {
 
-
       this.fillForm();
 
-
     }
-
-
-
 
     /*This function sets the editPatient variable to true when the edit button of the
     patient information form has been clicked. This sets the patient information fields
@@ -119,6 +113,7 @@ class SessionPage_PatientInfo extends React.Component {
 
 
       const {patientInformation} = this.state;
+      const userId = firebase.auth().currentUser.uid;
       document.cookie = "username=" + patientInformation.id.toString() + " ; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       patientInformation.fullname = document.getElementById("pname").value;
       patientInformation.id = document.getElementById("identification").value;
@@ -172,8 +167,9 @@ class SessionPage_PatientInfo extends React.Component {
         }));
 
       }
-
-
+      /*This line updates the patient ID in firebase but there is an issue where other fields
+      are cleared so it is commented out for now.*/
+      //firebase.database().ref().child('/sessions/' + userId + '/' + patientInformation.sessionId).update({'id': patientInformation.id})
       /*editPatient is set to false to simply display the patient information values.*/
       this.setState({editPatient: false})
 
@@ -346,7 +342,7 @@ class SessionPage_PatientInfo extends React.Component {
                             </tr>
                             <tr>
                                 <td>Height:</td>
-                                <td>{(editPatient === true && patientInformation.feet !== '' && patientInformation.inch !== '') ?
+                                <td>{(editPatient === true && this.props.settings.measurementUnit === 'Imperial') ?
                                     <div>
                                       <span>  Feet: </span>
                                         <select id = "feet" className = "selectorHeight" class="selectpicker" defaultValue = {patientInformation.feet} onChange={this.onInputChange.bind(this, 'feet')}>
@@ -380,8 +376,8 @@ class SessionPage_PatientInfo extends React.Component {
 
                                         </select>
                                     </div>
-                                   : (editPatient === false && patientInformation.feet !== '' && patientInformation.inch !== '') ? (patientInformation.feet + " ft / " + patientInformation.inch + " inch") :
-                                   (editPatient === true && patientInformation.centimeter !== '') ? <input id = "centimeter" defaultValue = {patientInformation.centimeter} type = "number"/> :
+                                   : (editPatient === false && this.props.settings.measurementUnit === 'Imperial') ? (patientInformation.feet + " ft / " + patientInformation.inch + " inch") :
+                                   (editPatient === true && this.props.settings.measurementUnit === 'Metric') ? <input id = "centimeter" defaultValue = {patientInformation.centimeter} type = "number"/> :
                                    (patientInformation.centimeter)}{this.props.settings.measurementUnit === "Metric" ? <span> cm(s)</span> : <span></span>}</td>
                             </tr>
                             <tr>
