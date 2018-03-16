@@ -146,6 +146,16 @@ a {
 
 }
 
+#pdfLogo {
+
+	width: 300px;
+	height: 200px;
+	position: fixed;
+	top: -20px;
+	left: 90px;
+
+}
+
 .row1 {
 	padding-top: 100px;
 }

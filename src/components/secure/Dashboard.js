@@ -11,7 +11,11 @@ when the user logs in*/
 
 class Dashboard extends React.Component {
 
+	componentDidMount() {
 
+
+
+	}
 	/*This function calculates the total number of tests the clinician has completed by retrieving
 	the total number of TUG, PEQ, and L tests for a user. This value is displayed in the Usage
 	Statistics.*/
@@ -27,7 +31,6 @@ class Dashboard extends React.Component {
 					var lNumber = childSnapshot.child("tests").child("L TEST").numChildren();
 					var sum = tugNumber + peqNumber + lNumber;
 					document.getElementById("total").innerHTML = Math.ceil(sum);
-
 				})
 		})
 	}

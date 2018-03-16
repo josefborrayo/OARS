@@ -90,7 +90,7 @@ class Settings extends React.Component {
       firebase.database().ref().child(`/users/${userId}`)
       .update(settings).then((user) => {
           this.setState({
-            successMessage: `Profile was updated successfully`
+            successMessage: `Settings were updated successfully`
           })
 
           window.location.reload();
@@ -166,7 +166,7 @@ class Settings extends React.Component {
                         <td>
                           <input
                             className="form-control"
-                            type="text" value={settings.email}
+                            type="email" value={settings.email}
                             placeholder="Email Address"
                             onChange={this.onInputChange.bind(this, 'email')}
                           /></td>
@@ -210,7 +210,7 @@ class Settings extends React.Component {
                         <td>
                           <input
                             className="form-control"
-                            type="text" value={settings.zip}
+                            type="number" value={settings.zip}
                             placeholder="Zip Code"
                             onChange={this.onInputChange.bind(this, 'zip')}
                           /></td>

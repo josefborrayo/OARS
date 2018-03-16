@@ -115,7 +115,7 @@ class Pdf_Clinic_Patient_Info extends React.Component {
               <div className="pdf-content border" id="pdf-content">
                 <div className="row">
                   <div className="col-md-6" >
-                  <img id="headerLogo" className = "modal-logo"  src="/images/aopaLOGO.png" alt="AOPA"/>
+                  <img id="pdfLogo" className = "modal-logo"  src="/images/aopaLOGO.png" alt="AOPA"/>
                     <div className="card border border-success informationCard top-buffer">
                       <p><strong id = "underline">Clinician Information</strong></p>
                       <p><strong>Clinic: </strong> {this.props.settings.clinic}</p>

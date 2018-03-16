@@ -261,7 +261,7 @@ class Login extends React.Component {
 	              <div className="form-group">
 	                <label htmlFor="hospital-id">Clinician ID</label>
 	                <input
-	                  type="password"
+	                  type="number"
 	                  name="hospital-id"
 	                  id="hospital-id"
 	                  tabIndex="2"
