@@ -1,0 +1,43 @@
+[debug] [2018-03-16T18:59:10.560Z] ----------------------------------------------------------------------
+[debug] [2018-03-16T18:59:10.568Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\NS\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase deploy
+[debug] [2018-03-16T18:59:10.571Z] CLI Version:   3.17.4
+[debug] [2018-03-16T18:59:10.572Z] Platform:      win32
+[debug] [2018-03-16T18:59:10.572Z] Node Version:  v6.11.4
+[debug] [2018-03-16T18:59:10.574Z] Time:          Fri Mar 16 2018 11:59:10 GMT-0700 (Pacific Daylight Time)
+[debug] [2018-03-16T18:59:10.574Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-03-16T18:59:10.646Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-03-16T18:59:10.652Z] > authorizing via signed-in user
+[debug] [2018-03-16T18:59:10.658Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-03-16T18:59:10.658Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/7mpFnUhkhnEOKR_-nuMNIxUgAjY5HIqUOlYB9xiBW68',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Fri Mar 16 2018 11:59:10 GMT-0700 (Pacific Daylight Time)
+[debug] [2018-03-16T18:59:10.860Z] <<< HTTP RESPONSE 200
+[debug] [2018-03-16T18:59:10.886Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/oars-beta-29545  
+  
+ Fri Mar 16 2018 11:59:10 GMT-0700 (Pacific Daylight Time)
+[debug] [2018-03-16T18:59:12.377Z] <<< HTTP RESPONSE 200
+[debug] [2018-03-16T18:59:12.378Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/oars-beta-29545/tokens  
+  
+ Fri Mar 16 2018 11:59:12 GMT-0700 (Pacific Daylight Time)
+[debug] [2018-03-16T18:59:13.011Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'oars-beta-29545'...
+[info] 
+[info] i  deploying database, hosting
+[info] i  database: checking rules syntax...
+[debug] [2018-03-16T18:59:13.499Z] >>> HTTP REQUEST PUT https://oars-beta-29545.firebaseio.com/.settings/rules.json?dryRun=true  
+ {
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null"
+  }
+} 
+ Fri Mar 16 2018 11:59:13 GMT-0700 (Pacific Daylight Time)
+[debug] [2018-03-16T18:59:14.833Z] <<< HTTP RESPONSE 200
+[info] +  database: rules syntax for database oars-beta-29545 is valid
+[info] i  hosting: preparing build directory for upload...
