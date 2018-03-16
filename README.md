@@ -17,18 +17,18 @@ OARS is a React single page web application built for the American Orthotic and 
 
 1. Clone the repository from Github:
 
-		$ git clone git://github.com/SpringSource/greenhouse.git
+		$ git clone git://github.com/josefborrayo/oars.git
 
 2. Navigate into the cloned repository directory:
 
-    $ cd oars
+		$ cd oars
 
 3. The project uses [nodejs & npm] (distributed with nodejs)](https://nodejs.org/en/)
 
-    $ node -v
+		$ node -v
 
-    $ npm -v
+		$ npm -v
 
 4. Using npm to start
 
-    $ npm start
+		$ npm start
