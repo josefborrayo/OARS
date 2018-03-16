@@ -15,17 +15,18 @@ class Help extends React.Component {
               <h3 className = "helpAndDashboardHeaders">Frequently Asked Questions</h3>
             </div>
 						<div className = "panel-body">
-	            <li>Why cannot I not see any patient information in a pending or completed session?</li>
+	            <li>Why can I not see any patient information in a pending or completed session?</li>
 							<blockquote>
 								<h3>Patient information is stored locally to the device at the time the session is created.
 								When viewing these sessions on another device, the information for the patient
 								will no longer be available.</h3>
 							</blockquote>
-							{/*Questions and answers can be added in this format.*/}
+							{/*Questions and answers can be added in this format.
 							<li>Question 2</li>
 							<blockquote>
 								Answer 2
 							</blockquote>
+							*/}
 
 						</div>
 
