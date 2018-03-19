@@ -5,6 +5,7 @@ import firebase, { Promise } from 'firebase';
 import { push } from 'react-router-redux';
 import { resetNext } from '../../actions/auth';
 var randtoken = require('rand-token');
+const statsDate = new Date();
 
 /*This is the dashboard component which simply shows the usage statistics
 when the user logs in*/
@@ -20,19 +21,28 @@ class Dashboard extends React.Component {
 	the total number of TUG, PEQ, and L tests for a user. This value is displayed in the Usage
 	Statistics.*/
 	calculateTotalTests() {
-		const userId = firebase.auth().currentUser.uid;
-		var ref = firebase.database().ref("/sessions/" + userId.toString());
-		ref.once("value")
-			.then(function(snapshot) {
-				snapshot.forEach(function(childSnapshot) {
-					var key = childSnapshot.key;
-					var tugNumber = childSnapshot.child("tests").child("TUG TEST").numChildren();
-					var peqNumber = childSnapshot.child("tests").child("PEQ TEST").numChildren();
-					var lNumber = childSnapshot.child("tests").child("L TEST").numChildren();
-					var sum = tugNumber + peqNumber + lNumber;
-					document.getElementById("total").innerHTML = Math.ceil(sum);
-				})
-		})
+
+		if (statsDate.getDate === 1) {
+
+			document.getElementById("individualReports").innerHTML = 0;
+
+
+		} else {
+
+			const userId = firebase.auth().currentUser.uid;
+			var ref = firebase.database().ref("/sessions/" + userId.toString());
+			ref.once("value")
+				.then(function(snapshot) {
+					snapshot.forEach(function(childSnapshot) {
+						var key = childSnapshot.key;
+						var tugNumber = childSnapshot.child("tests").child("TUG TEST").numChildren();
+						var peqNumber = childSnapshot.child("tests").child("PEQ TEST").numChildren();
+						var lNumber = childSnapshot.child("tests").child("L TEST").numChildren();
+						var sum = tugNumber + peqNumber + lNumber;
+						document.getElementById("individualReports").innerHTML = Math.ceil(sum);
+					})
+			})
+		}
 	}
 
 	/*This function calculates the average number of tests completed by all clinicians which is done
@@ -40,24 +50,32 @@ class Dashboard extends React.Component {
 	 of all users. This value is displayed in the Usage Statistics.*/
 	calculateAverageTests() {
 
-		var ref = firebase.database().ref("/sessions/");
-		ref.once("value")
-			.then(function(snapshot) {
-				snapshot.forEach(function(childSnapshot) {
-					childSnapshot.forEach(function(formSnapshot) {
+		if (statsDate.getDate === 1) {
 
-						var key = formSnapshot.key;
-						var numUsers = childSnapshot.numChildren();
-						var tugNumber = formSnapshot.child("tests").child("TUG TEST").numChildren();
-						var peqNumber = formSnapshot.child("tests").child("PEQ TEST").numChildren();
-						var lNumber = formSnapshot.child("tests").child("L TEST").numChildren();
-						var sum = tugNumber + peqNumber + lNumber;
-						document.getElementById("average").innerHTML = sum/numUsers;
+			document.getElementById("otherClinicians").innerHTML = 0;
 
 
+		} else {
+
+			var ref = firebase.database().ref("/sessions/");
+			ref.once("value")
+				.then(function(snapshot) {
+					snapshot.forEach(function(childSnapshot) {
+						childSnapshot.forEach(function(formSnapshot) {
+
+							var key = formSnapshot.key;
+							var numUsers = childSnapshot.numChildren();
+							var tugNumber = formSnapshot.child("tests").child("TUG TEST").numChildren();
+							var peqNumber = formSnapshot.child("tests").child("PEQ TEST").numChildren();
+							var lNumber = formSnapshot.child("tests").child("L TEST").numChildren();
+							var sum = tugNumber + peqNumber + lNumber;
+							document.getElementById("otherClinicians").innerHTML = Math.ceil(sum/numUsers);
+
+
+						})
 					})
-				})
-		})
+			})
+		}
 	}
 
 
@@ -85,7 +103,7 @@ class Dashboard extends React.Component {
                       <br />
                       <br />
                       <br />
-                      <div className = "pull-center"><p className="card-text text-center"><h3 className = "dashboardNumbers">0</h3></p></div>
+                      <div className = "pull-center"><p className="card-text text-center"><h3 id = "individualReports" className = "dashboardNumbers">0</h3></p></div>
                       <br />
                       <br />
                       <br />
@@ -101,7 +119,7 @@ class Dashboard extends React.Component {
                       <br />
                       <br />
                       <br />
-                      <div className = "pull-center"><p className="card-text text-center"><h3 className = "dashboardNumbers">0</h3></p></div>
+                      <div className = "pull-center"><p className="card-text text-center"><h3 id = "otherClinicians" className = "dashboardNumbers">0</h3></p></div>
                       <br />
                       <br />
                       <br />
