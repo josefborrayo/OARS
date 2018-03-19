@@ -26,7 +26,8 @@ class TUG_Test_Modal extends React.Component {
     testCategory: '',
     date: '',
     videoInstruction: '//www.youtube.com/embed/VljdYRXMIE8?rel=0',
-    textInstruction: 'When you say "Go", begin timing using a stopwatch and instruct the patient to:\n'+
+    textInstruction: 'Designate a line, 3 meters (approximately 10ft) in length. \n'+
+      'When you say "Go", begin timing using a stopwatch and instruct the patient to:\n'+
       '\t(1) Stand up from the chair.\n'+
       '\t(2) Walk along the line on the floor at your normal pace.\n'+
       '\t(3) Turn 180 degrees.\n'+
